@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_workout"
+        android:id="@+id/recycler_day"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_8dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_workout_list"
+        tools:listitem="@layout/item_day"
         tools:itemCount="2"/>
 
     <Button

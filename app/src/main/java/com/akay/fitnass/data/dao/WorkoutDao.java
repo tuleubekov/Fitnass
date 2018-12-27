@@ -20,7 +20,7 @@ public interface WorkoutDao {
     Workout getById(long id);
 
     @Insert
-    long insert(Workout workout);
+    void insert(Workout workout);
 
     @Update
     void update(Workout workout);

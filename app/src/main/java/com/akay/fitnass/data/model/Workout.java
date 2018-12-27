@@ -11,7 +11,7 @@ public class Workout {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String type;
-    private List<String> laps;
+    private List<Lap> laps;
     private int count;
     private long date;
 
@@ -31,11 +31,11 @@ public class Workout {
         this.type = type;
     }
 
-    public List<String> getLaps() {
+    public List<Lap> getLaps() {
         return laps;
     }
 
-    public void setLaps(List<String> laps) {
+    public void setLaps(List<Lap> laps) {
         this.laps = laps;
     }
 

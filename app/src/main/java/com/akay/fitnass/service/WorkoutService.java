@@ -10,6 +10,8 @@ public interface WorkoutService {
 
     Workout getById(long id);
 
+    void insert(Workout workout);
+
     Workout update(Workout workout);
 
     Workout delete(Workout workout);

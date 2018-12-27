@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Fitnass</string>
     <string name="btn_text_plus_workout">+</string>
+    <string name="type_w_running">Running</string>
+    <string name="btn_text_save">Save</string>
+    <string name="btn_text_start">Start</string>
+    <string name="text_chronometer_initial">00:00:00</string>
+    <string name="btn_text_pause">Pause</string>
+    <string name="btn_text_reset">Reset</string>
+    <string name="btn_text_lap">Lap</string>
+    <string name="text_circle_count">Количество кругов:</string>
 </resources>

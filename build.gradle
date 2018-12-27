@@ -9,6 +9,7 @@ buildscript {
         jodatime_version = '2.10.1'
         rx_version = '2.1.0'
         butterknife_version = '9.0.0-rc3'
+        gson_version = '2.6.2'
     }
     repositories {
         google()

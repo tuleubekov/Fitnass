@@ -38,6 +38,11 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
+    public void insert(Workout workout) {
+        runOnScheduler(() -> mDao.insert(workout));
+    }
+
+    @Override
     public Workout update(Workout workout) {
         return null;
     }
