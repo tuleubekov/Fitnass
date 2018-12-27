@@ -7,4 +7,10 @@ import java.util.List;
 public interface WorkoutService {
 
     List<Workout> getAll();
+
+    Workout getById(long id);
+
+    Workout update(Workout workout);
+
+    Workout delete(Workout workout);
 }
