@@ -10,12 +10,16 @@ import android.widget.TextView;
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Workout;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.ViewHolder> {
+    private static final String FORMAT_DATETIME = "dd MMMM yyyy HH:mm";
     private List<Workout> mWorkouts;
 
     WorkoutDayAdapter(List<Workout> workoutList) {
@@ -37,7 +41,8 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Workout workout = mWorkouts.get(i);
-        viewHolder.textDate.setText(String.valueOf(workout.getDate()));
+        DateTimeFormatter format = DateTimeFormat.forPattern(FORMAT_DATETIME);
+        viewHolder.textDate.setText(format.print(workout.getDate()));
         viewHolder.textRunCount.setText(String.valueOf(workout.getCount()));
     }
 
