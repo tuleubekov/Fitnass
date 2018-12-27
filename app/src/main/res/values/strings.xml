@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Fitnass</string>
+    <string name="btn_text_plus_workout">+</string>
 </resources>

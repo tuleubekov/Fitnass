@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="27 декабря 2019 четверг 15:40" />
+
+    <TextView
+        android:id="@+id/text_label_run_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/text_date"
+        tools:text="Количество кругов: " />
+
+    <TextView
+        android:id="@+id/text_run_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_marginLeft="@dimen/margin_8dp"
+        app:layout_constraintStart_toEndOf="@id/text_label_run_count"
+        app:layout_constraintTop_toTopOf="@id/text_label_run_count"
+        tools:text="18" />
+
+</android.support.constraint.ConstraintLayout>
