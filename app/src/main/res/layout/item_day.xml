@@ -10,7 +10,7 @@
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="27 декабря 2019 четверг 15:40" />
+        tools:text="29 декабря 2019 четверг 15:40" />
 
     <TextView
         android:id="@+id/text_label_run_count"
