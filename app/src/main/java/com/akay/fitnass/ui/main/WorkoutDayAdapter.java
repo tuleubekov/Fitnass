@@ -21,9 +21,11 @@ import butterknife.ButterKnife;
 public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.ViewHolder> {
     private static final String FORMAT_DATETIME = "dd MMMM yyyy HH:mm";
     private List<Workout> mWorkouts;
+    private OnItemClickListener mItemClickListener;
 
-    WorkoutDayAdapter(List<Workout> workoutList) {
+    WorkoutDayAdapter(List<Workout> workoutList, OnItemClickListener listener) {
         mWorkouts = workoutList;
+        mItemClickListener = listener;
     }
 
     public void onWorkoutListUpdated(List<Workout> workouts) {
@@ -44,6 +46,7 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
         DateTimeFormatter format = DateTimeFormat.forPattern(FORMAT_DATETIME);
         viewHolder.textDate.setText(format.print(workout.getDate()));
         viewHolder.textRunCount.setText(String.valueOf(workout.getCount()));
+        viewHolder.itemView.setOnClickListener(view -> mItemClickListener.onItemClicked(workout.getId()));
     }
 
     @Override
@@ -59,5 +62,10 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClicked(long idWorkout);
     }
 }

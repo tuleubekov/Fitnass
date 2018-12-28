@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.SourceProvider;
 import com.akay.fitnass.service.WorkoutService;
+import com.akay.fitnass.ui.detail.WorkoutDetailActivity;
 import com.akay.fitnass.ui.workoutadd.WorkoutAddActivity;
 
 import butterknife.BindView;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mWorkoutService = SourceProvider.provideWorkoutService(this);
-        mAdapter = new WorkoutDayAdapter(mWorkoutService.getAll());
+        mAdapter = new WorkoutDayAdapter(mWorkoutService.getAll(), this::onItemClicked);
         mRecyclerWorkout.setAdapter(mAdapter);
         mBtnNewDay.setOnClickListener((view -> startActivity(WorkoutAddActivity.getIntent(this))));
     }
@@ -41,5 +42,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         mAdapter.onWorkoutListUpdated(mWorkoutService.getAll());
+    }
+
+    private void onItemClicked(long idWorkout) {
+        startActivity(WorkoutDetailActivity.getIntent(this, idWorkout));
     }
 }
