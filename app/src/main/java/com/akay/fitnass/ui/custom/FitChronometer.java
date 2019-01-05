@@ -31,7 +31,7 @@ public class FitChronometer extends AppCompatTextView {
     private void run() {
         millisTime = SystemClock.uptimeMillis() - startTime;
         updateTime = buffer + millisTime;
-        seconds = (int) updateTime / 100;
+        seconds = (int) updateTime / 1000;
         minutes = seconds / 60;
         seconds = seconds % 60;
         millis = (int) (updateTime % 1000) / 10;
