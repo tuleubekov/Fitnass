@@ -21,11 +21,6 @@ public class Timer extends AppCompatTextView {
     private long mStart;
     private long mTimeWhenStopped;
 
-    /*
-     * Добавлена функциональность: останавливать счетчик и продолжать дальше
-     * Проблема такая: При возвращении на экран счетчик начинается заново с нуля.
-     */
-
     private Runnable mTickRunnable = this::run;
 
     public Timer(Context context) {
@@ -70,10 +65,6 @@ public class Timer extends AppCompatTextView {
     public void start() {
         mStart = SystemClock.elapsedRealtime() + mTimeWhenStopped;
         mPaused = false;
-        startTimer();
-    }
-
-    public void resume() {
         startTimer();
     }
 

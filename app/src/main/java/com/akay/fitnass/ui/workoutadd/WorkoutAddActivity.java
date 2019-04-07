@@ -12,7 +12,6 @@ import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.data.model.Workout;
 import com.akay.fitnass.service.SourceProvider;
 import com.akay.fitnass.service.WorkoutService;
-import com.akay.fitnass.ui.custom.FitChronometer;
 import com.akay.fitnass.ui.custom.Timer;
 
 import org.joda.time.DateTime;
