@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WorkoutLapAdapter extends RecyclerView.Adapter<WorkoutLapAdapter.ViewHolder> {
+    private RecyclerView mRecycler;
     private List<Lap> mLaps;
 
     WorkoutLapAdapter(List<Lap> lapList) {
@@ -29,11 +30,24 @@ public class WorkoutLapAdapter extends RecyclerView.Adapter<WorkoutLapAdapter.Vi
     public void addLap(Lap lap) {
         mLaps.add(lap);
         notifyDataSetChanged();
+        mRecycler.smoothScrollToPosition(mLaps.size()-1);
     }
 
     public void clear() {
         mLaps.clear();
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecycler = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mRecycler = null;
     }
 
     @NonNull
