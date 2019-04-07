@@ -5,4 +5,8 @@
 
     <dimen name="padding_8dp">8dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
+
+    <dimen name="size_48">48sp</dimen>
+
+    <dimen name="toolbar_title">@dimen/size_48</dimen>
 </resources>

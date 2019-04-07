@@ -3,27 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/layout_item_day"
+    android:paddingTop="@dimen/padding_16dp"
+    android:paddingBottom="@dimen/padding_16dp"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
+    android:background="@drawable/bg_day_item"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@drawable/bg_day_item">
 
     <TextView
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="29 декабря 2019 четверг 15:40" />
 
     <TextView
         android:id="@+id/text_label_run_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/text_date"
         android:text="@string/text_circle_count"
+        app:layout_constraintTop_toBottomOf="@id/text_date"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="Количество кругов: " />
 
     <TextView
         android:id="@+id/text_run_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/TextLightStyle"
         android:layout_marginStart="@dimen/margin_8dp"
         android:layout_marginLeft="@dimen/margin_8dp"
         app:layout_constraintStart_toEndOf="@id/text_label_run_count"

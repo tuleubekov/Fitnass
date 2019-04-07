@@ -1,6 +1,7 @@
 package com.akay.fitnass.ui.main;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,13 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
     private static final String FORMAT_DATETIME = "dd MMMM yyyy HH:mm";
     private List<Workout> mWorkouts;
     private OnItemClickListener mItemClickListener;
+    private int mSelected = -1;
+
+    /*
+     * Добавлено: при нажатии на итем изменяет его бэкграунд
+     * Есть проблема - неприятная задержка в отклике нажатия
+     *
+     * */
 
     WorkoutDayAdapter(List<Workout> workoutList, OnItemClickListener listener) {
         mWorkouts = workoutList;
@@ -35,18 +43,27 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int pos) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_day, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Workout workout = mWorkouts.get(i);
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int pos) {
+        Workout workout = mWorkouts.get(pos);
         DateTimeFormatter format = DateTimeFormat.forPattern(FORMAT_DATETIME);
         viewHolder.textDate.setText(format.print(workout.getDate()));
         viewHolder.textRunCount.setText(String.valueOf(workout.getCount()));
-        viewHolder.itemView.setOnClickListener(view -> mItemClickListener.onItemClicked(workout.getId()));
+        viewHolder.layoutDay.setOnClickListener(view -> {
+            mItemClickListener.onItemClicked(workout.getId());
+            mSelected = viewHolder.getAdapterPosition();
+            notifyDataSetChanged();
+        });
+        if (mSelected == pos) {
+            viewHolder.layoutDay.setSelected(true);
+        } else {
+            viewHolder.layoutDay.setSelected(false);
+        }
     }
 
     @Override
@@ -55,6 +72,7 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.layout_item_day) ConstraintLayout layoutDay;
         @BindView(R.id.text_date) TextView textDate;
         @BindView(R.id.text_run_count) TextView textRunCount;
 
