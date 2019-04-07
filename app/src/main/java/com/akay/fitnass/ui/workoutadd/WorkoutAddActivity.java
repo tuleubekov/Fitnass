@@ -13,6 +13,7 @@ import com.akay.fitnass.data.model.Workout;
 import com.akay.fitnass.service.SourceProvider;
 import com.akay.fitnass.service.WorkoutService;
 import com.akay.fitnass.ui.custom.FitChronometer;
+import com.akay.fitnass.ui.custom.Timer;
 
 import org.joda.time.DateTime;
 
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WorkoutAddActivity extends AppCompatActivity {
-    @BindView(R.id.chronometer) FitChronometer mChronometer;
+    @BindView(R.id.chronometer) Timer mTimer;
     @BindView(R.id.recycler_workout) RecyclerView mRecyclerWorkoutLap;
     @BindView(R.id.btn_start) Button mStart;
     @BindView(R.id.btn_pause) Button mPause;
@@ -34,7 +35,6 @@ public class WorkoutAddActivity extends AppCompatActivity {
     private WorkoutService mWorkoutService;
     private WorkoutLapAdapter mAdapter;
     private int circleCount;
-
 
     public static Intent getIntent(Context context) {
         return new Intent(context, WorkoutAddActivity.class);
@@ -56,7 +56,7 @@ public class WorkoutAddActivity extends AppCompatActivity {
         mLap.setEnabled(true);
         mReset.setEnabled(false);
         mPause.setEnabled(true);
-        mChronometer.start();
+        mTimer.start();
     }
 
 
@@ -65,8 +65,8 @@ public class WorkoutAddActivity extends AppCompatActivity {
         mReset.setEnabled(true);
         mLap.setEnabled(false);
         mSave.setEnabled(true);
-        mStart.setEnabled(false);
-        mChronometer.pause();
+        mStart.setEnabled(true);
+        mTimer.pause();
     }
 
 
@@ -77,13 +77,16 @@ public class WorkoutAddActivity extends AppCompatActivity {
         mReset.setEnabled(false);
         mSave.setEnabled(false);
         mAdapter.clear();
-        mChronometer.reset();
+        mTimer.reset();
     }
 
 
     @OnClick(R.id.btn_lap)
     public void onLapClicked() {
-        Lap lap = new Lap.Builder().setCircle(++circleCount).setLapTime(mChronometer.getText().toString()).build();
+        Lap lap = new Lap.Builder()
+                .setCircle(++circleCount)
+                .setLapTime(mTimer.getText().toString())
+                .build();
         mAdapter.addLap(lap);
     }
 
