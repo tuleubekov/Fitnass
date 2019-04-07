@@ -28,7 +28,7 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
     /*
      * Добавлено: при нажатии на итем изменяет его бэкграунд
      * Есть проблема - неприятная задержка в отклике нажатия
-     *
+     * Проблема из-за фонового изображения
      * */
 
     WorkoutDayAdapter(List<Workout> workoutList, OnItemClickListener listener) {
@@ -57,7 +57,7 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
         viewHolder.layoutDay.setOnClickListener(view -> {
             mItemClickListener.onItemClicked(workout.getId());
             mSelected = viewHolder.getAdapterPosition();
-            notifyDataSetChanged();
+//            notifyDataSetChanged();
         });
         if (mSelected == pos) {
             viewHolder.layoutDay.setSelected(true);
