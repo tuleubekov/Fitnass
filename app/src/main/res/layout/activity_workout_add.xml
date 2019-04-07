@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/type_w_running"/>
 
-    <com.akay.fitnass.ui.custom.FitChronometer
+    <com.akay.fitnass.ui.custom.Timer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
