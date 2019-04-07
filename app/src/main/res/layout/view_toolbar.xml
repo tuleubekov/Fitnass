@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@android:color/transparent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_8dp"
+        android:paddingStart="@dimen/padding_8dp"
+        android:paddingEnd="@dimen/padding_8dp">
+
+        <com.akay.fitnass.ui.custom.fonts.AristaTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ToolbarStyle"
+            android:text="@string/toolbar_app_name"/>
+    </FrameLayout>
+
+</android.support.v7.widget.Toolbar>
