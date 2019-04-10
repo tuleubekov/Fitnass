@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_item_day"
+    android:id="@+id/layout_root"
     android:paddingTop="@dimen/padding_16dp"
     android:paddingBottom="@dimen/padding_16dp"
     android:paddingStart="32dp"
