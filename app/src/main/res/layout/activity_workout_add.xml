@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.workoutadd.WorkoutAddActivity">
 
-    <TextView
-        android:id="@+id/text_label_type"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/type_w_running"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/view_toolbar" />
 
     <com.akay.fitnass.ui.custom.Timer
         android:id="@+id/chronometer"
@@ -20,7 +23,7 @@
         android:text="@string/text_chronometer_initial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <Button
         android:id="@+id/btn_start"

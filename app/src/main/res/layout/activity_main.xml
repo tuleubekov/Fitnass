@@ -31,7 +31,6 @@
         android:id="@+id/btn_add"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:text="@string/btn_text_plus_workout"
         android:background="@drawable/bg_button"
         app:layout_constraintVertical_bias="0.9"
         app:layout_constraintTop_toTopOf="parent"

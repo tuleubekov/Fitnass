@@ -15,7 +15,7 @@
         <com.akay.fitnass.ui.custom.fonts.AristaTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ToolbarStyle"
+            style="@style/ToolbarTitleStyle"
             android:text="@string/toolbar_app_name"/>
     </FrameLayout>
 

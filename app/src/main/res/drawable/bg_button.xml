@@ -5,12 +5,12 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="#FAD720" />
+                    <solid android:color="#17FAD720" />
                     <corners android:bottomLeftRadius="8dp"
                         android:topLeftRadius="8dp" />
                 </shape>
             </item>
-            <item android:right="-2dp">
+            <item>
                 <shape android:shape="rectangle">
                     <stroke
                         android:width="1dp"
@@ -19,6 +19,11 @@
                         android:topLeftRadius="8dp" />
                 </shape>
             </item>
+            <item android:drawable="@drawable/ic_add"
+                android:top="24dp"
+                android:bottom="24dp"
+                android:left="24dp"
+                android:right="24dp" />
         </layer-list>
     </item>
 
@@ -26,20 +31,25 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="#17FAD720" />
-                    <corners android:bottomLeftRadius="8dp"
-                        android:topLeftRadius="8dp" />
+                    <solid android:color="#9EFAD720" />
+                    <corners android:bottomLeftRadius="4dp"
+                        android:topLeftRadius="4dp" />
                 </shape>
             </item>
-            <item android:right="-2dp">
+            <item>
                 <shape android:shape="rectangle">
-                    <corners android:bottomLeftRadius="8dp"
-                        android:topLeftRadius="8dp" />
+                    <corners android:bottomLeftRadius="4dp"
+                        android:topLeftRadius="4dp" />
                     <stroke
                         android:width="1dp"
                         android:color="#FAFAD720"/>
                 </shape>
             </item>
+            <item android:drawable="@drawable/ic_add"
+                android:top="24dp"
+                android:bottom="24dp"
+                android:left="24dp"
+                android:right="24dp" />
         </layer-list>
     </item>
 </selector>
