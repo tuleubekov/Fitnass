@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CheckedButton">
+        <attr name="typeControl" format="enum">
+            <enum name="lapSave" value="0" />
+            <enum name="startPause" value="1" />
+            <enum name="reset" value="2" />
+        </attr>
+    </declare-styleable>
+
+</resources>
