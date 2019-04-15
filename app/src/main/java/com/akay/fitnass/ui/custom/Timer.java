@@ -1,6 +1,7 @@
 package com.akay.fitnass.ui.custom;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.v7.widget.AppCompatTextView;
@@ -25,17 +26,17 @@ public class Timer extends AppCompatTextView {
 
     public Timer(Context context) {
         super(context);
-        initTimer();
+        init();
     }
 
     public Timer(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initTimer();
+        init();
     }
 
     public Timer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initTimer();
+        init();
     }
 
     @Override
@@ -76,6 +77,18 @@ public class Timer extends AppCompatTextView {
 
     public void reset() {
         initTimer();
+    }
+
+    private void init() {
+        setupFont();
+        initTimer();
+    }
+
+    private void setupFont() {
+        if (!isInEditMode()) {
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/roboto-thin.ttf");
+            setTypeface(tf);
+        }
     }
 
     private void initTimer() {
@@ -141,11 +154,11 @@ public class Timer extends AppCompatTextView {
 
     private String setFormat(int days, int hr, int min, int sec, int ms) {
         if (days > 0) {
-            return String.format(Locale.getDefault(), "%02d%02d:%02d:%02d:%02d", days, hr, min, sec, ms);
+            return String.format(Locale.getDefault(), "%02d.%02d.%02d.%02d.%02d", days, hr, min, sec, ms);
         } else if (hr > 0) {
-            return String.format(Locale.getDefault(), "%02d:%02d:%02d:%02d", hr, min, sec, ms);
+            return String.format(Locale.getDefault(), "%02d.%02d.%02d.%02d", hr, min, sec, ms);
         } else {
-            return String.format(Locale.getDefault(), "%02d:%02d:%02d", min, sec, ms);
+            return String.format(Locale.getDefault(), "%02d.%02d.%02d", min, sec, ms);
         }
     }
 }

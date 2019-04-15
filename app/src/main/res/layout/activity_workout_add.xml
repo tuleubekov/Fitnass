@@ -19,11 +19,14 @@
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:textSize="48sp"
+        android:textColor="#FAD720"
         android:text="@string/text_chronometer_initial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:fontFamily="sans-serif-thin"/>
 
     <com.akay.fitnass.ui.custom.CheckedButton
         android:id="@+id/btn_lap_save"
@@ -66,7 +69,10 @@
         android:id="@+id/recycler_workout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_16dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:layout_marginStart="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/chronometer"
         app:layout_constraintBottom_toBottomOf="parent"
