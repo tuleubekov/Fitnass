@@ -6,11 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.detail.WorkoutDetailActivity">
 
-    <TextView
-        android:id="@+id/text_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/type_w_running"/>
+    <include android:id="@+id/toolbar"
+        layout="@layout/view_toolbar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_workout"
@@ -18,8 +15,9 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_16dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/text_type"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp"
         tools:listitem="@layout/item_lap_workout" />
 
 </android.support.constraint.ConstraintLayout>

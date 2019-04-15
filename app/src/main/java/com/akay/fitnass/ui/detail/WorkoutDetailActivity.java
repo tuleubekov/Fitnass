@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Workout;
@@ -16,7 +15,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WorkoutDetailActivity extends AppCompatActivity {
-    @BindView(R.id.text_type) TextView mTextType;
     @BindView(R.id.recycler_workout) RecyclerView mRecyclerWorkoutLap;
 
     public static final String WORKOUT_ID_KEY = "com.akay.fitnass.ui.detail.WORKOUT_ID_KEY";
@@ -39,7 +37,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         Workout workout = mWorkoutService.getById(getWorkoutId());
         mAdapter = new WorkoutDetailAdapter(workout.getLaps());
         mRecyclerWorkoutLap.setAdapter(mAdapter);
-        mTextType.setText(workout.getType());
     }
 
     private long getWorkoutId() {
