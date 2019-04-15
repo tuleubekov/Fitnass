@@ -13,6 +13,7 @@ import com.akay.fitnass.data.model.Workout;
 import com.akay.fitnass.service.SourceProvider;
 import com.akay.fitnass.service.WorkoutService;
 import com.akay.fitnass.ui.custom.Timer;
+import com.akay.fitnass.ui.custom.CheckedButton;
 
 import org.joda.time.DateTime;
 
@@ -25,11 +26,9 @@ import butterknife.OnClick;
 public class WorkoutAddActivity extends AppCompatActivity {
     @BindView(R.id.chronometer) Timer mTimer;
     @BindView(R.id.recycler_workout) RecyclerView mRecyclerWorkoutLap;
-    @BindView(R.id.btn_start) Button mStart;
-    @BindView(R.id.btn_pause) Button mPause;
-    @BindView(R.id.btn_reset) Button mReset;
-    @BindView(R.id.btn_lap) Button mLap;
-    @BindView(R.id.btn_save) Button mSave;
+    @BindView(R.id.btn_start_pause) CheckedButton mBtnStartPause;
+    @BindView(R.id.btn_lap_save) CheckedButton mBtnLapSave;
+    @BindView(R.id.btn_reset) Button mBtnReset;
 
     private WorkoutService mWorkoutService;
     private WorkoutLapAdapter mAdapter;
@@ -50,53 +49,45 @@ public class WorkoutAddActivity extends AppCompatActivity {
         mRecyclerWorkoutLap.setAdapter(mAdapter);
     }
 
-    @OnClick(R.id.btn_start)
+    @OnClick(R.id.btn_start_pause)
     public void onStartClicked() {
-        mLap.setEnabled(true);
-        mReset.setEnabled(false);
-        mPause.setEnabled(true);
-        mTimer.start();
+        if (mBtnStartPause.isChecked()) {
+            mTimer.pause();
+            mBtnReset.setEnabled(true);
+            mBtnLapSave.setEnabled(mAdapter.getItemCount() > 0);
+        } else {
+            mTimer.start();
+            mBtnReset.setEnabled(false);
+            mBtnLapSave.setEnabled(true);
+        }
+        mBtnStartPause.toggle();
+        mBtnLapSave.toggle();
     }
-
-
-    @OnClick(R.id.btn_pause)
-    public void onPauseClicked() {
-        mReset.setEnabled(true);
-        mLap.setEnabled(false);
-        mSave.setEnabled(true);
-        mStart.setEnabled(true);
-        mTimer.pause();
-    }
-
 
     @OnClick(R.id.btn_reset)
     public void onResetClicked() {
-        mStart.setEnabled(true);
-        mPause.setEnabled(false);
-        mReset.setEnabled(false);
-        mSave.setEnabled(false);
         mAdapter.clear();
         mTimer.reset();
+        mBtnReset.setEnabled(false);
+        mBtnLapSave.setEnabled(false);
     }
 
-
-    @OnClick(R.id.btn_lap)
+    @OnClick(R.id.btn_lap_save)
     public void onLapClicked() {
-        Lap lap = new Lap.Builder()
-                .setCircle(++circleCount)
-                .setLapTime(mTimer.getText().toString())
-                .build();
-        mAdapter.addLap(lap);
-    }
-
-    @OnClick(R.id.btn_save)
-    public void onSaveClicked() {
-        Workout workout = new Workout();
-        workout.setDate(DateTime.now().getMillis());
-        workout.setType("run");
-        workout.setLaps(mAdapter.getLaps());
-        workout.setCount(mAdapter.getItemCount());
-        mWorkoutService.insert(workout);
-        finish();
+        if (mBtnLapSave.isChecked()) {
+            Lap lap = new Lap.Builder()
+                    .setCircle(++circleCount)
+                    .setLapTime(mTimer.getText().toString())
+                    .build();
+            mAdapter.addLap(lap);
+        } else {
+            Workout workout = new Workout();
+            workout.setDate(DateTime.now().getMillis());
+            workout.setType("run");
+            workout.setLaps(mAdapter.getLaps());
+            workout.setCount(mAdapter.getItemCount());
+            mWorkoutService.insert(workout);
+            finish();
+        }
     }
 }

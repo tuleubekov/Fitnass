@@ -19,60 +19,48 @@
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="42sp"
+        android:textSize="48sp"
         android:text="@string/text_chronometer_initial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_text_start"
-        app:layout_constraintTop_toBottomOf="@id/chronometer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_pause" />
-
-    <Button
-        android:id="@+id/btn_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.akay.fitnass.ui.custom.CheckedButton
+        android:id="@+id/btn_lap_save"
+        android:layout_width="70dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:enabled="false"
-        android:text="@string/btn_text_pause"
-        app:layout_constraintTop_toTopOf="@id/btn_start"
-        app:layout_constraintStart_toEndOf="@id/btn_start"
-        app:layout_constraintEnd_toStartOf="@id/btn_reset" />
+        android:background="@drawable/bg_button_lap_save"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_start_pause"/>
+
+    <com.akay.fitnass.ui.custom.CheckedButton
+        android:id="@+id/btn_start_pause"
+        android:layout_width="70dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_button_start_pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_lap_save"
+        app:layout_constraintBottom_toTopOf="@id/btn_reset"/>
 
     <Button
         android:id="@+id/btn_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:enabled="false"
-        android:text="@string/btn_text_reset"
-        app:layout_constraintTop_toTopOf="@id/btn_start"
-        app:layout_constraintStart_toEndOf="@id/btn_pause"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/btn_text_save"
-        app:layout_constraintTop_toBottomOf="@id/btn_start"
-        app:layout_constraintStart_toStartOf="@id/btn_start"
-        app:layout_constraintEnd_toStartOf="@id/btn_lap" />
-
-    <Button
-        android:id="@+id/btn_lap"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/btn_text_lap"
-        app:layout_constraintTop_toBottomOf="@id/btn_start"
-        app:layout_constraintEnd_toEndOf="@id/btn_reset"
-        app:layout_constraintStart_toEndOf="@id/btn_save" />
+        android:background="@drawable/bg_button_reset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_start_pause"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_workout"
@@ -80,7 +68,7 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_16dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/btn_save"
+        app:layout_constraintTop_toBottomOf="@id/chronometer"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_lap_workout"/>
 
