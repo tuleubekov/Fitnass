@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class WorkoutAddActivity extends AppCompatActivity {
     @BindView(R.id.chronometer) Timer mTimer;
@@ -64,12 +65,13 @@ public class WorkoutAddActivity extends AppCompatActivity {
         mBtnLapSave.toggle();
     }
 
-    @OnClick(R.id.btn_reset)
-    public void onResetClicked() {
+    @OnLongClick(R.id.btn_reset)
+    public boolean onResetClicked() {
         mAdapter.clear();
         mTimer.reset();
         mBtnReset.setEnabled(false);
         mBtnLapSave.setEnabled(false);
+        return true;
     }
 
     @OnClick(R.id.btn_lap_save)
