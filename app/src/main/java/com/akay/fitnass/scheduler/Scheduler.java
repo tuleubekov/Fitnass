@@ -10,5 +10,7 @@ public interface Scheduler<T> {
 
     T runWithFuture(Callable<T> callable) throws ExecutionException, InterruptedException;
 
+    long runWithFutureLong(Callable<Long> callable) throws ExecutionException, InterruptedException;
+
     List<T> runWithFutureList(Callable<List<T>> callable) throws ExecutionException, InterruptedException;
 }

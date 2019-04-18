@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import com.akay.fitnass.data.AppDatabase;
+import com.akay.fitnass.data.storage.AppDatabase;
 
 public class App extends Application {
     private static final String DB_NAME = "FITNASS_DB";
@@ -13,7 +13,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mRoom = Room.databaseBuilder(this, AppDatabase.class, DB_NAME).build();
+        mRoom = Room.databaseBuilder(this, AppDatabase.class, DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     private static App get(Context context) {

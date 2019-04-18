@@ -1,6 +1,6 @@
 package com.akay.fitnass.service;
 
-import com.akay.fitnass.data.model.Workout;
+import com.akay.fitnass.data.storage.model.Workout;
 
 import java.util.List;
 

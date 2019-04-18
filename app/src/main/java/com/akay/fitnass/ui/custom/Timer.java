@@ -7,6 +7,8 @@ import android.os.SystemClock;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
+import com.akay.fitnass.data.storage.model.TimerParams;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -63,14 +65,40 @@ public class Timer extends AppCompatTextView {
         updateRunning();
     }
 
+    public boolean isPaused() {
+        return mPaused;
+    }
+
+    public TimerParams getParams() {
+        TimerParams params = new TimerParams();
+        params.setStart(mStart);
+        params.setTws(mTimeWhenStopped);
+        params.setStarted(mStarted);
+        params.setPaused(mPaused);
+        return params;
+    }
+
+    public void setParams(TimerParams params) {
+        this.mStart = params.getStart();
+        this.mTimeWhenStopped = params.getTws();
+        this.mStarted = params.isStarted();
+        this.mPaused = params.isPaused();
+
+        if (mPaused) {
+            mStart = SystemClock.uptimeMillis() + mTimeWhenStopped;
+            updateView(SystemClock.uptimeMillis());
+        }
+        updateRunning();
+    }
+
     public void start() {
-        mStart = SystemClock.elapsedRealtime() + mTimeWhenStopped;
+        mStart = SystemClock.uptimeMillis() + mTimeWhenStopped;
         mPaused = false;
         startTimer();
     }
 
     public void pause() {
-        mTimeWhenStopped = mStart - SystemClock.elapsedRealtime();
+        mTimeWhenStopped = mStart - SystemClock.uptimeMillis();
         mPaused = true;
         pauseTimer();
     }
@@ -121,7 +149,7 @@ public class Timer extends AppCompatTextView {
 
     private void run() {
         if (mRunning) {
-            updateView(SystemClock.elapsedRealtime());
+            updateView(SystemClock.uptimeMillis());
             postDelayed(mTickRunnable, TIMER_INTERVAL);
         }
     }
@@ -130,7 +158,7 @@ public class Timer extends AppCompatTextView {
         boolean running = mVisible && mStarted && !mPaused && isShown();
         if (running != mRunning) {
             if (running) {
-                updateView(SystemClock.elapsedRealtime());
+                updateView(SystemClock.uptimeMillis());
                 postDelayed(mTickRunnable, TIMER_INTERVAL);
             } else {
                 removeCallbacks(mTickRunnable);
@@ -142,6 +170,17 @@ public class Timer extends AppCompatTextView {
     private synchronized void updateView(long now) {
         long ms = now - mStart;
 
+        int msView = (int) (ms % 1000L) / 10;
+        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(ms) % 60);
+        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(ms) % 60);
+        int hours = (int) (TimeUnit.MILLISECONDS.toHours(ms) % 24);
+        int days = (int) TimeUnit.MILLISECONDS.toDays(ms);
+
+        String strTime = setFormat(days, hours, minutes, seconds, msView);
+        setText(strTime);
+    }
+
+    private void staticView(long ms) {
         int msView = (int) (ms % 1000L) / 10;
         int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(ms) % 60);
         int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(ms) % 60);

@@ -33,6 +33,20 @@ public class SingleThreadScheduler<T> implements Scheduler<T> {
     }
 
     @Override
+    public long runWithFutureLong(Callable<Long> callable) {
+        FutureTask<Long> futureTask = new FutureTask<>(callable);
+        SINGLE_THREAD_EXECUTOR.submit(futureTask);
+        try {
+            return futureTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    @Override
     public List<T> runWithFutureList(Callable<List<T>> callable) throws ExecutionException, InterruptedException {
         FutureTask<List<T>> futureTask = new FutureTask<>(callable);
         SINGLE_THREAD_EXECUTOR.submit(futureTask);

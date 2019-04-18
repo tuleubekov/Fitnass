@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.model.Workout;
+import com.akay.fitnass.data.storage.model.Workout;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;

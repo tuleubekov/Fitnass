@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.model.Lap;
+import com.akay.fitnass.data.storage.model.Lap;
 
 import java.util.List;
 
@@ -25,6 +25,13 @@ public class WorkoutLapAdapter extends RecyclerView.Adapter<WorkoutLapAdapter.Vi
 
     public List<Lap> getLaps() {
         return mLaps;
+    }
+
+    public void setLaps(List<Lap> laps) {
+        if (laps != null) {
+            this.mLaps = laps;
+            notifyDataSetChanged();
+        }
     }
 
     public void addLap(Lap lap) {

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.model.Lap;
+import com.akay.fitnass.data.storage.model.Lap;
 
 import java.util.List;
 

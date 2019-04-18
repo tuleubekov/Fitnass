@@ -1,4 +1,4 @@
-package com.akay.fitnass.data.dao;
+package com.akay.fitnass.data.storage.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.akay.fitnass.data.model.Workout;
+import com.akay.fitnass.data.storage.model.Workout;
 
 import java.util.List;
 

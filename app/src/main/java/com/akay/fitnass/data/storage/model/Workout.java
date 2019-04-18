@@ -1,4 +1,4 @@
-package com.akay.fitnass.data.model;
+package com.akay.fitnass.data.storage.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

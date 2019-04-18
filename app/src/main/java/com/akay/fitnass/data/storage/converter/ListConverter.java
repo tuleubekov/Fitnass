@@ -1,9 +1,9 @@
-package com.akay.fitnass.data.converter;
+package com.akay.fitnass.data.storage.converter;
 
 import android.arch.persistence.room.TypeConverter;
 import android.util.Log;
 
-import com.akay.fitnass.data.model.Lap;
+import com.akay.fitnass.data.storage.model.Lap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
