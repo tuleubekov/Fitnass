@@ -1,4 +1,4 @@
-package com.akay.fitnass.service;
+package com.akay.fitnass.services;
 
 import com.akay.fitnass.data.storage.dao.ActiveWorkoutDao;
 import com.akay.fitnass.data.storage.model.ActiveWorkout;

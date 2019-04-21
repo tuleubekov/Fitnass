@@ -12,12 +12,11 @@ import com.akay.fitnass.data.storage.model.ActiveWorkout;
 import com.akay.fitnass.data.storage.model.Lap;
 import com.akay.fitnass.data.storage.model.TimerParams;
 import com.akay.fitnass.data.storage.model.Workout;
-import com.akay.fitnass.service.ActiveWorkoutService;
-import com.akay.fitnass.service.SourceProvider;
-import com.akay.fitnass.service.WorkoutService;
+import com.akay.fitnass.services.ActiveWorkoutService;
+import com.akay.fitnass.services.SourceProvider;
+import com.akay.fitnass.services.WorkoutService;
 import com.akay.fitnass.ui.custom.Timer;
 import com.akay.fitnass.ui.custom.CheckedButton;
-import com.akay.fitnass.util.Logger;
 
 import org.joda.time.DateTime;
 

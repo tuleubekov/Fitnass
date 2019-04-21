@@ -8,9 +8,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.storage.model.ActiveWorkout;
-import com.akay.fitnass.service.ActiveWorkoutService;
-import com.akay.fitnass.service.SourceProvider;
-import com.akay.fitnass.service.WorkoutService;
+import com.akay.fitnass.services.ActiveWorkoutService;
+import com.akay.fitnass.services.SourceProvider;
+import com.akay.fitnass.services.WorkoutService;
 import com.akay.fitnass.ui.custom.CheckedButton;
 import com.akay.fitnass.ui.detail.WorkoutDetailActivity;
 import com.akay.fitnass.ui.workoutadd.WorkoutAddActivity;

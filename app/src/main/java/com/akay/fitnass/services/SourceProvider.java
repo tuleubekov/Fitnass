@@ -1,4 +1,4 @@
-package com.akay.fitnass.service;
+package com.akay.fitnass.services;
 
 import android.content.Context;
 
