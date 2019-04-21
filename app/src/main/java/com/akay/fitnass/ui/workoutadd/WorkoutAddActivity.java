@@ -1,8 +1,12 @@
 package com.akay.fitnass.ui.workoutadd;
 
+import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
@@ -12,6 +16,7 @@ import com.akay.fitnass.data.storage.model.ActiveWorkout;
 import com.akay.fitnass.data.storage.model.Lap;
 import com.akay.fitnass.data.storage.model.TimerParams;
 import com.akay.fitnass.data.storage.model.Workout;
+import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
@@ -102,6 +107,7 @@ public class WorkoutAddActivity extends AppCompatActivity {
             mTimer.start();
             mBtnReset.setEnabled(false);
             mBtnLapSave.setEnabled(true);
+            startSocket();
         }
         mActiveWorkoutService.upsert(buildActiveWorkout());
         mBtnStartPause.toggle();
@@ -115,6 +121,7 @@ public class WorkoutAddActivity extends AppCompatActivity {
         mBtnReset.setEnabled(false);
         mBtnLapSave.setEnabled(false);
         mActiveWorkoutService.delete(buildActiveWorkout());
+        stopSocket();
         return true;
     }
 
@@ -126,6 +133,7 @@ public class WorkoutAddActivity extends AppCompatActivity {
         } else {
             mActiveWorkoutService.delete(buildActiveWorkout());
             mWorkoutService.insert(buildWorkout());
+            stopSocket();
             finish();
         }
     }
@@ -158,5 +166,29 @@ public class WorkoutAddActivity extends AppCompatActivity {
         activeWorkout.setCount(mAdapter.getItemCount());
         activeWorkout.setDate(DateTime.now().getMillis());
         return activeWorkout;
+    }
+
+    private void startSocket() {
+        Intent intent = new Intent(this, FitService.class);
+        if (!isServiceRunningInForeground()) {
+            ContextCompat.startForegroundService(this, intent);
+        }
+    }
+
+    private void stopSocket() {
+        Intent intent = new Intent(this, FitService.class);
+        stopService(intent);
+    }
+
+    private boolean isServiceRunningInForeground() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager == null) return false;
+
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (FitService.class.getName().equals(service.service.getClassName())) {
+                return service.foreground;
+            }
+        }
+        return false;
     }
 }
