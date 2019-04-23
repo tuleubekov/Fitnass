@@ -6,5 +6,7 @@ public interface NotificationController {
 
     Notification getPersistentNotification();
 
+    void showStartPauseNotification(boolean showPauseText);
+
     void notify(int id, Notification notification);
 }

@@ -11,12 +11,14 @@ import android.media.AudioAttributes;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.ui.main.MainActivity;
 import com.akay.fitnass.ui.workoutadd.WorkoutAddActivity;
+import com.akay.fitnass.util.Logger;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -43,12 +45,37 @@ public class NotificationControllerImpl implements NotificationController {
 
     @Override
     public Notification getPersistentNotification() {
-        return build(() -> getBaseBuilder().build());
+        return build(() -> getStartPauseStateBuilder(true).build());
+    }
+
+    @Override
+    public void showStartPauseNotification(boolean showPauseText) {
+        Logger.e("NotificationCntrl: showStartPauseNotification showPauseText:" + showPauseText);
+        notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPauseText).build());
     }
 
     @Override
     public void notify(int id, Notification notification) {
         getNotificationManager().notify(id, notification);
+    }
+
+    private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
+        RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
+
+        Logger.e("NotificationCntrl: getStartPauseStateBuilder showPauseText:" + showPauseText);
+        if (showPauseText) {
+            Logger.e("Show pause text");
+        } else {
+            Logger.e("Show start text");
+        }
+
+        nView.setTextViewText(R.id.btn_start_pause, showPauseText ? "pause" : "start");
+
+        Intent intentStart = new Intent(mContext, FitService.class);
+        intentStart.setAction("start_pause");
+        nView.setOnClickPendingIntent(R.id.btn_start_pause, PendingIntent.getService(mContext, 0, intentStart, PendingIntent.FLAG_UPDATE_CURRENT));
+
+        return getBaseBuilder().setCustomContentView(nView);
     }
 
     private NotificationCompat.Builder getBaseBuilder() {
@@ -57,9 +84,9 @@ public class NotificationControllerImpl implements NotificationController {
 
         RemoteViews layout = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
 
-        Intent btnIntent = new Intent(mContext, FitService.class);
-        btnIntent.setAction("log");
-        layout.setOnClickPendingIntent(R.id.btn_log, PendingIntent.getService(mContext, 0, btnIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+        Intent intentLap = new Intent(mContext, FitService.class);
+        intentLap.setAction("lap");
+        layout.setOnClickPendingIntent(R.id.btn_lap, PendingIntent.getService(mContext, 0, intentLap, PendingIntent.FLAG_UPDATE_CURRENT));
 
         return new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
@@ -67,7 +94,6 @@ public class NotificationControllerImpl implements NotificationController {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setCustomContentView(layout)
                 .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
                 .setSound(null);
     }
