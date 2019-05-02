@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
-import com.akay.fitnass.data.storage.AppDatabase;
+import com.akay.fitnass.data.db.AppDatabase;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class App extends Application {

@@ -1,6 +1,6 @@
 package com.akay.fitnass.services;
 
-import com.akay.fitnass.data.storage.model.ActiveRuns;
+import com.akay.fitnass.data.db.model.ActiveRuns;
 
 public interface ActiveWorkoutService {
 

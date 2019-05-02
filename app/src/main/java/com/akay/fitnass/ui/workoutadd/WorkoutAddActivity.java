@@ -1,10 +1,8 @@
 package com.akay.fitnass.ui.workoutadd;
 
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.storage.model.ActiveRuns;
-import com.akay.fitnass.data.storage.model.ActiveWorkout;
-import com.akay.fitnass.data.storage.model.Lap;
-import com.akay.fitnass.data.storage.model.Runs;
-import com.akay.fitnass.data.storage.model.TimerParams;
-import com.akay.fitnass.data.storage.model.Workout;
+import com.akay.fitnass.data.db.model.ActiveRuns;
+import com.akay.fitnass.data.db.model.Lap;
+import com.akay.fitnass.data.db.model.Runs;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;

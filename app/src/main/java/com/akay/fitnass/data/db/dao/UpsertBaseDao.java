@@ -1,4 +1,4 @@
-package com.akay.fitnass.data.storage.dao;
+package com.akay.fitnass.data.db.dao;
 
 public abstract class UpsertBaseDao<T> implements BaseDao<T> {
 

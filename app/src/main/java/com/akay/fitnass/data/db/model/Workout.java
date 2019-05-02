@@ -1,20 +1,19 @@
-package com.akay.fitnass.data.storage.model;
+package com.akay.fitnass.data.db.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import org.threeten.bp.ZonedDateTime;
-
 import java.util.List;
 
 @Entity
-public class Runs {
+public class Workout {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
+    private String type;
     private List<Lap> laps;
-    private String comment;
-    private ZonedDateTime dateTime;
+    private int count;
+    private long date;
 
     public long getId() {
         return id;
@@ -22,6 +21,14 @@ public class Runs {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<Lap> getLaps() {
@@ -32,19 +39,19 @@ public class Runs {
         this.laps = laps;
     }
 
-    public String getComment() {
-        return comment;
+    public int getCount() {
+        return count;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public ZonedDateTime getDateTime() {
-        return dateTime;
+    public long getDate() {
+        return date;
     }
 
-    public void setDateTime(ZonedDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(long date) {
+        this.date = date;
     }
 }

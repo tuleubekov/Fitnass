@@ -1,8 +1,8 @@
 package com.akay.fitnass.services;
 
-import com.akay.fitnass.data.storage.dao.RunsDao;
-import com.akay.fitnass.data.storage.model.Runs;
-import com.akay.fitnass.data.storage.model.Workout;
+import com.akay.fitnass.data.db.dao.RunsDao;
+import com.akay.fitnass.data.db.model.Runs;
+import com.akay.fitnass.data.db.model.Workout;
 import com.akay.fitnass.scheduler.Scheduler;
 
 import java.util.List;

@@ -6,9 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.akay.fitnass.data.storage.model.ActiveRuns;
-import com.akay.fitnass.data.storage.model.ActiveWorkout;
-import com.akay.fitnass.data.storage.model.TimerParams;
+import com.akay.fitnass.data.db.model.ActiveRuns;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.ui.notification.NotificationController;

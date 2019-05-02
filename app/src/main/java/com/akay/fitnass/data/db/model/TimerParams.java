@@ -1,4 +1,4 @@
-package com.akay.fitnass.data.storage.model;
+package com.akay.fitnass.data.db.model;
 
 public class TimerParams {
     private long start;

@@ -1,9 +1,9 @@
-package com.akay.fitnass.data.storage.dao;
+package com.akay.fitnass.data.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
-import com.akay.fitnass.data.storage.model.Runs;
+import com.akay.fitnass.data.db.model.Runs;
 
 import java.util.List;
 

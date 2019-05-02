@@ -7,13 +7,9 @@ import android.os.Parcelable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.akay.fitnass.data.storage.model.TimerParams;
 import com.akay.fitnass.util.DateTimeUtils;
 
 import org.threeten.bp.ZonedDateTime;
-
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class Timer extends AppCompatTextView {
     private static final String KEY_SUPER_STATE = "com.akay.fitnass.ui.custom.SUPER_STATE";

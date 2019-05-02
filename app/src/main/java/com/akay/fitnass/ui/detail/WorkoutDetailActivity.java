@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.storage.model.Runs;
+import com.akay.fitnass.data.db.model.Runs;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
 

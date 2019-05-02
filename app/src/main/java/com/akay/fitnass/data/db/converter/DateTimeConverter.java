@@ -1,4 +1,4 @@
-package com.akay.fitnass.data.storage.converter;
+package com.akay.fitnass.data.db.converter;
 
 import android.arch.persistence.room.TypeConverter;
 
