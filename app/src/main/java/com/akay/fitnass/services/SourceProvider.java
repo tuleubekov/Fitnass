@@ -10,11 +10,11 @@ import com.akay.fitnass.ui.notification.NotificationControllerImpl;
 public class SourceProvider {
 
     public static WorkoutService provideWorkoutService(Context context) {
-        return WorkoutServiceImpl.getInstance(App.getDb(context).workoutDao(), SingleThreadScheduler.getInstance());
+        return WorkoutServiceImpl.getInstance(App.getDb(context).runsDao(), SingleThreadScheduler.getInstance());
     }
 
     public static ActiveWorkoutService provideActiveWorkoutService(Context context) {
-        return ActiveWorkoutServiceImpl.getInstance(App.getDb(context).activeWorkoutDao(), SingleThreadScheduler.getInstance());
+        return ActiveWorkoutServiceImpl.getInstance(App.getDb(context).activeRunsDao(), SingleThreadScheduler.getInstance());
     }
 
     public static NotificationController provideNotificationController(Context context) {

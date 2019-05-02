@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.storage.model.Workout;
+import com.akay.fitnass.data.storage.model.Runs;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.List;
 
@@ -20,15 +19,17 @@ import butterknife.ButterKnife;
 
 public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.ViewHolder> {
     private static final String FORMAT_DATETIME = "dd MMMM yyyy HH:mm";
-    private List<Workout> mWorkouts;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_DATETIME);
+
+    private List<Runs> mWorkouts;
     private OnItemClickListener mItemClickListener;
 
-    WorkoutDayAdapter(List<Workout> workoutList, OnItemClickListener listener) {
+    WorkoutDayAdapter(List<Runs> workoutList, OnItemClickListener listener) {
         mWorkouts = workoutList;
         mItemClickListener = listener;
     }
 
-    public void onWorkoutListUpdated(List<Workout> workouts) {
+    public void onWorkoutListUpdated(List<Runs> workouts) {
         mWorkouts = workouts;
         notifyDataSetChanged();
     }
@@ -42,15 +43,15 @@ public class WorkoutDayAdapter extends RecyclerView.Adapter<WorkoutDayAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int pos) {
-        Workout workout = mWorkouts.get(pos);
-        DateTimeFormatter format = DateTimeFormat.forPattern(FORMAT_DATETIME);
-        viewHolder.textDate.setText(format.print(workout.getDate()));
-        viewHolder.textRunCount.setText(String.valueOf(workout.getCount()));
+        Runs workout = mWorkouts.get(pos);
+
+        viewHolder.textDate.setText(workout.getDateTime().format(formatter));
+        viewHolder.textRunCount.setText(String.valueOf(getItemCount()));
         viewHolder.itemView.setOnClickListener(view -> mItemClickListener.onItemClicked(workout.getId()));
     }
 
     @Override
-    public int getItemCount() {
+    public synchronized int getItemCount() {
         return mWorkouts.size();
     }
 

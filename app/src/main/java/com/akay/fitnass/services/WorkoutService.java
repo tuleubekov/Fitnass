@@ -1,18 +1,19 @@
 package com.akay.fitnass.services;
 
+import com.akay.fitnass.data.storage.model.Runs;
 import com.akay.fitnass.data.storage.model.Workout;
 
 import java.util.List;
 
 public interface WorkoutService {
 
-    List<Workout> getAll();
+    List<Runs> getAll();
 
-    Workout getById(long id);
+    Runs getById(long id);
 
-    void insert(Workout workout);
+    void insert(Runs workout);
 
-    Workout update(Workout workout);
+    Workout update(Runs workout);
 
-    Workout delete(Workout workout);
+    Workout delete(Runs workout);
 }

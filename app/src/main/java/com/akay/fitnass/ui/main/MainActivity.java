@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.storage.model.ActiveWorkout;
+import com.akay.fitnass.data.storage.model.ActiveRuns;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initStateBtn() {
-        ActiveWorkout workout = mActiveWorkoutService.getActiveSession();
+        ActiveRuns workout = mActiveWorkoutService.getActiveRuns();
         mBtnNewDay.setChecked(workout != null);
     }
 

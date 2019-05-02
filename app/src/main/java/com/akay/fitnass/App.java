@@ -5,14 +5,17 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.akay.fitnass.data.storage.AppDatabase;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 public class App extends Application {
-    private static final String DB_NAME = "FITNASS_DB";
+    private static final String DB_NAME = "FitnassDatabase";
     private AppDatabase mRoom;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        AndroidThreeTen.init(this);
+
         mRoom = Room.databaseBuilder(this, AppDatabase.class, DB_NAME)
                 .fallbackToDestructiveMigration()
                 .build();

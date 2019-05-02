@@ -4,17 +4,18 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 
+import com.akay.fitnass.data.storage.converter.DateTimeConverter;
 import com.akay.fitnass.data.storage.converter.ListConverter;
-import com.akay.fitnass.data.storage.dao.ActiveWorkoutDao;
-import com.akay.fitnass.data.storage.dao.WorkoutDao;
-import com.akay.fitnass.data.storage.model.ActiveWorkout;
-import com.akay.fitnass.data.storage.model.Workout;
+import com.akay.fitnass.data.storage.dao.ActiveRunsDao;
+import com.akay.fitnass.data.storage.dao.RunsDao;
+import com.akay.fitnass.data.storage.model.ActiveRuns;
+import com.akay.fitnass.data.storage.model.Runs;
 
-@TypeConverters(ListConverter.class)
-@Database(entities = {Workout.class, ActiveWorkout.class}, version = 1, exportSchema = false)
+@TypeConverters({ListConverter.class, DateTimeConverter.class})
+@Database(entities = {Runs.class, ActiveRuns.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract WorkoutDao workoutDao();
+    public abstract RunsDao runsDao();
 
-    public abstract ActiveWorkoutDao activeWorkoutDao();
+    public abstract ActiveRunsDao activeRunsDao();
 }

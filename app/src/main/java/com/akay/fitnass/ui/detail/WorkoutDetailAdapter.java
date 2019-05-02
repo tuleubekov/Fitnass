@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.storage.model.Lap;
+import com.akay.fitnass.util.DateTimeUtils;
 
 import java.util.List;
 
@@ -32,8 +33,9 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Lap lap = mLaps.get(i);
-        viewHolder.textIterator.setText(String.valueOf(lap.getCircle()));
-        viewHolder.textLap.setText(lap.getLapTime());
+        long zdtMillis = lap.getTime().toInstant().toEpochMilli();
+        viewHolder.textIterator.setText(String.valueOf(i+1));
+        viewHolder.textLap.setText(DateTimeUtils.msToStrFormat(zdtMillis));
     }
 
     @Override

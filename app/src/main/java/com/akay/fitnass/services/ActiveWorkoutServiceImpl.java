@@ -1,7 +1,7 @@
 package com.akay.fitnass.services;
 
-import com.akay.fitnass.data.storage.dao.ActiveWorkoutDao;
-import com.akay.fitnass.data.storage.model.ActiveWorkout;
+import com.akay.fitnass.data.storage.dao.ActiveRunsDao;
+import com.akay.fitnass.data.storage.model.ActiveRuns;
 import com.akay.fitnass.scheduler.Scheduler;
 import com.akay.fitnass.util.Logger;
 
@@ -10,46 +10,36 @@ import java.util.concurrent.ExecutionException;
 
 public class ActiveWorkoutServiceImpl implements ActiveWorkoutService {
     private static ActiveWorkoutServiceImpl mInstance;
-    private ActiveWorkoutDao mDao;
-    private Scheduler<ActiveWorkout> mScheduler;
+    private ActiveRunsDao mDao;
+    private Scheduler<ActiveRuns> mScheduler;
 
-    private ActiveWorkoutServiceImpl() {}
-
-    private ActiveWorkoutServiceImpl(ActiveWorkoutDao activeWorkoutDao, Scheduler<ActiveWorkout> scheduler) {
-        mDao = activeWorkoutDao;
+    private ActiveWorkoutServiceImpl(ActiveRunsDao activeRunsDao, Scheduler<ActiveRuns> scheduler) {
+        mDao = activeRunsDao;
         mScheduler = scheduler;
     }
 
-    public static ActiveWorkoutService getInstance(ActiveWorkoutDao activeWorkoutDao, Scheduler<ActiveWorkout> scheduler) {
+    public static ActiveWorkoutService getInstance(ActiveRunsDao activeRunsDao, Scheduler<ActiveRuns> scheduler) {
         if (mInstance == null) {
-            mInstance = new ActiveWorkoutServiceImpl(activeWorkoutDao, scheduler);
+            mInstance = new ActiveWorkoutServiceImpl(activeRunsDao, scheduler);
         }
         return mInstance;
     }
 
     @Override
-    public ActiveWorkout getActiveSession() {
-        return runWithFuture(() -> mDao.getById(ActiveWorkout.ID));
+    public ActiveRuns getActiveRuns() {
+        return runWithFuture(() -> mDao.getActiveRuns());
     }
 
     @Override
-    public long insert(ActiveWorkout activeWorkout) {
-        return runWithFutureLong(() -> mDao.insert(activeWorkout));
-    }
-
-    @Override
-    public void update(ActiveWorkout workout) {
-        runOnScheduler(() -> mDao.update(workout));
-    }
-
-    @Override
-    public void delete(ActiveWorkout workout) {
+    public void delete(ActiveRuns workout) {
+        workout.setId(ActiveRuns.ID);
         runOnScheduler(() -> mDao.delete(workout));
     }
 
     @Override
-    public void upsert(ActiveWorkout workout) {
+    public void upsert(ActiveRuns workout) {
         Logger.e("---- upsert ----");
+        workout.setId(ActiveRuns.ID);
         runOnScheduler(() -> mDao.upsert(workout));
     }
 
@@ -68,7 +58,7 @@ public class ActiveWorkoutServiceImpl implements ActiveWorkoutService {
         return -1;
     }
 
-    private ActiveWorkout runWithFuture(Callable<ActiveWorkout> callable) {
+    private ActiveRuns runWithFuture(Callable<ActiveRuns> callable) {
         try {
             return mScheduler.runWithFuture(callable);
         } catch (ExecutionException e) {

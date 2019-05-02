@@ -12,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 
 import com.akay.fitnass.R;
+import com.akay.fitnass.data.storage.model.ActiveRuns;
 import com.akay.fitnass.data.storage.model.ActiveWorkout;
 import com.akay.fitnass.data.storage.model.Lap;
+import com.akay.fitnass.data.storage.model.Runs;
 import com.akay.fitnass.data.storage.model.TimerParams;
 import com.akay.fitnass.data.storage.model.Workout;
 import com.akay.fitnass.service.FitService;
@@ -22,8 +24,11 @@ import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
 import com.akay.fitnass.ui.custom.Timer;
 import com.akay.fitnass.ui.custom.CheckedButton;
+import com.akay.fitnass.util.DateTimeUtils;
 
-import org.joda.time.DateTime;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
 
@@ -42,7 +47,7 @@ public class WorkoutAddActivity extends AppCompatActivity {
     private WorkoutService mWorkoutService;
     private ActiveWorkoutService mActiveWorkoutService;
     private WorkoutLapAdapter mAdapter;
-    private int circleCount;
+    private ActiveRuns mActiveRuns;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, WorkoutAddActivity.class);
@@ -67,24 +72,30 @@ public class WorkoutAddActivity extends AppCompatActivity {
     }
 
     private void setupActiveWorkout() {
-        ActiveWorkout activeWorkout = mActiveWorkoutService.getActiveSession();
-        if (activeWorkout == null) {
+        mActiveRuns = mActiveWorkoutService.getActiveRuns();
+        if (mActiveRuns == null) {
             return;
         }
 
-        long start = activeWorkout.getStart();
-        long tws = activeWorkout.getTimeWhenStopped();
-        boolean started = activeWorkout.isStarted();
-        boolean paused = activeWorkout.isPaused();
+        long start = mActiveRuns.getStart().toInstant().toEpochMilli();
+        long tws = mActiveRuns.getTws().toInstant().toEpochMilli();
+//        boolean started = activeWorkout.isStarted();
+        boolean paused = mActiveRuns.isPaused();
+//
+//        TimerParams params = new TimerParams();
+//        params.setStart(start);
+//        params.setTws(tws);
+////        params.setStarted(started);
+//        params.setPaused(paused);
+//        mTimer.setParams(params);
 
-        TimerParams params = new TimerParams();
-        params.setStart(start);
-        params.setTws(tws);
-        params.setStarted(started);
-        params.setPaused(paused);
-        mTimer.setParams(params);
 
-        mAdapter.setLaps(activeWorkout.getLaps());
+        mTimer.prepare(new Timer.Builder()
+                .setPaused(paused)
+                .setStart(mActiveRuns.getStart())
+                .setTws(mActiveRuns.getTws()));
+
+        mAdapter.setLaps(mActiveRuns.getLaps());
         mBtnStartPause.setChecked(!paused);
         mBtnReset.setEnabled(paused);
         mBtnLapSave.setChecked(!paused);
@@ -95,16 +106,24 @@ public class WorkoutAddActivity extends AppCompatActivity {
             mBtnLapSave.setEnabled(true);
         }
 
+        mTimer.update();
     }
 
     @OnClick(R.id.btn_start_pause)
     public void onStartClicked() {
         if (mBtnStartPause.isChecked()) {
-            mTimer.pause();
+//        mTimeWhenStopped = mStart - nowMillis();
+            mActiveRuns.setTws(ZonedDateTime.now());
+            mTimer.pause(DateTimeUtils.toMs(mActiveRuns.getTws()));
             mBtnReset.setEnabled(true);
             mBtnLapSave.setEnabled(mAdapter.getItemCount() > 0);
         } else {
-            mTimer.start();
+//        mStart = nowMillis() + mTimeWhenStopped;
+            if (mActiveRuns == null) {
+                mActiveRuns = buildActiveWorkout();
+            }
+            mActiveRuns.setStart(ZonedDateTime.now());
+            mTimer.start(DateTimeUtils.toMs(mActiveRuns.getStart()));
             mBtnReset.setEnabled(false);
             mBtnLapSave.setEnabled(true);
             startSocket();
@@ -139,32 +158,44 @@ public class WorkoutAddActivity extends AppCompatActivity {
     }
 
     private Lap buildLap() {
+//        long start =
+        long nowMs = ZonedDateTime.now().toInstant().toEpochMilli();
+        long lapMs = nowMs - DateTimeUtils.toMs(mActiveRuns.getStart());
+        Instant instant = Instant.ofEpochMilli(lapMs);
+        ZonedDateTime lapZdt = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
         return new Lap.Builder()
-                .setCircle(++circleCount)
-                .setLapTime(mTimer.getText().toString())
+//                .setCircle(++circleCount)
+                .setLapTime(lapZdt)
                 .build();
     }
 
-    private Workout buildWorkout() {
-        Workout workout = new Workout();
-        workout.setDate(DateTime.now().getMillis());
-        workout.setType("run");
+    private Runs buildWorkout() {
+        Runs workout = new Runs();
+        workout.setDateTime(ZonedDateTime.now());
+        workout.setComment("comment:run");
         workout.setLaps(mAdapter.getLaps());
-        workout.setCount(mAdapter.getItemCount());
+//        workout.setCount(mAdapter.getItemCount());
         return workout;
     }
 
-    private ActiveWorkout buildActiveWorkout() {
-        TimerParams params = mTimer.getParams();
-        ActiveWorkout activeWorkout = new ActiveWorkout();
-        activeWorkout.setId(ActiveWorkout.ID);
-        activeWorkout.setStart(params.getStart());
-        activeWorkout.setTimeWhenStopped(params.getTws());
-        activeWorkout.setStarted(params.isStarted());
-        activeWorkout.setPaused(params.isPaused());
+    private ActiveRuns buildActiveWorkout() {
+        //        mStart = nowMillis() + mTimeWhenStopped;
+        //        mTimeWhenStopped = mStart - nowMillis();
+
+//        TimerParams params = mTimer.getParams();
+        ActiveRuns activeWorkout = new ActiveRuns();
+
+        long start = DateTimeUtils.nowMs();
+        long tws = start - DateTimeUtils.nowMs();
+
+        activeWorkout.setStart(ZonedDateTime.now());
+//        activeWorkout.setStarted(params.isStarted());
+//        activeWorkout.setCount(mAdapter.getItemCount());
+
+        activeWorkout.setTws(ZonedDateTime.now());
+        activeWorkout.setPaused(mTimer.isPaused());
         activeWorkout.setLaps(mAdapter.getLaps());
-        activeWorkout.setCount(mAdapter.getItemCount());
-        activeWorkout.setDate(DateTime.now().getMillis());
+        activeWorkout.setDateTime(ZonedDateTime.now());
         return activeWorkout;
     }
 

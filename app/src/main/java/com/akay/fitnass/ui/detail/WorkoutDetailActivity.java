@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.storage.model.Workout;
+import com.akay.fitnass.data.storage.model.Runs;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
 
@@ -34,7 +34,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_workout);
         ButterKnife.bind(this);
         mWorkoutService = SourceProvider.provideWorkoutService(this);
-        Workout workout = mWorkoutService.getById(getWorkoutId());
+        Runs workout = mWorkoutService.getById(getWorkoutId());
         mAdapter = new WorkoutDetailAdapter(workout.getLaps());
         mRecyclerWorkoutLap.setAdapter(mAdapter);
     }

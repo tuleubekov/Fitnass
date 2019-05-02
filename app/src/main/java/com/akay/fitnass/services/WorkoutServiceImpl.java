@@ -1,6 +1,7 @@
 package com.akay.fitnass.services;
 
-import com.akay.fitnass.data.storage.dao.WorkoutDao;
+import com.akay.fitnass.data.storage.dao.RunsDao;
+import com.akay.fitnass.data.storage.model.Runs;
 import com.akay.fitnass.data.storage.model.Workout;
 import com.akay.fitnass.scheduler.Scheduler;
 
@@ -10,45 +11,43 @@ import java.util.concurrent.ExecutionException;
 
 public class WorkoutServiceImpl implements WorkoutService {
     private static WorkoutServiceImpl mInstance;
-    private WorkoutDao mDao;
-    private Scheduler<Workout> mScheduler;
+    private RunsDao mDao;
+    private Scheduler<Runs> mScheduler;
 
-    private WorkoutServiceImpl() {}
-
-    private WorkoutServiceImpl(WorkoutDao workoutDao, Scheduler<Workout> scheduler) {
+    private WorkoutServiceImpl(RunsDao workoutDao, Scheduler<Runs> scheduler) {
         mDao = workoutDao;
         mScheduler = scheduler;
     }
 
-    public static WorkoutService getInstance(WorkoutDao workoutDao, Scheduler<Workout> scheduler) {
+    public static WorkoutService getInstance(RunsDao runsDao, Scheduler<Runs> scheduler) {
         if (mInstance == null) {
-            mInstance = new WorkoutServiceImpl(workoutDao, scheduler);
+            mInstance = new WorkoutServiceImpl(runsDao, scheduler);
         }
         return mInstance;
     }
 
     @Override
-    public List<Workout> getAll() {
+    public List<Runs> getAll() {
         return runWithFutureList(() -> mDao.getAll());
     }
 
     @Override
-    public Workout getById(long id) {
+    public Runs getById(long id) {
         return runWithFuture(() -> mDao.getById(id));
     }
 
     @Override
-    public void insert(Workout workout) {
+    public void insert(Runs workout) {
         runOnScheduler(() -> mDao.insert(workout));
     }
 
     @Override
-    public Workout update(Workout workout) {
+    public Workout update(Runs workout) {
         return null;
     }
 
     @Override
-    public Workout delete(Workout workout) {
+    public Workout delete(Runs workout) {
         return null;
     }
 
@@ -56,7 +55,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         mScheduler.runOnThread(runnable);
     }
 
-    private Workout runWithFuture(Callable<Workout> callable) {
+    private Runs runWithFuture(Callable<Runs> callable) {
         try {
             return mScheduler.runWithFuture(callable);
         } catch (ExecutionException e) {
@@ -67,7 +66,7 @@ public class WorkoutServiceImpl implements WorkoutService {
         return null;
     }
 
-    private List<Workout> runWithFutureList(Callable<List<Workout>> callable) {
+    private List<Runs> runWithFutureList(Callable<List<Runs>> callable) {
         try {
             return mScheduler.runWithFutureList(callable);
         } catch (ExecutionException e) {

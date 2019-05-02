@@ -1,16 +1,12 @@
 package com.akay.fitnass.services;
 
-import com.akay.fitnass.data.storage.model.ActiveWorkout;
+import com.akay.fitnass.data.storage.model.ActiveRuns;
 
 public interface ActiveWorkoutService {
 
-    ActiveWorkout getActiveSession();
+    ActiveRuns getActiveRuns();
 
-    long insert(ActiveWorkout activeWorkout);
+    void delete(ActiveRuns workout);
 
-    void update(ActiveWorkout workout);
-
-    void delete(ActiveWorkout workout);
-
-    void upsert(ActiveWorkout workout);
+    void upsert(ActiveRuns workout);
 }

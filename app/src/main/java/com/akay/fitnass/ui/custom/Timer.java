@@ -3,11 +3,14 @@ package com.akay.fitnass.ui.custom;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Parcelable;
-import android.os.SystemClock;
+//import android.os.SystemClock;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.akay.fitnass.data.storage.model.TimerParams;
+import com.akay.fitnass.util.DateTimeUtils;
+
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class Timer extends AppCompatTextView {
     private static final String KEY_SUPER_STATE = "com.akay.fitnass.ui.custom.SUPER_STATE";
     private static final String KEY_PROGRESS_STATE = "com.akay.fitnass.ui.custom.PROGRESS_STATE";
-    private static final long TIMER_INTERVAL = 0L;
+    private static final long TIMER_INTERVAL = 10L;
 
     private boolean mVisible;
     private boolean mStarted;
@@ -64,41 +67,66 @@ public class Timer extends AppCompatTextView {
 
         updateRunning();
     }
+//
+//    public long getStart() {
+//        return mStart;
+//    }
+//
+//    public long getTimeWhenStopped() {
+//        return mTimeWhenStopped;
+//    }
 
     public boolean isPaused() {
         return mPaused;
     }
+//
+//    public TimerParams getParams() {
+//        TimerParams params = new TimerParams();
+//        params.setStart(mStart);
+//        params.setTws(mTimeWhenStopped);
+//        params.setStarted(mStarted);
+//        params.setPaused(mPaused);
+//        return params;
+//    }
+//
+//    public void setParams(TimerParams params) {
+//        this.mStart = params.getStart();
+//        this.mTimeWhenStopped = params.getTws();
+////        this.mStarted = params.isStarted();
+//        this.mPaused = params.isPaused();
+//
+//        if (mPaused) {
+//            mStart = nowMillis() + mTimeWhenStopped;
+//            updateView(nowMillis());
+//        }
+//        updateRunning();
+//    }
 
-    public TimerParams getParams() {
-        TimerParams params = new TimerParams();
-        params.setStart(mStart);
-        params.setTws(mTimeWhenStopped);
-        params.setStarted(mStarted);
-        params.setPaused(mPaused);
-        return params;
-    }
-
-    public void setParams(TimerParams params) {
-        this.mStart = params.getStart();
-        this.mTimeWhenStopped = params.getTws();
-        this.mStarted = params.isStarted();
-        this.mPaused = params.isPaused();
+    public void prepare(Builder builder) {
+        mPaused = builder.paused;
+        mStart = builder.start;
+        mTimeWhenStopped = builder.tws;
 
         if (mPaused) {
-            mStart = SystemClock.uptimeMillis() + mTimeWhenStopped;
-            updateView(SystemClock.uptimeMillis());
+            mStart = nowMillis() + mTimeWhenStopped;
+            updateView(nowMillis());
         }
+    }
+
+    public void update() {
         updateRunning();
     }
 
-    public void start() {
-        mStart = SystemClock.uptimeMillis() + mTimeWhenStopped;
+    public void start(long startMs) {
+//        mStart = nowMillis() + mTimeWhenStopped;
+        mStart = startMs + mTimeWhenStopped;
         mPaused = false;
         startTimer();
     }
 
-    public void pause() {
-        mTimeWhenStopped = mStart - SystemClock.uptimeMillis();
+    public void pause(long twsMs) {
+//        mTimeWhenStopped = mStart - nowMillis();
+        mTimeWhenStopped = mStart - twsMs;
         mPaused = true;
         pauseTimer();
     }
@@ -149,7 +177,7 @@ public class Timer extends AppCompatTextView {
 
     private void run() {
         if (mRunning) {
-            updateView(SystemClock.uptimeMillis());
+            updateView(nowMillis());
             postDelayed(mTickRunnable, TIMER_INTERVAL);
         }
     }
@@ -158,7 +186,7 @@ public class Timer extends AppCompatTextView {
         boolean running = mVisible && mStarted && !mPaused && isShown();
         if (running != mRunning) {
             if (running) {
-                updateView(SystemClock.uptimeMillis());
+                updateView(nowMillis());
                 postDelayed(mTickRunnable, TIMER_INTERVAL);
             } else {
                 removeCallbacks(mTickRunnable);
@@ -169,35 +197,31 @@ public class Timer extends AppCompatTextView {
 
     private synchronized void updateView(long now) {
         long ms = now - mStart;
-
-        int msView = (int) (ms % 1000L) / 10;
-        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(ms) % 60);
-        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(ms) % 60);
-        int hours = (int) (TimeUnit.MILLISECONDS.toHours(ms) % 24);
-        int days = (int) TimeUnit.MILLISECONDS.toDays(ms);
-
-        String strTime = setFormat(days, hours, minutes, seconds, msView);
-        setText(strTime);
+        setText(DateTimeUtils.msToStrFormat(ms));
     }
 
-    private void staticView(long ms) {
-        int msView = (int) (ms % 1000L) / 10;
-        int seconds = (int) (TimeUnit.MILLISECONDS.toSeconds(ms) % 60);
-        int minutes = (int) (TimeUnit.MILLISECONDS.toMinutes(ms) % 60);
-        int hours = (int) (TimeUnit.MILLISECONDS.toHours(ms) % 24);
-        int days = (int) TimeUnit.MILLISECONDS.toDays(ms);
-
-        String strTime = setFormat(days, hours, minutes, seconds, msView);
-        setText(strTime);
+    private synchronized long nowMillis() {
+        return DateTimeUtils.nowMs();
     }
 
-    private String setFormat(int days, int hr, int min, int sec, int ms) {
-        if (days > 0) {
-            return String.format(Locale.getDefault(), "%02d.%02d.%02d.%02d.%02d", days, hr, min, sec, ms);
-        } else if (hr > 0) {
-            return String.format(Locale.getDefault(), "%02d.%02d.%02d.%02d", hr, min, sec, ms);
-        } else {
-            return String.format(Locale.getDefault(), "%02d.%02d.%02d", min, sec, ms);
+    public static class Builder {
+        private boolean paused;
+        private long start;
+        private long tws;
+
+        public Builder setStart(ZonedDateTime zdtStart) {
+            this.start = DateTimeUtils.toMs(zdtStart);
+            return this;
+        }
+
+        public Builder setTws(ZonedDateTime zdtTws) {
+            this.tws = DateTimeUtils.toMs(zdtTws);
+            return this;
+        }
+
+        public Builder setPaused(boolean paused) {
+            this.paused = paused;
+            return this;
         }
     }
 }

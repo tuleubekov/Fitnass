@@ -3,12 +3,13 @@ package com.akay.fitnass.data.storage.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.threeten.bp.ZonedDateTime;
+
 @Entity
 public class Lap {
     @PrimaryKey(autoGenerate = true)
     private long id;
-    private int circle;
-    private String lapTime;
+    private ZonedDateTime time;
 
     public long getId() {
         return id;
@@ -18,40 +19,25 @@ public class Lap {
         this.id = id;
     }
 
-    public int getCircle() {
-        return circle;
+    public ZonedDateTime getTime() {
+        return time;
     }
 
-    public void setCircle(int circle) {
-        this.circle = circle;
-    }
-
-    public String getLapTime() {
-        return lapTime;
-    }
-
-    public void setLapTime(String lapTime) {
-        this.lapTime = lapTime;
+    public void setTime(ZonedDateTime time) {
+        this.time = time;
     }
 
     public static class Builder {
-        private int circle;
-        private String lapTime;
+        private ZonedDateTime lapTime;
 
-        public Builder setCircle(int circle) {
-            this.circle = circle;
-            return this;
-        }
-
-        public Builder setLapTime(String lapTime) {
+        public Builder setLapTime(ZonedDateTime lapTime) {
             this.lapTime = lapTime;
             return this;
         }
 
         public Lap build() {
             Lap lap = new Lap();
-            lap.setCircle(this.circle);
-            lap.setLapTime(this.lapTime);
+            lap.setTime(this.lapTime);
             return lap;
         }
     }

@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.akay.fitnass.data.storage.model.ActiveRuns;
 import com.akay.fitnass.data.storage.model.ActiveWorkout;
 import com.akay.fitnass.data.storage.model.TimerParams;
 import com.akay.fitnass.services.ActiveWorkoutService;
@@ -13,7 +14,7 @@ import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.ui.notification.NotificationController;
 import com.akay.fitnass.util.Logger;
 
-import org.joda.time.DateTime;
+import org.threeten.bp.ZonedDateTime;
 
 public class FitService extends Service {
     public static final int FOREGROUND_SERVICE_ID = 1000;
@@ -52,11 +53,11 @@ public class FitService extends Service {
     }
 
     private void startPauseAction() {
-        ActiveWorkout activeWorkout = mActiveWorkoutService.getActiveSession();
+        ActiveRuns activeWorkout = mActiveWorkoutService.getActiveRuns();
         boolean isPaused = activeWorkout.isPaused();
         Logger.e("Service: startPauseAction clicked. ActiveWorkout state is paused: " + isPaused);
 
-        ActiveWorkout activeWorkout1 = buildActiveWorkout(!isPaused);
+        ActiveRuns activeWorkout1 = buildActiveWorkout(!isPaused);
         mActiveWorkoutService.upsert(activeWorkout1);
         Logger.e("Service: ActiveWorkout saved new value. isPaused: " + activeWorkout1.isPaused());
 
@@ -67,11 +68,11 @@ public class FitService extends Service {
         Logger.e("Click lap button");
     }
 
-    private ActiveWorkout buildActiveWorkout(boolean isPaused) {
-        ActiveWorkout activeWorkout = new ActiveWorkout();
-        activeWorkout.setId(ActiveWorkout.ID);
+    private ActiveRuns buildActiveWorkout(boolean isPaused) {
+        ActiveRuns activeWorkout = new ActiveRuns();
         activeWorkout.setPaused(isPaused);
-        activeWorkout.setDate(DateTime.now().getMillis());
+
+        activeWorkout.setDateTime(ZonedDateTime.now());
         return activeWorkout;
     }
 
