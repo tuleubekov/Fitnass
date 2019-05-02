@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.notification;
+package com.akay.fitnass.view.notification;
 
 import android.app.Notification;
 

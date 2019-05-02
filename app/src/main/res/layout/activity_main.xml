@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".view.main.MainActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -27,7 +27,7 @@
         tools:listitem="@layout/item_day"
         tools:itemCount="2"/>
 
-    <com.akay.fitnass.ui.custom.CheckedButton
+    <com.akay.fitnass.view.custom.CheckedButton
         android:id="@+id/btn_add"
         android:layout_width="70dp"
         android:layout_height="70dp"

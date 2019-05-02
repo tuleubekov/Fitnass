@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.main;
+package com.akay.fitnass.view.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,9 @@ import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
-import com.akay.fitnass.ui.custom.CheckedButton;
-import com.akay.fitnass.ui.detail.WorkoutDetailActivity;
-import com.akay.fitnass.ui.workoutadd.WorkoutAddActivity;
+import com.akay.fitnass.view.custom.CheckedButton;
+import com.akay.fitnass.view.detail.WorkoutDetailActivity;
+import com.akay.fitnass.view.workoutadd.WorkoutAddActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

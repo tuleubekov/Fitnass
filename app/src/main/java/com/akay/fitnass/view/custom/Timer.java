@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.custom;
+package com.akay.fitnass.view.custom;
 
 import android.content.Context;
 import android.graphics.Typeface;

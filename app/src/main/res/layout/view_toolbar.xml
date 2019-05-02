@@ -12,7 +12,7 @@
         android:paddingStart="@dimen/padding_8dp"
         android:paddingEnd="@dimen/padding_8dp">
 
-        <com.akay.fitnass.ui.custom.fonts.AristaTextView
+        <com.akay.fitnass.view.custom.fonts.AristaTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ToolbarTitleStyle"

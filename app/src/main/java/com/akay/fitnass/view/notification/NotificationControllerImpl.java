@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.notification;
+package com.akay.fitnass.view.notification;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -11,13 +11,11 @@ import android.media.AudioAttributes;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
-import com.akay.fitnass.ui.main.MainActivity;
-import com.akay.fitnass.ui.workoutadd.WorkoutAddActivity;
+import com.akay.fitnass.view.workoutadd.WorkoutAddActivity;
 import com.akay.fitnass.util.Logger;
 
 import static android.content.Context.NOTIFICATION_SERVICE;

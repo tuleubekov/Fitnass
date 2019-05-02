@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.akay.fitnass.App;
 import com.akay.fitnass.scheduler.SingleThreadScheduler;
-import com.akay.fitnass.ui.notification.NotificationController;
-import com.akay.fitnass.ui.notification.NotificationControllerImpl;
+import com.akay.fitnass.view.notification.NotificationController;
+import com.akay.fitnass.view.notification.NotificationControllerImpl;
 
 public class SourceProvider {
 

@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;
-import com.akay.fitnass.ui.notification.NotificationController;
+import com.akay.fitnass.view.notification.NotificationController;
 import com.akay.fitnass.util.Logger;
 
 import org.threeten.bp.ZonedDateTime;

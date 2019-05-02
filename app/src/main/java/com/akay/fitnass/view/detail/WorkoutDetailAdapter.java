@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.workoutadd;
+package com.akay.fitnass.view.detail;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,46 +16,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WorkoutLapAdapter extends RecyclerView.Adapter<WorkoutLapAdapter.ViewHolder> {
-    private RecyclerView mRecycler;
+public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdapter.ViewHolder> {
     private List<Lap> mLaps;
 
-    WorkoutLapAdapter(List<Lap> lapList) {
-        mLaps = lapList;
-    }
-
-    public List<Lap> getLaps() {
-        return mLaps;
-    }
-
-    public void setLaps(List<Lap> laps) {
-        if (laps != null) {
-            this.mLaps = laps;
-            notifyDataSetChanged();
-        }
-    }
-
-    public void addLap(Lap lap) {
-        mLaps.add(lap);
-        notifyDataSetChanged();
-        mRecycler.smoothScrollToPosition(mLaps.size()-1);
-    }
-
-    public void clear() {
-        mLaps.clear();
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mRecycler = recyclerView;
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        mRecycler = null;
+    public WorkoutDetailAdapter(List<Lap> laps) {
+        this.mLaps = laps;
     }
 
     @NonNull
@@ -82,7 +47,7 @@ public class WorkoutLapAdapter extends RecyclerView.Adapter<WorkoutLapAdapter.Vi
         @BindView(R.id.text_iterator) TextView textIterator;
         @BindView(R.id.text_lapTime) TextView textLap;
 
-        ViewHolder(View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

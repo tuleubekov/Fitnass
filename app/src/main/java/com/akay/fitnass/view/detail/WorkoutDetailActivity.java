@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.detail;
+package com.akay.fitnass.view.detail;
 
 import android.content.Context;
 import android.content.Intent;

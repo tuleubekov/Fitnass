@@ -1,4 +1,4 @@
-package com.akay.fitnass.ui.workoutadd;
+package com.akay.fitnass.view.workoutadd;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -17,8 +17,8 @@ import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;
 import com.akay.fitnass.services.WorkoutService;
-import com.akay.fitnass.ui.custom.Timer;
-import com.akay.fitnass.ui.custom.CheckedButton;
+import com.akay.fitnass.view.custom.Timer;
+import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.util.DateTimeUtils;
 
 import org.threeten.bp.Instant;
