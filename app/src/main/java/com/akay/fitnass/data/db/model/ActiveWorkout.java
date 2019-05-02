@@ -4,6 +4,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.akay.fitnass.data.model.Lap;
+
 import java.util.List;
 
 @Entity(tableName = "active_workout")

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.db.model.Lap;
+import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.util.DateTimeUtils;
 
 import java.util.List;

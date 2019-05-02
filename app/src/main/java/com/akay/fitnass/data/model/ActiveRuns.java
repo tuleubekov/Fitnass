@@ -1,4 +1,4 @@
-package com.akay.fitnass.data.db.model;
+package com.akay.fitnass.data.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

@@ -10,9 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 
 import com.akay.fitnass.R;
-import com.akay.fitnass.data.db.model.ActiveRuns;
-import com.akay.fitnass.data.db.model.Lap;
-import com.akay.fitnass.data.db.model.Runs;
+import com.akay.fitnass.data.model.ActiveRuns;
+import com.akay.fitnass.data.model.Lap;
+import com.akay.fitnass.data.model.Runs;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.services.ActiveWorkoutService;
 import com.akay.fitnass.services.SourceProvider;

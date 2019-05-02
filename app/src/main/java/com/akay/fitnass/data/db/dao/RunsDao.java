@@ -3,7 +3,7 @@ package com.akay.fitnass.data.db.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
-import com.akay.fitnass.data.db.model.Runs;
+import com.akay.fitnass.data.model.Runs;
 
 import java.util.List;
 

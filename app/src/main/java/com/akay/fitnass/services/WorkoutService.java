@@ -1,6 +1,6 @@
 package com.akay.fitnass.services;
 
-import com.akay.fitnass.data.db.model.Runs;
+import com.akay.fitnass.data.model.Runs;
 import com.akay.fitnass.data.db.model.Workout;
 
 import java.util.List;

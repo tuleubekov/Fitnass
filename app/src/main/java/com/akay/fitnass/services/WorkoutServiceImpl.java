@@ -1,7 +1,7 @@
 package com.akay.fitnass.services;
 
 import com.akay.fitnass.data.db.dao.RunsDao;
-import com.akay.fitnass.data.db.model.Runs;
+import com.akay.fitnass.data.model.Runs;
 import com.akay.fitnass.data.db.model.Workout;
 import com.akay.fitnass.scheduler.Scheduler;
 

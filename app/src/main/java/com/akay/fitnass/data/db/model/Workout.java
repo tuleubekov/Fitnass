@@ -3,6 +3,8 @@ package com.akay.fitnass.data.db.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.akay.fitnass.data.model.Lap;
+
 import java.util.List;
 
 @Entity

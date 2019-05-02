@@ -8,8 +8,8 @@ import com.akay.fitnass.data.db.converter.DateTimeConverter;
 import com.akay.fitnass.data.db.converter.ListConverter;
 import com.akay.fitnass.data.db.dao.ActiveRunsDao;
 import com.akay.fitnass.data.db.dao.RunsDao;
-import com.akay.fitnass.data.db.model.ActiveRuns;
-import com.akay.fitnass.data.db.model.Runs;
+import com.akay.fitnass.data.model.ActiveRuns;
+import com.akay.fitnass.data.model.Runs;
 
 @TypeConverters({ListConverter.class, DateTimeConverter.class})
 @Database(entities = {Runs.class, ActiveRuns.class}, version = 1, exportSchema = false)
