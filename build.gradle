@@ -5,9 +5,11 @@ buildscript {
     ext {
         support_version = '28.0.0'
         constraint_version = '1.1.3'
+        aac_version = '1.1.1'
         room_version = '1.1.1'
         time_version = '1.2.0'
         rx_version = '2.1.1'
+        rx_binding_version = '2.0.0'
         dagger_version = '2.14.1'
         butterknife_version = '9.0.0-rc3'
         gson_version = '2.6.2'

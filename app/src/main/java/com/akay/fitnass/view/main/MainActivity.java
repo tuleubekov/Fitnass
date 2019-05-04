@@ -55,6 +55,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onItemClicked(long idWorkout) {
-        startActivity(WorkoutDetailActivity.getIntent(this, idWorkout));
+//        startActivity(WorkoutDetailActivity.getIntent(this, idWorkout));
     }
 }
