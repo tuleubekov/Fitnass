@@ -32,4 +32,9 @@ public class RunsRepositoryImpl implements RunsRepository {
     public LiveData<List<Runs>> getRuns() {
         return mRunsList;
     }
+
+    @Override
+    public Runs getById(long id) {
+        return mRunsDao.getById(id);
+    }
 }

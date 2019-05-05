@@ -20,7 +20,7 @@ public class LapAdapter extends RecyclerView.Adapter<LapAdapter.ViewHolder> {
     private RecyclerView mRecycler;
     private List<Lap> mLaps;
 
-    LapAdapter(List<Lap> lapList) {
+    public LapAdapter(List<Lap> lapList) {
         mLaps = lapList;
     }
 

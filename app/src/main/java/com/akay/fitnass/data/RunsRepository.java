@@ -12,4 +12,6 @@ public interface RunsRepository {
     LiveData<ActiveRuns> getActiveRuns();
 
     LiveData<List<Runs>> getRuns();
+
+    Runs getById(long id);
 }

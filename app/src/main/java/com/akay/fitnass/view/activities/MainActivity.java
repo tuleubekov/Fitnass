@@ -9,7 +9,6 @@ import com.akay.fitnass.data.model.Runs;
 import com.akay.fitnass.util.Logger;
 import com.akay.fitnass.view.adapters.DayAdapter;
 import com.akay.fitnass.view.custom.CheckedButton;
-import com.akay.fitnass.view.detail.WorkoutDetailActivity;
 import com.akay.fitnass.viewmodel.MainViewModel;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -54,6 +53,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onItemClicked(long idWorkout) {
-        startActivity(WorkoutDetailActivity.getIntent(this, idWorkout));
+        startActivity(DetailActivity.getIntent(this, idWorkout));
     }
 }
