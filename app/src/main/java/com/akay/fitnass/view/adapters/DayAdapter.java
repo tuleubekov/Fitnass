@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Runs;
-import com.akay.fitnass.view.main.WorkoutDayAdapter;
 
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -23,9 +22,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT_DATETIME);
 
     private List<Runs> mWorkouts;
-    private WorkoutDayAdapter.OnItemClickListener mItemClickListener;
+    private DayAdapter.OnItemClickListener mItemClickListener;
 
-    public DayAdapter(List<Runs> workoutList, WorkoutDayAdapter.OnItemClickListener listener) {
+    public DayAdapter(List<Runs> workoutList, DayAdapter.OnItemClickListener listener) {
         mWorkouts = workoutList;
         mItemClickListener = listener;
     }

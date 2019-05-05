@@ -50,9 +50,11 @@ public class MainActivity extends BaseActivity {
 
     private void onAddRunsClicked() {
         Logger.e("onAddRunsClicked");
+        startActivity(TimerActivity.getIntent(this));
     }
 
     private void onItemClicked(long idWorkout) {
+        Logger.e("onAddRunsClicked");
         startActivity(DetailActivity.getIntent(this, idWorkout));
     }
 }

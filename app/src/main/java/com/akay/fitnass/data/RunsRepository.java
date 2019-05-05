@@ -14,4 +14,10 @@ public interface RunsRepository {
     LiveData<List<Runs>> getRuns();
 
     Runs getById(long id);
+
+    void upsertActiveRuns(ActiveRuns activeRuns);
+
+    void deleteActiveRuns();
+
+    void saveRuns(Runs runs);
 }

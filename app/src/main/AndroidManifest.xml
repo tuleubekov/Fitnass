@@ -24,13 +24,6 @@
 
         <activity android:name=".view.activities.DetailActivity" />
 
-
-        <activity android:name=".view.main.MainActivity" />
-
-        <activity android:name=".view.workoutadd.WorkoutAddActivity" />
-
-        <activity android:name=".view.detail.WorkoutDetailActivity" />
-
         <service android:name=".service.FitService" />
     </application>
 

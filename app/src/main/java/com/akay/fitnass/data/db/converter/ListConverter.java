@@ -40,7 +40,7 @@ public class ListConverter {
         return gson.fromJson(json, listType);
     }
 
-    private static  <T> String toJson(final List<T> list) {
+    private static <T> String toJson(final List<T> list) {
         if (list == null) {
             return gson.toJson(Collections.<T>emptyList());
         }

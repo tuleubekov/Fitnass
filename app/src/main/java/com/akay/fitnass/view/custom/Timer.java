@@ -75,6 +75,18 @@ public class Timer extends AppCompatTextView {
     public boolean isPaused() {
         return mPaused;
     }
+
+    public void setUp(final boolean isPaused, final long start, final long tws) {
+        this.mPaused = isPaused;
+        this.mStart = start < 0 ? 0 : start;
+        this.mTimeWhenStopped = tws < 0 ? 0 : tws;
+
+        if (mPaused) {
+            mStart = nowMillis() + mTimeWhenStopped;
+            updateView(nowMillis());
+        }
+        updateRunning();
+    }
 //
 //    public TimerParams getParams() {
 //        TimerParams params = new TimerParams();

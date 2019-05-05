@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
-import com.akay.fitnass.view.workoutadd.WorkoutAddActivity;
+import com.akay.fitnass.view.activities.TimerActivity;
 import com.akay.fitnass.util.Logger;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -25,20 +25,11 @@ public class NotificationControllerImpl implements NotificationController {
     private static final String CHANNEL_NAME = "Fitnass channel";
     private static final int PI_ACTIVITY_REQUEST_CODE = 3000;   // Request code of Pending Intent for launch MainActivity
 
-    //TODO: Add Dagger later
-    private static NotificationControllerImpl mInstance;
     private Context mContext;
     private NotificationManager mNotificationManager;
 
-    private NotificationControllerImpl(Context context) {
+    public NotificationControllerImpl(Context context) {
         mContext = context;
-    }
-
-    public static NotificationController getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new NotificationControllerImpl(context);
-        }
-        return mInstance;
     }
 
     @Override
@@ -77,7 +68,7 @@ public class NotificationControllerImpl implements NotificationController {
     }
 
     private NotificationCompat.Builder getBaseBuilder() {
-        Intent intent = WorkoutAddActivity.getIntent(mContext);
+        Intent intent = TimerActivity.getIntent(mContext);
         PendingIntent pLaunchActivity = PendingIntent.getActivity(mContext, PI_ACTIVITY_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         RemoteViews layout = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);

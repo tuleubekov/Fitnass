@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Runs;
 import com.akay.fitnass.view.adapters.LapAdapter;
-import com.akay.fitnass.view.detail.WorkoutDetailActivity;
 import com.akay.fitnass.viewmodel.DetailViewModel;
 
 import butterknife.BindView;
@@ -23,7 +22,7 @@ public class DetailActivity extends BaseActivity {
     private LapAdapter mAdapter;
 
     public static Intent getIntent(Context context, long idWorkout) {
-        Intent intent = new Intent(context, WorkoutDetailActivity.class);
+        Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(RUNS_ID_KEY, idWorkout);
         return intent;
     }

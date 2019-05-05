@@ -1,5 +1,6 @@
 package com.akay.fitnass.di;
 
+import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.viewmodel.DetailViewModel;
 import com.akay.fitnass.viewmodel.MainViewModel;
 import com.akay.fitnass.viewmodel.TimerViewModel;
@@ -17,4 +18,6 @@ public interface AppComponent {
     void inject(TimerViewModel viewModel);
 
     void inject(DetailViewModel viewModel);
+
+    void inject(FitService service);
 }

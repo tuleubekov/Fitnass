@@ -37,4 +37,20 @@ public class RunsRepositoryImpl implements RunsRepository {
     public Runs getById(long id) {
         return mRunsDao.getById(id);
     }
+
+    @Override
+    public void upsertActiveRuns(ActiveRuns activeRuns) {
+        activeRuns.setId(ActiveRuns.ID);
+        mActiveRunsDao.upsert(activeRuns);
+    }
+
+    @Override
+    public void deleteActiveRuns() {
+        mActiveRunsDao.deleteActiveRuns();
+    }
+
+    @Override
+    public void saveRuns(Runs runs) {
+        mRunsDao.insert(runs);
+    }
 }
