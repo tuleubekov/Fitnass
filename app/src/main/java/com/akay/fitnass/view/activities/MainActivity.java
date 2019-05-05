@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity {
 
     private void onRunsListChanged(final List<Runs> runs) {
         Logger.e("onRunsListChanged: count: " + runs.size());
+        mAdapter.onWorkoutListUpdated(runs);
     }
 
     private void onAddRunsClicked() {
