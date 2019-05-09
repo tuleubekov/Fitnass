@@ -15,9 +15,6 @@ public class DateTimeUtils {
     }
 
     public static ZonedDateTime fromMs(final long ms) {
-        if (ms < 0) {
-            return null;
-        }
         Instant instant = Instant.ofEpochMilli(ms);
         return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
     }

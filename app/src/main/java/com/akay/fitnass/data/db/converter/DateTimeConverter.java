@@ -10,9 +10,6 @@ public class DateTimeConverter {
 
     @TypeConverter
     public static ZonedDateTime toDate(final long millis) {
-        if (millis < 0) {
-            return null;
-        }
         Instant instant = Instant.ofEpochMilli(millis);
         return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
@@ -20,7 +17,7 @@ public class DateTimeConverter {
     @TypeConverter
     public static long toMillis(final ZonedDateTime zdt) {
         if (zdt == null) {
-            return -1L;
+            return 0L;
         }
         return zdt.toInstant().toEpochMilli();
     }
