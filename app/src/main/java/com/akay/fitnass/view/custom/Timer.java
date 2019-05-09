@@ -7,7 +7,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.akay.fitnass.util.DateTimeUtils;
-import com.akay.fitnass.util.Logger;
 
 public class Timer extends AppCompatTextView {
     private static final String KEY_SUPER_STATE = "com.akay.fitnass.ui.custom.SUPER_STATE";
@@ -64,28 +63,41 @@ public class Timer extends AppCompatTextView {
 
     public void setUp(final boolean isPaused, final long start, final long tws) {
         this.mPaused = isPaused;
-        this.mStart = start < 0 ? 0 : start;
-        this.mTimeWhenStopped = tws < 0 ? 0 : tws;
-
-        Logger.e("Timer setUp(): paused: " + isPaused + ", started: " + mStarted + ", mStart: " + mStart + ", tws: " + mTimeWhenStopped);
+        this.mStart = start - mTimeWhenStopped;
+        this.mTimeWhenStopped = tws;
 
         if (mPaused) {
-//            mStart = nowMillis() + mTimeWhenStopped;
-//            updateView(nowMillis());
+            mTimeWhenStopped = mStart - tws;
         } else {
             mStarted = true;
         }
         updateRunning();
     }
 
+    public void setUpPause(long start, long tws) {
+        mPaused = true;
+        mStarted = false;
+        mTimeWhenStopped = tws;
+        mStart = nowMillis() + mTimeWhenStopped;
+        updateView(nowMillis());
+    }
+
+    public void setUpStart(long start, long tws) {
+        mPaused = false;
+        mStarted = true;
+        mStart = start;
+        mTimeWhenStopped = tws;
+        updateRunning();
+    }
+
     public void start(long startMs) {
-        mStart = startMs + mTimeWhenStopped;
+        mStart = startMs;
         mPaused = false;
         startTimer();
     }
 
     public void pause(long twsMs) {
-        mTimeWhenStopped = mStart - twsMs;
+        mTimeWhenStopped = twsMs;
         mPaused = true;
         pauseTimer();
     }

@@ -7,20 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Button;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.util.DateTimeUtils;
-import com.akay.fitnass.util.Logger;
 import com.akay.fitnass.view.adapters.LapAdapter;
 import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.view.custom.Timer;
 import com.akay.fitnass.viewmodel.TimerViewModel;
-
-import org.threeten.bp.ZonedDateTime;
 
 import java.util.Collections;
 
@@ -44,6 +40,7 @@ public class TimerActivity extends BaseActivity {
     private TimerViewModel mViewModel;
     private LapAdapter mAdapter;
     private ActiveRuns mActiveRuns;
+    private boolean mInitialized;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, TimerActivity.class);
@@ -67,38 +64,35 @@ public class TimerActivity extends BaseActivity {
     }
 
     private void onActiveRunsChanged(ActiveRuns activeRuns) {
-        mActiveRuns = activeRuns;
-        if (mActiveRuns == null) {
-            Logger.e("Act-ty: onActiveRunsChanged NULL!");
+        if (activeRuns == null) {
             return;
         }
+
+        uiSetUp(activeRuns.isPaused());
+        mActiveRuns = activeRuns;
+
+        if (mInitialized) {
+            return;
+        }
+
+        mInitialized = true;
         boolean isPaused = activeRuns.isPaused();
         long start = toMs(mActiveRuns.getStart());
         long tws = toMs(mActiveRuns.getTws());
 
-        Logger.e("Act-ty: onActiveRunsChanged paused: " + isPaused + ", start: " + start + ", tws: " + tws);
-
-//        handleActiveRuns(mActiveRuns);
-
         mAdapter.setLaps(activeRuns.getLaps());
-//        mTimer.setUp(isPaused, start, tws);
 
         if (isPaused) {
-//            mTimer.setUp(isPaused, start, tws);
-
-//            mTimer.pause(tws);
+            mTimer.setUpPause(start, tws);
         } else {
-//            mTimer.start(start);
+            mTimer.setUpStart(start, tws);
         }
-        uiSetUp(isPaused);
-    }
-
-    private void handleActiveRuns(final ActiveRuns activeRuns) {
-
     }
 
     private void onStartPauseClicked(Object view) {
         long now = nowMillis();
+        long msAction;
+        mInitialized = true;
         if (mActiveRuns == null) {
             mTimer.start(now);
             sendCommand(START_COMMAND, now);
@@ -107,11 +101,13 @@ public class TimerActivity extends BaseActivity {
 
         boolean isPaused = !mActiveRuns.isPaused();
         if (isPaused) {
-            mTimer.pause(now);
+            msAction = DateTimeUtils.toMs(mActiveRuns.getStart()) - now;
+            mTimer.pause(msAction);
         } else {
-            mTimer.start(now);
+            msAction = now + DateTimeUtils.toMs(mActiveRuns.getTws());
+            mTimer.start(msAction);
         }
-        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, now);
+        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, msAction);
     }
 
     private void onLapSaveClicked(Object view) {
@@ -120,6 +116,8 @@ public class TimerActivity extends BaseActivity {
     }
 
     private void onResetClicked(Object view) {
+        mInitialized = false;
+        mActiveRuns = null;
         mAdapter.clear();
         mTimer.reset();
         mBtnReset.setEnabled(false);
