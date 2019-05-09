@@ -3,6 +3,7 @@ package com.akay.fitnass.view.activities;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Runs;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.recycler_day) RecyclerView mRecyclerWorkout;
@@ -38,9 +40,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initViewRxObservables() {
         Logger.e("initViewRxObservables 2");
-        addDisposables(RxView.clicks(mBtnNewDay)
-                .throttleFirst(3, TimeUnit.SECONDS)
-                .subscribe(view -> onAddRunsClicked()));
+        addDisposables(initNewRunsObserver());
     }
 
     private void onRunsListChanged(final List<Runs> runs) {
@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
         mAdapter.onWorkoutListUpdated(runs);
     }
 
-    private void onAddRunsClicked() {
+    private void onAddRunsClicked(Object view) {
         Logger.e("onAddRunsClicked");
         startActivity(TimerActivity.getIntent(this));
     }
@@ -56,5 +56,10 @@ public class MainActivity extends BaseActivity {
     private void onItemClicked(long idWorkout) {
         Logger.e("onAddRunsClicked");
         startActivity(DetailActivity.getIntent(this, idWorkout));
+    }
+
+    private Disposable initNewRunsObserver() {
+        Logger.e("initNewRunsObserver");
+        return clickObserver(mBtnNewDay).subscribe((this::onAddRunsClicked));
     }
 }

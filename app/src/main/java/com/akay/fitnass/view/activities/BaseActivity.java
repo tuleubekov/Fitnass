@@ -14,7 +14,7 @@ import io.reactivex.disposables.Disposable;
 
 abstract class BaseActivity extends AppCompatActivity {
     private static final long SKIP_DURATION = 3L;
-    private final CompositeDisposable mDisposables = new CompositeDisposable();
+    private CompositeDisposable mDisposables;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -25,6 +25,7 @@ abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mDisposables = new CompositeDisposable();
         initViewRxObservables();
     }
 
@@ -40,8 +41,8 @@ abstract class BaseActivity extends AppCompatActivity {
         mDisposables.add(d);
     }
 
-    protected Observable<View> clickObserver(final View view) {
-        return RxView.clicks(view).throttleFirst(SKIP_DURATION, TimeUnit.SECONDS).map((o) -> (View) o);
+    protected Observable<Object> clickObserver(final View view) {
+        return RxView.clicks(view).throttleFirst(SKIP_DURATION, TimeUnit.SECONDS);
     }
 
     protected void initViewRxObservables() {

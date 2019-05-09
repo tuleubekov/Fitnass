@@ -39,7 +39,7 @@ public class NotificationControllerImpl implements NotificationController {
 
     @Override
     public void showStartPauseNotification(boolean showPauseText) {
-        Logger.e("NotificationCntrl: showStartPauseNotification showPauseText:" + showPauseText);
+//        Logger.e("NotificationCntrl: showStartPauseNotification showPauseText:" + showPauseText);
         notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPauseText).build());
     }
 
@@ -51,12 +51,12 @@ public class NotificationControllerImpl implements NotificationController {
     private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
         RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
 
-        Logger.e("NotificationCntrl: getStartPauseStateBuilder showPauseText:" + showPauseText);
-        if (showPauseText) {
-            Logger.e("Show pause text");
-        } else {
-            Logger.e("Show start text");
-        }
+//        Logger.e("NotificationCntrl: getStartPauseStateBuilder showPauseText:" + showPauseText);
+//        if (showPauseText) {
+//            Logger.e("Show pause text");
+//        } else {
+//            Logger.e("Show start text");
+//        }
 
         nView.setTextViewText(R.id.btn_start_pause, showPauseText ? "pause" : "start");
 

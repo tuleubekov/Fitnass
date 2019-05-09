@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.akay.fitnass.util.DateTimeUtils;
+import com.akay.fitnass.util.Logger;
 
 import org.threeten.bp.ZonedDateTime;
 
@@ -76,17 +77,6 @@ public class Timer extends AppCompatTextView {
         return mPaused;
     }
 
-    public void setUp(final boolean isPaused, final long start, final long tws) {
-        this.mPaused = isPaused;
-        this.mStart = start < 0 ? 0 : start;
-        this.mTimeWhenStopped = tws < 0 ? 0 : tws;
-
-        if (mPaused) {
-            mStart = nowMillis() + mTimeWhenStopped;
-            updateView(nowMillis());
-        }
-        updateRunning();
-    }
 //
 //    public TimerParams getParams() {
 //        TimerParams params = new TimerParams();
@@ -111,14 +101,30 @@ public class Timer extends AppCompatTextView {
 //    }
 
     public void prepare(Builder builder) {
-        mPaused = builder.paused;
-        mStart = builder.start;
-        mTimeWhenStopped = builder.tws;
+//        mPaused = builder.paused;
+//        mStart = builder.start;
+//        mTimeWhenStopped = builder.tws;
+//
+//        if (mPaused) {
+//            mStart = nowMillis() + mTimeWhenStopped;
+//            updateView(nowMillis());
+//        }
+    }
+
+    public void setUp(final boolean isPaused, final long start, final long tws) {
+        this.mPaused = isPaused;
+        this.mStart = start < 0 ? 0 : start;
+        this.mTimeWhenStopped = tws < 0 ? 0 : tws;
+
+        Logger.e("Timer setUp(): paused: " + isPaused + ", started: " + mStarted + ", mStart: " + mStart + ", tws: " + mTimeWhenStopped);
 
         if (mPaused) {
             mStart = nowMillis() + mTimeWhenStopped;
-            updateView(nowMillis());
+//            updateView(nowMillis());
+        } else {
+            mStarted = true;
         }
+        updateRunning();
     }
 
     public void update() {
@@ -126,6 +132,7 @@ public class Timer extends AppCompatTextView {
     }
 
     public void start(long startMs) {
+        Logger.e("Timer: start(): " + startMs);
 //        mStart = nowMillis() + mTimeWhenStopped;
         mStart = startMs + mTimeWhenStopped;
         mPaused = false;
@@ -133,6 +140,7 @@ public class Timer extends AppCompatTextView {
     }
 
     public void pause(long twsMs) {
+        Logger.e("Timer: pause(): " + twsMs);
 //        mTimeWhenStopped = mStart - nowMillis();
         mTimeWhenStopped = mStart - twsMs;
         mPaused = true;

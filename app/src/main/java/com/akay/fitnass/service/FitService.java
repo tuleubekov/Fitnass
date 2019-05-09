@@ -10,6 +10,7 @@ import com.akay.fitnass.data.RunsRepository;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.data.model.Runs;
+import com.akay.fitnass.util.DateTimeUtils;
 import com.akay.fitnass.view.notification.NotificationController;
 import com.akay.fitnass.util.Logger;
 
@@ -49,39 +50,39 @@ public class FitService extends Service {
         if (command == null) {
             return START_NOT_STICKY;
         }
+        long ms = intent.getLongExtra("ms", 0);
         switch (command) {
-            case START_COMMAND: start(); break;
-            case PAUSE_COMMAND: pause(); break;
-            case SAVE_COMMAND: save(); break;
-            case LAP_COMMAND: lap(); break;
+            case START_COMMAND: start(ms); break;
+            case PAUSE_COMMAND: pause(ms); break;
+            case SAVE_COMMAND: save(ms); break;
+            case LAP_COMMAND: lap(ms); break;
             case RESET_COMMAND: reset(); break;
             default: Logger.e("Unknown command: " + command);
         }
         return START_STICKY;
     }
 
-    private void start() {
+    private void start(long ms) {
         Logger.e("FitService: start");
         mActiveRuns = get();
         if (mActiveRuns == null) {
-            Logger.e("FitService: get new ActiveRuns");
             mActiveRuns = new ActiveRuns();
         }
         mActiveRuns.setPaused(false);
         mActiveRuns.setDateTime(ZonedDateTime.now());
-        mActiveRuns.setStart(ZonedDateTime.now());
+        mActiveRuns.setStart(DateTimeUtils.fromMs(ms));
         mRepository.upsertActiveRuns(mActiveRuns);
     }
 
-    private void pause() {
+    private void pause(long ms) {
         Logger.e("FitService: pause");
         mActiveRuns = get();
         mActiveRuns.setPaused(true);
-        mActiveRuns.setTws(ZonedDateTime.now());
+        mActiveRuns.setTws(DateTimeUtils.fromMs(ms));
         mRepository.upsertActiveRuns(mActiveRuns);
     }
 
-    private void save() {
+    private void save(long ms) {
         Logger.e("FitService: save");
         mActiveRuns = get();
         Runs runs = toSavedRuns(mActiveRuns);
@@ -91,7 +92,7 @@ public class FitService extends Service {
         stopSelf();
     }
 
-    private void lap() {
+    private void lap(long ms) {
         Logger.e("FitService: lap");
         mActiveRuns = get();
         List<Lap> laps = mActiveRuns.getLaps();
@@ -111,10 +112,8 @@ public class FitService extends Service {
 
     private ActiveRuns get() {
         if (mActiveRuns == null) {
-            Logger.e("FitService: get activeRuns from db");
             mActiveRuns = mRepository.getActiveRuns().getValue();
         }
-        Logger.e("FitService: get activeRuns");
         return mActiveRuns;
     }
 
@@ -174,7 +173,7 @@ public class FitService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Logger.e("FitService: ");
+        Logger.e("FitService: onDestroy");
         stopForeground(true);
         stopSelf();
     }

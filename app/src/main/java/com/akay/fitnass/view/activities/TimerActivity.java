@@ -20,6 +20,8 @@ import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.view.custom.Timer;
 import com.akay.fitnass.viewmodel.TimerViewModel;
 
+import org.threeten.bp.ZonedDateTime;
+
 import java.util.Collections;
 
 import butterknife.BindView;
@@ -66,35 +68,71 @@ public class TimerActivity extends BaseActivity {
     private void onActiveRunsChanged(ActiveRuns activeRuns) {
         mActiveRuns = activeRuns;
         if (mActiveRuns == null) {
-            Logger.e("onActiveRunsChanged NULL!");
+            Logger.e("Act-ty: onActiveRunsChanged NULL!");
             return;
         }
         boolean isPaused = activeRuns.isPaused();
         long start = DateTimeUtils.toMs(mActiveRuns.getStart());
         long tws = DateTimeUtils.toMs(mActiveRuns.getTws());
 
-        mBtnStartPause.setChecked(isPaused);
-        mBtnLapSave.setChecked(isPaused);
+        Logger.e("Act-ty: onActiveRunsChanged paused: " + isPaused + ", start: " + start + ", tws: " + tws);
+
+//        handleActiveRuns(mActiveRuns);
+
         mAdapter.setLaps(activeRuns.getLaps());
         mTimer.setUp(isPaused, start, tws);
+
+        if (isPaused) {
+//            mTimer.setUp(isPaused, start, tws);
+
+//            mTimer.pause(tws);
+        } else {
+//            mTimer.start(start);
+        }
+        uiSetUp(isPaused);
     }
 
-    private void onStartPauseClicked(View view) {
+    private void handleActiveRuns(final ActiveRuns activeRuns) {
+
+    }
+
+    private void onStartPauseClicked(Object view) {
+        long now = nowMillis();
+        if (mActiveRuns == null) {
+            mTimer.start(now);
+            sendCommand(START_COMMAND, now);
+            return;
+        }
+
         boolean isPaused = !mActiveRuns.isPaused();
-        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND);
+        if (isPaused) {
+            Logger.e("Act-ty: onStartPauseClicked: pause tws: " + now);
+            mTimer.pause(now);
+        } else {
+            Logger.e("Act-ty: onStartPauseClicked: start ms: " + now);
+            mTimer.start(now);
+        }
+        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, now);
     }
 
-    private void onLapSaveClicked(View view) {
+    private void onLapSaveClicked(Object view) {
         boolean isPaused = mActiveRuns.isPaused();
-        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND);
+        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, DateTimeUtils.nowMs());
     }
 
-    private void onResetClicked(View view) {
+    private void onResetClicked(Object view) {
         mAdapter.clear();
         mTimer.reset();
         mBtnReset.setEnabled(false);
         mBtnLapSave.setEnabled(false);
-        sendCommand(RESET_COMMAND);
+        sendCommand(RESET_COMMAND, 0);
+    }
+
+    private void uiSetUp(final boolean isPaused) {
+        mBtnStartPause.setChecked(!isPaused);
+        mBtnLapSave.setChecked(isPaused);
+        mBtnReset.setEnabled(isPaused);
+        mBtnLapSave.setEnabled(mAdapter != null && mAdapter.getItemCount() > 0);
     }
 
     private Disposable initStartPauseObserver() {
@@ -109,9 +147,10 @@ public class TimerActivity extends BaseActivity {
         return clickObserver(mBtnReset).subscribe(this::onResetClicked);
     }
 
-    private void sendCommand(String command) {
+    private void sendCommand(String command, long nowMs) {
         Intent intent = new Intent(this, FitService.class);
         intent.setAction(command);
+        intent.putExtra("ms", nowMs);
         if (!isServiceRunningInForeground()) {
             ContextCompat.startForegroundService(this, intent);
         } else {
@@ -129,5 +168,9 @@ public class TimerActivity extends BaseActivity {
             }
         }
         return false;
+    }
+
+    private long nowMillis() {
+        return DateTimeUtils.nowMs();
     }
 }
