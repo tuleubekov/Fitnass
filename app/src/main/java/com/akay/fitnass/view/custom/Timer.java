@@ -3,14 +3,11 @@ package com.akay.fitnass.view.custom;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Parcelable;
-//import android.os.SystemClock;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
 import com.akay.fitnass.util.DateTimeUtils;
 import com.akay.fitnass.util.Logger;
-
-import org.threeten.bp.ZonedDateTime;
 
 public class Timer extends AppCompatTextView {
     private static final String KEY_SUPER_STATE = "com.akay.fitnass.ui.custom.SUPER_STATE";
@@ -64,52 +61,6 @@ public class Timer extends AppCompatTextView {
 
         updateRunning();
     }
-//
-//    public long getStart() {
-//        return mStart;
-//    }
-//
-//    public long getTimeWhenStopped() {
-//        return mTimeWhenStopped;
-//    }
-
-    public boolean isPaused() {
-        return mPaused;
-    }
-
-//
-//    public TimerParams getParams() {
-//        TimerParams params = new TimerParams();
-//        params.setStart(mStart);
-//        params.setTws(mTimeWhenStopped);
-//        params.setStarted(mStarted);
-//        params.setPaused(mPaused);
-//        return params;
-//    }
-//
-//    public void setParams(TimerParams params) {
-//        this.mStart = params.getStart();
-//        this.mTimeWhenStopped = params.getTws();
-////        this.mStarted = params.isStarted();
-//        this.mPaused = params.isPaused();
-//
-//        if (mPaused) {
-//            mStart = nowMillis() + mTimeWhenStopped;
-//            updateView(nowMillis());
-//        }
-//        updateRunning();
-//    }
-
-    public void prepare(Builder builder) {
-//        mPaused = builder.paused;
-//        mStart = builder.start;
-//        mTimeWhenStopped = builder.tws;
-//
-//        if (mPaused) {
-//            mStart = nowMillis() + mTimeWhenStopped;
-//            updateView(nowMillis());
-//        }
-    }
 
     public void setUp(final boolean isPaused, final long start, final long tws) {
         this.mPaused = isPaused;
@@ -127,24 +78,14 @@ public class Timer extends AppCompatTextView {
         updateRunning();
     }
 
-    public void update() {
-        updateRunning();
-    }
-
     public void start(long startMs) {
-        Logger.e("Timer: start(): " + startMs);
-//        mStart = nowMillis() + mTimeWhenStopped;
-//        mStart = startMs + mTimeWhenStopped;
-        mStart = startMs;
+        mStart = startMs + mTimeWhenStopped;
         mPaused = false;
         startTimer();
     }
 
     public void pause(long twsMs) {
-        Logger.e("Timer: pause(): " + twsMs);
-//        mTimeWhenStopped = mStart - nowMillis();
-//        mTimeWhenStopped = mStart - twsMs;
-        mTimeWhenStopped = twsMs;
+        mTimeWhenStopped = mStart - twsMs;
         mPaused = true;
         pauseTimer();
     }
@@ -220,26 +161,5 @@ public class Timer extends AppCompatTextView {
 
     private synchronized long nowMillis() {
         return DateTimeUtils.nowMs();
-    }
-
-    public static class Builder {
-        private boolean paused;
-        private long start;
-        private long tws;
-
-        public Builder setStart(ZonedDateTime zdtStart) {
-            this.start = DateTimeUtils.toMs(zdtStart);
-            return this;
-        }
-
-        public Builder setTws(ZonedDateTime zdtTws) {
-            this.tws = DateTimeUtils.toMs(zdtTws);
-            return this;
-        }
-
-        public Builder setPaused(boolean paused) {
-            this.paused = paused;
-            return this;
-        }
     }
 }

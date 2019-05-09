@@ -105,21 +105,13 @@ public class TimerActivity extends BaseActivity {
             return;
         }
 
-        long msAction;
         boolean isPaused = !mActiveRuns.isPaused();
         if (isPaused) {
-            // mTimeWhenStopped = mStart - nowMillis();
-            Logger.e("Act-ty: onStartPauseClicked: pause tws: " + now);
-            msAction = toMs(mActiveRuns.getStart()) - now;
-            mTimer.pause(msAction);
+            mTimer.pause(now);
         } else {
-            // mStart = nowMillis() + mTimeWhenStopped;
-            long tws = toMs(mActiveRuns.getTws());
-            Logger.e("Act-ty: onStartPauseClicked: start ms: " + now + ", tws: " + tws);
-            msAction = now + toMs(mActiveRuns.getTws());
-            mTimer.start(msAction);
+            mTimer.start(now);
         }
-        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, msAction);
+        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, now);
     }
 
     private void onLapSaveClicked(Object view) {
