@@ -32,6 +32,7 @@ import static com.akay.fitnass.service.FitService.PAUSE_COMMAND;
 import static com.akay.fitnass.service.FitService.RESET_COMMAND;
 import static com.akay.fitnass.service.FitService.SAVE_COMMAND;
 import static com.akay.fitnass.service.FitService.START_COMMAND;
+import static com.akay.fitnass.util.DateTimeUtils.toMs;
 
 public class TimerActivity extends BaseActivity {
     @BindView(R.id.chronometer) Timer mTimer;
@@ -72,15 +73,15 @@ public class TimerActivity extends BaseActivity {
             return;
         }
         boolean isPaused = activeRuns.isPaused();
-        long start = DateTimeUtils.toMs(mActiveRuns.getStart());
-        long tws = DateTimeUtils.toMs(mActiveRuns.getTws());
+        long start = toMs(mActiveRuns.getStart());
+        long tws = toMs(mActiveRuns.getTws());
 
         Logger.e("Act-ty: onActiveRunsChanged paused: " + isPaused + ", start: " + start + ", tws: " + tws);
 
 //        handleActiveRuns(mActiveRuns);
 
         mAdapter.setLaps(activeRuns.getLaps());
-        mTimer.setUp(isPaused, start, tws);
+//        mTimer.setUp(isPaused, start, tws);
 
         if (isPaused) {
 //            mTimer.setUp(isPaused, start, tws);
@@ -104,15 +105,21 @@ public class TimerActivity extends BaseActivity {
             return;
         }
 
+        long msAction;
         boolean isPaused = !mActiveRuns.isPaused();
         if (isPaused) {
+            // mTimeWhenStopped = mStart - nowMillis();
             Logger.e("Act-ty: onStartPauseClicked: pause tws: " + now);
-            mTimer.pause(now);
+            msAction = toMs(mActiveRuns.getStart()) - now;
+            mTimer.pause(msAction);
         } else {
-            Logger.e("Act-ty: onStartPauseClicked: start ms: " + now);
-            mTimer.start(now);
+            // mStart = nowMillis() + mTimeWhenStopped;
+            long tws = toMs(mActiveRuns.getTws());
+            Logger.e("Act-ty: onStartPauseClicked: start ms: " + now + ", tws: " + tws);
+            msAction = now + toMs(mActiveRuns.getTws());
+            mTimer.start(msAction);
         }
-        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, now);
+        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, msAction);
     }
 
     private void onLapSaveClicked(Object view) {

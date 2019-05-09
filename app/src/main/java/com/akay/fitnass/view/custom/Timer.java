@@ -119,7 +119,7 @@ public class Timer extends AppCompatTextView {
         Logger.e("Timer setUp(): paused: " + isPaused + ", started: " + mStarted + ", mStart: " + mStart + ", tws: " + mTimeWhenStopped);
 
         if (mPaused) {
-            mStart = nowMillis() + mTimeWhenStopped;
+//            mStart = nowMillis() + mTimeWhenStopped;
 //            updateView(nowMillis());
         } else {
             mStarted = true;
@@ -134,7 +134,8 @@ public class Timer extends AppCompatTextView {
     public void start(long startMs) {
         Logger.e("Timer: start(): " + startMs);
 //        mStart = nowMillis() + mTimeWhenStopped;
-        mStart = startMs + mTimeWhenStopped;
+//        mStart = startMs + mTimeWhenStopped;
+        mStart = startMs;
         mPaused = false;
         startTimer();
     }
@@ -142,7 +143,8 @@ public class Timer extends AppCompatTextView {
     public void pause(long twsMs) {
         Logger.e("Timer: pause(): " + twsMs);
 //        mTimeWhenStopped = mStart - nowMillis();
-        mTimeWhenStopped = mStart - twsMs;
+//        mTimeWhenStopped = mStart - twsMs;
+        mTimeWhenStopped = twsMs;
         mPaused = true;
         pauseTimer();
     }
