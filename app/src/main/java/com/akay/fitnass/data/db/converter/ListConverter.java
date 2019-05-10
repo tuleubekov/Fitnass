@@ -18,7 +18,7 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.temporal.ChronoUnit;
 
 import java.lang.reflect.Type;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListConverter {
@@ -34,7 +34,7 @@ public class ListConverter {
     @TypeConverter
     public static List<Lap> fromJson(String json) {
         if (TextUtils.isEmpty(json)) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         Type listType = new TypeToken<List<Lap>>() {}.getType();
         return gson.fromJson(json, listType);
@@ -43,7 +43,7 @@ public class ListConverter {
     @TypeConverter
     public static String toJson(List<Lap> list) {
         if (list == null) {
-            return gson.toJson(Collections.emptyList());
+            return gson.toJson(new ArrayList<>());
         }
         return gson.toJson(list);
     }

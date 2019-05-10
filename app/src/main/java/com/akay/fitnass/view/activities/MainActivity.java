@@ -3,7 +3,6 @@ package com.akay.fitnass.view.activities;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Runs;
@@ -11,12 +10,9 @@ import com.akay.fitnass.util.Logger;
 import com.akay.fitnass.view.adapters.DayAdapter;
 import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.viewmodel.MainViewModel;
-import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;

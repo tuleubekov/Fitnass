@@ -46,7 +46,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         Runs workout = mWorkouts.get(pos);
 
         viewHolder.textDate.setText(workout.getDateTime().format(formatter));
-        viewHolder.textRunCount.setText(String.valueOf(getItemCount()));
+        viewHolder.textRunCount.setText(String.valueOf(workout.getLaps().size()));
         viewHolder.itemView.setOnClickListener(view -> mItemClickListener.onItemClicked(workout.getId()));
     }
 

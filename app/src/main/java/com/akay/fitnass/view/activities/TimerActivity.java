@@ -19,7 +19,7 @@ import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.view.custom.Timer;
 import com.akay.fitnass.viewmodel.TimerViewModel;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,7 +54,7 @@ public class TimerActivity extends BaseActivity {
         setContentView(R.layout.activity_timer);
         mViewModel = ViewModelProviders.of(this).get(TimerViewModel.class);
         mViewModel.getActiveRuns().observe(this, this::onActiveRunsChanged);
-        mAdapter = new LapAdapter(Collections.emptyList());
+        mAdapter = new LapAdapter(new ArrayList<>());
         mRecyclerWorkoutLap.setAdapter(mAdapter);
     }
 
@@ -118,6 +118,9 @@ public class TimerActivity extends BaseActivity {
         boolean isPaused = mActiveRuns.isPaused();
         long msAction = nowMillis() - DateTimeUtils.toMs(mActiveRuns.getStart());
         sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, msAction);
+        if (isPaused) {
+            finish();
+        }
     }
 
     private void onResetClicked(Object view) {

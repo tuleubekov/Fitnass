@@ -16,7 +16,7 @@ import com.akay.fitnass.util.Logger;
 
 import org.threeten.bp.ZonedDateTime;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -69,7 +69,7 @@ public class FitService extends Service {
         mActiveRuns.setPaused(false);
         mActiveRuns.setDateTime(ZonedDateTime.now());
         mActiveRuns.setStart(DateTimeUtils.fromMs(ms));
-        mActiveRuns.setLaps(Collections.emptyList());
+        mActiveRuns.setLaps(new ArrayList<>());
         mRepository.upsertActiveRuns(mActiveRuns);
     }
 
