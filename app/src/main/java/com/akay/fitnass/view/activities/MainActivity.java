@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mAdapter = new DayAdapter(new ArrayList<>(), this::onItemClicked);
         mRecyclerWorkout.setAdapter(mAdapter);
