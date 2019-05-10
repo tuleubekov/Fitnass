@@ -79,8 +79,7 @@ public class LapAdapter extends RecyclerView.Adapter<LapAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_iterator)
-        TextView textIterator;
+        @BindView(R.id.text_iterator) TextView textIterator;
         @BindView(R.id.text_lapTime) TextView textLap;
 
         ViewHolder(View itemView) {

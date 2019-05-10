@@ -13,6 +13,7 @@ import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.viewmodel.MainViewModel;
 import com.jakewharton.rxbinding2.view.RxView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mAdapter = new DayAdapter(Collections.emptyList(), this::onItemClicked);
+        mAdapter = new DayAdapter(new ArrayList<>(), this::onItemClicked);
         mRecyclerWorkout.setAdapter(mAdapter);
         mViewModel.getRunsList().observe(this, this::onRunsListChanged);
     }

@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.ActiveRuns;
+import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.util.DateTimeUtils;
 import com.akay.fitnass.view.adapters.LapAdapter;
@@ -19,6 +20,7 @@ import com.akay.fitnass.view.custom.Timer;
 import com.akay.fitnass.viewmodel.TimerViewModel;
 
 import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
@@ -68,6 +70,10 @@ public class TimerActivity extends BaseActivity {
             return;
         }
 
+        if (lapsValid(activeRuns.getLaps())) {
+            mAdapter.setLaps(activeRuns.getLaps());
+        }
+
         uiSetUp(activeRuns.isPaused());
         mActiveRuns = activeRuns;
 
@@ -79,8 +85,6 @@ public class TimerActivity extends BaseActivity {
         boolean isPaused = activeRuns.isPaused();
         long start = toMs(mActiveRuns.getStart());
         long tws = toMs(mActiveRuns.getTws());
-
-        mAdapter.setLaps(activeRuns.getLaps());
 
         if (isPaused) {
             mTimer.setUpPause(start, tws);
@@ -112,7 +116,8 @@ public class TimerActivity extends BaseActivity {
 
     private void onLapSaveClicked(Object view) {
         boolean isPaused = mActiveRuns.isPaused();
-        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, DateTimeUtils.nowMs());
+        long msAction = nowMillis() - DateTimeUtils.toMs(mActiveRuns.getStart());
+        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, msAction);
     }
 
     private void onResetClicked(Object view) {
@@ -129,7 +134,8 @@ public class TimerActivity extends BaseActivity {
         mBtnStartPause.setChecked(!isPaused);
         mBtnLapSave.setChecked(isPaused);
         mBtnReset.setEnabled(isPaused);
-        mBtnLapSave.setEnabled(mAdapter != null && mAdapter.getItemCount() > 0);
+        mBtnLapSave.setChecked(!isPaused);
+        mBtnLapSave.setEnabled(!isPaused || mAdapter != null && mAdapter.getItemCount() > 0);
     }
 
     private Disposable initStartPauseObserver() {
@@ -165,6 +171,10 @@ public class TimerActivity extends BaseActivity {
             }
         }
         return false;
+    }
+
+    private boolean lapsValid(List<Lap> laps) {
+        return laps != null && !laps.isEmpty();
     }
 
     private long nowMillis() {

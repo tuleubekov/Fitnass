@@ -13,7 +13,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 abstract class BaseActivity extends AppCompatActivity {
-    private static final long SKIP_DURATION = 3L;
+    private static final long SKIP_DURATION = 1L;
     private CompositeDisposable mDisposables;
 
     @Override
