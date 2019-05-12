@@ -60,8 +60,8 @@ public class FitService extends Service {
             case SAVE_COMMAND: save(ms); break;
             case LAP_COMMAND: lap(ms); break;
             case RESET_COMMAND: reset(); break;
-            case NTFN_START_COMMAND: start(nowMs()) ;break;
-            case NTFN_PAUSE_COMMAND: pause(nowMs()) ;break;
+            case NTFN_START_COMMAND: start(nowMs()); break;
+            case NTFN_PAUSE_COMMAND: pause(nowMs()); break;
             case NTFN_LAP_COMMAND: lap(nowMs()); break;
             default: Logger.e("Unknown command: " + command);
         }
