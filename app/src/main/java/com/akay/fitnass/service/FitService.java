@@ -21,6 +21,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.akay.fitnass.util.DateTimeUtils.nowMs;
+
 public class FitService extends Service {
     public static final int FOREGROUND_SERVICE_ID = 1000;
     public static final String START_COMMAND = "COMMAND_START";
@@ -28,6 +30,9 @@ public class FitService extends Service {
     public static final String SAVE_COMMAND = "COMMAND_SAVE";
     public static final String LAP_COMMAND = "COMMAND_LAP";
     public static final String RESET_COMMAND = "COMMAND_RESET";
+    public static final String NTFN_START_COMMAND = "NOTIFICATION_START_COMMAND";
+    public static final String NTFN_PAUSE_COMMAND = "NOTIFICATION_PAUSE_COMMAND";
+    public static final String NTFN_LAP_COMMAND = "NOTIFICATION_LAP_COMMAND";
 
     @Inject RunsRepository mRepository;
     @Inject NotificationController mNotificationController;
@@ -37,7 +42,6 @@ public class FitService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Logger.e("FitService: onCreate");
         App.getComponent().inject(this);
         startForeground(FOREGROUND_SERVICE_ID, mNotificationController.getPersistentNotification());
         mRepository.getActiveRuns();
@@ -56,6 +60,9 @@ public class FitService extends Service {
             case SAVE_COMMAND: save(ms); break;
             case LAP_COMMAND: lap(ms); break;
             case RESET_COMMAND: reset(); break;
+            case NTFN_START_COMMAND: start(nowMs()) ;break;
+            case NTFN_PAUSE_COMMAND: pause(nowMs()) ;break;
+            case NTFN_LAP_COMMAND: lap(nowMs()); break;
             default: Logger.e("Unknown command: " + command);
         }
         return START_STICKY;
@@ -66,22 +73,29 @@ public class FitService extends Service {
         if (mActiveRuns == null) {
             mActiveRuns = new ActiveRuns();
         }
+
+        long msStart = ms + DateTimeUtils.toMs(mActiveRuns.getTws());
+
         mActiveRuns.setPaused(false);
         mActiveRuns.setDateTime(ZonedDateTime.now());
-        mActiveRuns.setStart(DateTimeUtils.fromMs(ms));
+        mActiveRuns.setStart(DateTimeUtils.fromMs(msStart));
         mActiveRuns.setLaps(new ArrayList<>());
         mRepository.upsertActiveRuns(mActiveRuns);
+        mNotificationController.showStartPauseNotification(true);
     }
 
     private void pause(long ms) {
         mActiveRuns = get();
+
+        long msPause = DateTimeUtils.toMs(mActiveRuns.getStart()) - ms;
+
         mActiveRuns.setPaused(true);
-        mActiveRuns.setTws(DateTimeUtils.fromMs(ms));
+        mActiveRuns.setTws(DateTimeUtils.fromMs(msPause));
         mRepository.upsertActiveRuns(mActiveRuns);
+        mNotificationController.showStartPauseNotification(false);
     }
 
     private void save(long ms) {
-        Logger.e("FitService: save");
         mActiveRuns = get();
         Runs runs = toSavedRuns(mActiveRuns);
         mActiveRuns = null;
@@ -94,23 +108,24 @@ public class FitService extends Service {
         mActiveRuns = get();
         List<Lap> laps = mActiveRuns.getLaps();
         Lap lap = new Lap();
-        lap.setTime(DateTimeUtils.fromMs(ms));
+
+        long msAction = ms - DateTimeUtils.toMs(mActiveRuns.getStart());
+
+        lap.setTime(DateTimeUtils.fromMs(msAction));
         laps.add(lap);
         mActiveRuns.setLaps(laps);
         mRepository.upsertActiveRuns(mActiveRuns);
+        mActiveRuns = get();
     }
 
     private void reset() {
-        Logger.e("FitService: reset");
         mActiveRuns = null;
         mRepository.deleteActiveRuns();
         stopSelf();
     }
 
     private ActiveRuns get() {
-        if (mActiveRuns == null) {
-            mActiveRuns = mRepository.getActiveRuns().getValue();
-        }
+        mActiveRuns = mRepository.getActiveRuns().getValue();
         return mActiveRuns;
     }
 
@@ -124,7 +139,6 @@ public class FitService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Logger.e("FitService: onDestroy");
         stopForeground(true);
         stopSelf();
     }

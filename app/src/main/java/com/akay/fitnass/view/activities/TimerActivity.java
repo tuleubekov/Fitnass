@@ -59,6 +59,12 @@ public class TimerActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        mInitialized = false;
+    }
+
+    @Override
     protected void initViewRxObservables() {
         addDisposables(initStartPauseObserver());
         addDisposables(initLapSaveObserver());
@@ -78,13 +84,17 @@ public class TimerActivity extends BaseActivity {
         mActiveRuns = activeRuns;
 
         if (mInitialized) {
-            return;
+            onTimerActions(activeRuns);
+        } else {
+            setUpTimer(activeRuns);
         }
+    }
 
+    private void setUpTimer(ActiveRuns activeRuns) {
         mInitialized = true;
         boolean isPaused = activeRuns.isPaused();
-        long start = toMs(mActiveRuns.getStart());
-        long tws = toMs(mActiveRuns.getTws());
+        long start = toMs(activeRuns.getStart());
+        long tws = toMs(activeRuns.getTws());
 
         if (isPaused) {
             mTimer.setUpPause(start, tws);
@@ -93,9 +103,24 @@ public class TimerActivity extends BaseActivity {
         }
     }
 
+    private void onTimerActions(ActiveRuns activeRuns) {
+        if (activeRuns.isPaused()) {
+            onPauseTimer(activeRuns);
+        } else {
+            onStartTimer(activeRuns);
+        }
+    }
+
+    private void onStartTimer(ActiveRuns activeRuns) {
+        mTimer.start(toMs(activeRuns.getStart()));
+    }
+
+    private void onPauseTimer(ActiveRuns activeRuns) {
+        mTimer.pause(toMs(activeRuns.getTws()));
+    }
+
     private void onStartPauseClicked(Object view) {
         long now = nowMillis();
-        long msAction;
         mInitialized = true;
         if (mActiveRuns == null) {
             mTimer.start(now);
@@ -104,20 +129,12 @@ public class TimerActivity extends BaseActivity {
         }
 
         boolean isPaused = !mActiveRuns.isPaused();
-        if (isPaused) {
-            msAction = DateTimeUtils.toMs(mActiveRuns.getStart()) - now;
-            mTimer.pause(msAction);
-        } else {
-            msAction = now + DateTimeUtils.toMs(mActiveRuns.getTws());
-            mTimer.start(msAction);
-        }
-        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, msAction);
+        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, now);
     }
 
     private void onLapSaveClicked(Object view) {
         boolean isPaused = mActiveRuns.isPaused();
-        long msAction = nowMillis() - DateTimeUtils.toMs(mActiveRuns.getStart());
-        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, msAction);
+        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, nowMillis());
         if (isPaused) {
             finish();
         }
@@ -153,10 +170,10 @@ public class TimerActivity extends BaseActivity {
         return clickObserver(mBtnReset).subscribe(this::onResetClicked);
     }
 
-    private void sendCommand(String command, long nowMs) {
+    private void sendCommand(String command, long msAction) {
         Intent intent = new Intent(this, FitService.class);
         intent.setAction(command);
-        intent.putExtra("ms", nowMs);
+        intent.putExtra("ms", msAction);
         if (!isServiceRunningInForeground()) {
             ContextCompat.startForegroundService(this, intent);
         } else {

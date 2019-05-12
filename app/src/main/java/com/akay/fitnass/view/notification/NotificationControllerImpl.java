@@ -15,10 +15,12 @@ import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
+import com.akay.fitnass.util.DateTimeUtils;
 import com.akay.fitnass.view.activities.TimerActivity;
-import com.akay.fitnass.util.Logger;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static com.akay.fitnass.service.FitService.NTFN_PAUSE_COMMAND;
+import static com.akay.fitnass.service.FitService.NTFN_START_COMMAND;
 
 public class NotificationControllerImpl implements NotificationController {
     public static final String CHANNEL_ID = "com.akay.fitnass.ui.notification.channel_id_1000";
@@ -39,7 +41,6 @@ public class NotificationControllerImpl implements NotificationController {
 
     @Override
     public void showStartPauseNotification(boolean showPauseText) {
-//        Logger.e("NotificationCntrl: showStartPauseNotification showPauseText:" + showPauseText);
         notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPauseText).build());
     }
 
@@ -50,18 +51,10 @@ public class NotificationControllerImpl implements NotificationController {
 
     private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
         RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
-
-//        Logger.e("NotificationCntrl: getStartPauseStateBuilder showPauseText:" + showPauseText);
-//        if (showPauseText) {
-//            Logger.e("Show pause text");
-//        } else {
-//            Logger.e("Show start text");
-//        }
-
         nView.setTextViewText(R.id.btn_start_pause, showPauseText ? "pause" : "start");
-
         Intent intentStart = new Intent(mContext, FitService.class);
-        intentStart.setAction("start_pause");
+        intentStart.setAction(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
+        intentStart.putExtra("ms", DateTimeUtils.nowMs());
         nView.setOnClickPendingIntent(R.id.btn_start_pause, PendingIntent.getService(mContext, 0, intentStart, PendingIntent.FLAG_UPDATE_CURRENT));
 
         return getBaseBuilder().setCustomContentView(nView);
