@@ -19,6 +19,7 @@ import com.akay.fitnass.util.DateTimeUtils;
 import com.akay.fitnass.view.activities.TimerActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+import static com.akay.fitnass.service.FitService.NTFN_LAP_COMMAND;
 import static com.akay.fitnass.service.FitService.NTFN_PAUSE_COMMAND;
 import static com.akay.fitnass.service.FitService.NTFN_START_COMMAND;
 
@@ -52,10 +53,14 @@ public class NotificationControllerImpl implements NotificationController {
     private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
         RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
         nView.setTextViewText(R.id.btn_start_pause, showPauseText ? "pause" : "start");
-        Intent intentStart = new Intent(mContext, FitService.class);
-        intentStart.setAction(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
-        intentStart.putExtra("ms", DateTimeUtils.nowMs());
-        nView.setOnClickPendingIntent(R.id.btn_start_pause, PendingIntent.getService(mContext, 0, intentStart, PendingIntent.FLAG_UPDATE_CURRENT));
+        Intent intent = new Intent(mContext, FitService.class);
+        intent.setAction(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
+        intent.putExtra("ms", DateTimeUtils.nowMs());
+        nView.setOnClickPendingIntent(R.id.btn_start_pause, PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+        Intent intentLap = new Intent(mContext, FitService.class);
+        intentLap.setAction(NTFN_LAP_COMMAND);
+        nView.setOnClickPendingIntent(R.id.btn_lap, PendingIntent.getService(mContext, 0, intentLap, PendingIntent.FLAG_UPDATE_CURRENT));
 
         return getBaseBuilder().setCustomContentView(nView);
     }
@@ -63,12 +68,6 @@ public class NotificationControllerImpl implements NotificationController {
     private NotificationCompat.Builder getBaseBuilder() {
         Intent intent = TimerActivity.getIntent(mContext);
         PendingIntent pLaunchActivity = PendingIntent.getActivity(mContext, PI_ACTIVITY_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        RemoteViews layout = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
-
-        Intent intentLap = new Intent(mContext, FitService.class);
-        intentLap.setAction("lap");
-        layout.setOnClickPendingIntent(R.id.btn_lap, PendingIntent.getService(mContext, 0, intentLap, PendingIntent.FLAG_UPDATE_CURRENT));
 
         return new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)

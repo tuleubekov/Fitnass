@@ -72,14 +72,13 @@ public class FitService extends Service {
         mActiveRuns = get();
         if (mActiveRuns == null) {
             mActiveRuns = new ActiveRuns();
+            mActiveRuns.setDateTime(ZonedDateTime.now());
+            mActiveRuns.setLaps(new ArrayList<>());
         }
 
         long msStart = ms + DateTimeUtils.toMs(mActiveRuns.getTws());
-
         mActiveRuns.setPaused(false);
-        mActiveRuns.setDateTime(ZonedDateTime.now());
         mActiveRuns.setStart(DateTimeUtils.fromMs(msStart));
-        mActiveRuns.setLaps(new ArrayList<>());
         mRepository.upsertActiveRuns(mActiveRuns);
         mNotificationController.showStartPauseNotification(true);
     }
@@ -88,7 +87,6 @@ public class FitService extends Service {
         mActiveRuns = get();
 
         long msPause = DateTimeUtils.toMs(mActiveRuns.getStart()) - ms;
-
         mActiveRuns.setPaused(true);
         mActiveRuns.setTws(DateTimeUtils.fromMs(msPause));
         mRepository.upsertActiveRuns(mActiveRuns);
@@ -106,16 +104,14 @@ public class FitService extends Service {
 
     private void lap(long ms) {
         mActiveRuns = get();
-        List<Lap> laps = mActiveRuns.getLaps();
-        Lap lap = new Lap();
 
         long msAction = ms - DateTimeUtils.toMs(mActiveRuns.getStart());
-
+        List<Lap> laps = mActiveRuns.getLaps();
+        Lap lap = new Lap();
         lap.setTime(DateTimeUtils.fromMs(msAction));
         laps.add(lap);
         mActiveRuns.setLaps(laps);
         mRepository.upsertActiveRuns(mActiveRuns);
-        mActiveRuns = get();
     }
 
     private void reset() {

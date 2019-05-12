@@ -29,9 +29,10 @@ public class LapAdapter extends RecyclerView.Adapter<LapAdapter.ViewHolder> {
     }
 
     public void setLaps(List<Lap> laps) {
-        if (laps != null) {
+        if (laps != null && !laps.isEmpty()) {
             this.mLaps = laps;
             notifyDataSetChanged();
+            mRecycler.smoothScrollToPosition(mLaps.size()-1);
         }
     }
 
