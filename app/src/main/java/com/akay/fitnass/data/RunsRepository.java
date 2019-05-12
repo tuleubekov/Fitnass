@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface RunsRepository {
 
-    LiveData<ActiveRuns> getActiveRuns();
+    ActiveRuns getActiveRuns();
 
-    LiveData<List<Runs>> getRuns();
+    LiveData<ActiveRuns> getLiveActiveRuns();
+
+    LiveData<List<Runs>> getLiveRuns();
 
     Runs getById(long id);
 

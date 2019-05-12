@@ -17,6 +17,6 @@ public class TimerViewModel extends ViewModel {
     }
 
     public LiveData<ActiveRuns> getActiveRuns() {
-        return mRepository.getActiveRuns();
+        return mRepository.getLiveActiveRuns();
     }
 }

@@ -125,8 +125,7 @@ public class FitService extends Service {
     }
 
     private ActiveRuns get() {
-        mActiveRuns = mRepository.getActiveRuns().getValue();
-        return mActiveRuns;
+        return mRepository.getActiveRuns();
     }
 
     private Runs toSavedRuns(final ActiveRuns activeRuns) {

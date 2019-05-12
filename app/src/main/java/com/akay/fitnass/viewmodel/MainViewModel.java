@@ -18,7 +18,7 @@ public class MainViewModel extends ViewModel {
 
     public MainViewModel() {
         App.getComponent().inject(this);
-        mRunsList = mRepository.getRuns();
+        mRunsList = mRepository.getLiveRuns();
     }
 
     public LiveData<List<Runs>> getRunsList() {

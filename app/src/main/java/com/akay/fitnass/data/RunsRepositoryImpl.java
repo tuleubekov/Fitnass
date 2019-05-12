@@ -24,12 +24,17 @@ public class RunsRepositoryImpl implements RunsRepository {
     }
 
     @Override
-    public LiveData<ActiveRuns> getActiveRuns() {
+    public ActiveRuns getActiveRuns() {
+        return mActiveRunsDao.getActiveRuns();
+    }
+
+    @Override
+    public LiveData<ActiveRuns> getLiveActiveRuns() {
         return mActiveRuns;
     }
 
     @Override
-    public LiveData<List<Runs>> getRuns() {
+    public LiveData<List<Runs>> getLiveRuns() {
         return mRunsList;
     }
 
@@ -41,7 +46,7 @@ public class RunsRepositoryImpl implements RunsRepository {
     @Override
     public void upsertActiveRuns(ActiveRuns activeRuns) {
         activeRuns.setId(ActiveRuns.ID);
-        mActiveRunsDao.upsert(activeRuns);
+        mActiveRunsDao.insert(activeRuns);
     }
 
     @Override

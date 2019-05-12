@@ -7,10 +7,10 @@ import android.arch.persistence.room.Update;
 
 public interface BaseDao<T> {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insert(T entity);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(T entity);
 
-    @Update(onConflict = OnConflictStrategy.IGNORE)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(T entity);
 
     @Delete
