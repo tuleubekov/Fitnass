@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.workoutadd.WorkoutAddActivity">
+    tools:context=".view.activities.TimerActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -19,9 +19,9 @@
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:textSize="48sp"
-        android:textColor="#FAD720"
+        android:layout_marginTop="@dimen/margin_36"
+        android:textSize="@dimen/size_48"
+        android:textColor="@color/text_timer"
         android:text="@string/text_chronometer_initial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,10 +30,10 @@
 
     <com.akay.fitnass.view.custom.CheckedButton
         android:id="@+id/btn_lap_save"
-        android:layout_width="70dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="@dimen/width_70"
+        android:layout_height="@dimen/height_64"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         android:enabled="false"
         android:background="@drawable/bg_button_lap_save"
         app:layout_constraintVertical_chainStyle="packed"
@@ -44,10 +44,10 @@
 
     <com.akay.fitnass.view.custom.CheckedButton
         android:id="@+id/btn_start_pause"
-        android:layout_width="70dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="@dimen/width_70"
+        android:layout_height="@dimen/height_64"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         android:background="@drawable/bg_button_start_pause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_lap_save"
@@ -55,10 +55,10 @@
 
     <Button
         android:id="@+id/btn_reset"
-        android:layout_width="70dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="@dimen/width_70"
+        android:layout_height="@dimen/height_64"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         android:enabled="false"
         android:background="@drawable/bg_button_reset"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +69,10 @@
         android:id="@+id/recycler_workout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginBottom="@dimen/margin_16dp"
-        android:layout_marginStart="@dimen/margin_16dp"
-        android:layout_marginEnd="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_76"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/chronometer"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -19,8 +19,8 @@
         android:id="@+id/recycler_day"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_8dp"
-        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_8"
+        android:layout_marginBottom="@dimen/margin_8"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,8 +29,8 @@
 
     <com.akay.fitnass.view.custom.CheckedButton
         android:id="@+id/btn_add"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/width_70"
+        android:layout_height="@dimen/height_64"
         android:background="@drawable/bg_button_add"
         app:layout_constraintVertical_bias="0.9"
         app:layout_constraintTop_toTopOf="parent"

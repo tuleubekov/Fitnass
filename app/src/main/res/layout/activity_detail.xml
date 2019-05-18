@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.detail.WorkoutDetailActivity">
+    tools:context=".view.activities.DetailActivity">
 
     <include android:id="@+id/toolbar"
         layout="@layout/view_toolbar" />
@@ -13,7 +13,7 @@
         android:id="@+id/recycler_workout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_16dp"
+        android:layout_margin="@dimen/margin_16"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"

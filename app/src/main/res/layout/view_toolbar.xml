@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:background="@android:color/transparent">
+    tools:background="@color/transparent">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/padding_8dp"
-        android:paddingStart="@dimen/padding_8dp"
-        android:paddingEnd="@dimen/padding_8dp">
+        android:paddingTop="@dimen/padding_8"
+        android:paddingStart="@dimen/padding_8"
+        android:paddingEnd="@dimen/padding_8">
 
         <com.akay.fitnass.view.custom.fonts.AristaTextView
             android:layout_width="wrap_content"
