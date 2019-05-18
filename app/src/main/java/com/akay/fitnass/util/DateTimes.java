@@ -7,7 +7,7 @@ import org.threeten.bp.ZonedDateTime;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class DateTimeUtils {
+public class DateTimes {
     private static boolean showLocal = true;
 
     public static ZoneId getZoneId() {
@@ -26,7 +26,7 @@ public class DateTimeUtils {
         return zdt.toInstant().toEpochMilli();
     }
 
-    public static long nowMs() {
+    public static long nowMillis() {
         return toMs(ZonedDateTime.now());
     }
 

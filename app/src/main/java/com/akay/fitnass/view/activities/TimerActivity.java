@@ -13,7 +13,7 @@ import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.service.FitService;
-import com.akay.fitnass.util.DateTimeUtils;
+import com.akay.fitnass.util.IntentBuilder;
 import com.akay.fitnass.view.adapters.LapAdapter;
 import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.view.custom.Timer;
@@ -30,7 +30,8 @@ import static com.akay.fitnass.service.FitService.PAUSE_COMMAND;
 import static com.akay.fitnass.service.FitService.RESET_COMMAND;
 import static com.akay.fitnass.service.FitService.SAVE_COMMAND;
 import static com.akay.fitnass.service.FitService.START_COMMAND;
-import static com.akay.fitnass.util.DateTimeUtils.toMs;
+import static com.akay.fitnass.util.DateTimes.nowMillis;
+import static com.akay.fitnass.util.DateTimes.toMs;
 
 public class TimerActivity extends BaseActivity {
     @BindView(R.id.chronometer) Timer mTimer;
@@ -120,21 +121,20 @@ public class TimerActivity extends BaseActivity {
     }
 
     private void onStartPauseClicked(Object view) {
-        long now = nowMillis();
         mInitialized = true;
         if (mActiveRuns == null) {
-            mTimer.start(now);
-            sendCommand(START_COMMAND, now);
+            mTimer.start(nowMillis());
+            sendCommand(START_COMMAND);
             return;
         }
 
         boolean isPaused = !mActiveRuns.isPaused();
-        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND, now);
+        sendCommand(isPaused ? PAUSE_COMMAND : START_COMMAND);
     }
 
     private void onLapSaveClicked(Object view) {
         boolean isPaused = mActiveRuns.isPaused();
-        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND, nowMillis());
+        sendCommand(isPaused ? SAVE_COMMAND : LAP_COMMAND);
         if (isPaused) {
             finish();
         }
@@ -147,7 +147,7 @@ public class TimerActivity extends BaseActivity {
         mTimer.reset();
         mBtnReset.setEnabled(false);
         mBtnLapSave.setEnabled(false);
-        sendCommand(RESET_COMMAND, 0);
+        sendCommand(RESET_COMMAND);
     }
 
     private void uiSetUp(final boolean isPaused) {
@@ -170,10 +170,12 @@ public class TimerActivity extends BaseActivity {
         return clickObserver(mBtnReset).subscribe(this::onResetClicked);
     }
 
-    private void sendCommand(String command, long msAction) {
-        Intent intent = new Intent(this, FitService.class);
-        intent.setAction(command);
-        intent.putExtra("ms", msAction);
+    private void sendCommand(String command) {
+        Intent intent = new IntentBuilder(this)
+                .toService()
+                .setCommand(command)
+                .build();
+
         if (!isServiceRunningInForeground()) {
             ContextCompat.startForegroundService(this, intent);
         } else {
@@ -195,9 +197,5 @@ public class TimerActivity extends BaseActivity {
 
     private boolean lapsValid(List<Lap> laps) {
         return laps != null && !laps.isEmpty();
-    }
-
-    private long nowMillis() {
-        return DateTimeUtils.nowMs();
     }
 }

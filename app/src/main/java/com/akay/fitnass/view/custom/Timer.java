@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.akay.fitnass.util.DateTimeUtils;
+import com.akay.fitnass.util.DateTimes;
+
+import static com.akay.fitnass.util.DateTimes.nowMillis;
 
 public class Timer extends AppCompatTextView {
     private static final String KEY_SUPER_STATE = "com.akay.fitnass.ui.custom.SUPER_STATE";
@@ -168,10 +170,6 @@ public class Timer extends AppCompatTextView {
 
     private synchronized void updateView(long now) {
         long ms = now - mStart;
-        setText(DateTimeUtils.msToStrFormat(ms));
-    }
-
-    private synchronized long nowMillis() {
-        return DateTimeUtils.nowMs();
+        setText(DateTimes.msToStrFormat(ms));
     }
 }

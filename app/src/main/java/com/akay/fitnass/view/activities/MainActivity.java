@@ -36,27 +36,22 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initViewRxObservables() {
-        Logger.e("initViewRxObservables 2");
         addDisposables(initNewRunsObserver());
     }
 
     private void onRunsListChanged(final List<Runs> runs) {
-        Logger.e("onRunsListChanged: count: " + runs.size());
         mAdapter.onWorkoutListUpdated(runs);
     }
 
     private void onAddRunsClicked(Object view) {
-        Logger.e("onAddRunsClicked");
         startActivity(TimerActivity.getIntent(this));
     }
 
     private void onItemClicked(long idWorkout) {
-        Logger.e("onAddRunsClicked");
         startActivity(DetailActivity.getIntent(this, idWorkout));
     }
 
     private Disposable initNewRunsObserver() {
-        Logger.e("initNewRunsObserver");
         return clickObserver(mBtnNewDay).subscribe((this::onAddRunsClicked));
     }
 }

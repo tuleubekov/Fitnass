@@ -44,7 +44,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull DayAdapter.ViewHolder viewHolder, int pos) {
         Runs workout = mWorkouts.get(pos);
-
         viewHolder.textDate.setText(workout.getDateTime().format(formatter));
         viewHolder.textRunCount.setText(String.valueOf(workout.getLaps().size()));
         viewHolder.itemView.setOnClickListener(view -> mItemClickListener.onItemClicked(workout.getId()));
@@ -52,12 +51,11 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     @Override
     public synchronized int getItemCount() {
-        return mWorkouts.size();
+        return mWorkouts == null ? 0 : mWorkouts.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_date)
-        TextView textDate;
+        @BindView(R.id.text_date) TextView textDate;
         @BindView(R.id.text_run_count) TextView textRunCount;
 
         ViewHolder(View itemView) {

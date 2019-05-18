@@ -10,7 +10,6 @@ import com.akay.fitnass.data.RunsRepository;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.data.model.Runs;
-import com.akay.fitnass.util.DateTimeUtils;
 import com.akay.fitnass.view.notification.NotificationController;
 import com.akay.fitnass.util.Logger;
 
@@ -21,7 +20,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.akay.fitnass.util.DateTimeUtils.nowMs;
+import static com.akay.fitnass.util.DateTimes.fromMs;
+import static com.akay.fitnass.util.DateTimes.nowMillis;
+import static com.akay.fitnass.util.DateTimes.toMs;
 
 public class FitService extends Service {
     public static final int FOREGROUND_SERVICE_ID = 1000;
@@ -53,16 +54,16 @@ public class FitService extends Service {
         if (command == null) {
             return START_NOT_STICKY;
         }
-        long ms = intent.getLongExtra("ms", 0);
+        long ms = nowMillis();
         switch (command) {
             case START_COMMAND: start(ms); break;
             case PAUSE_COMMAND: pause(ms); break;
-            case SAVE_COMMAND: save(ms); break;
+            case SAVE_COMMAND: save(); break;
             case LAP_COMMAND: lap(ms); break;
             case RESET_COMMAND: reset(); break;
-            case NTFN_START_COMMAND: start(nowMs()); break;
-            case NTFN_PAUSE_COMMAND: pause(nowMs()); break;
-            case NTFN_LAP_COMMAND: lap(nowMs()); break;
+            case NTFN_START_COMMAND: start(ms); break;
+            case NTFN_PAUSE_COMMAND: pause(ms); break;
+            case NTFN_LAP_COMMAND: lap(ms); break;
             default: Logger.e("Unknown command: " + command);
         }
         return START_STICKY;
@@ -76,40 +77,36 @@ public class FitService extends Service {
             mActiveRuns.setLaps(new ArrayList<>());
         }
 
-        long msStart = ms + DateTimeUtils.toMs(mActiveRuns.getTws());
+        long msStart = ms + toMs(mActiveRuns.getTws());
         mActiveRuns.setPaused(false);
-        mActiveRuns.setStart(DateTimeUtils.fromMs(msStart));
+        mActiveRuns.setStart(fromMs(msStart));
         mRepository.upsertActiveRuns(mActiveRuns);
         mNotificationController.showStartPauseNotification(true);
     }
 
     private void pause(long ms) {
         mActiveRuns = get();
+        long msPause = toMs(mActiveRuns.getStart()) - ms;
 
-        long msPause = DateTimeUtils.toMs(mActiveRuns.getStart()) - ms;
         mActiveRuns.setPaused(true);
-        mActiveRuns.setTws(DateTimeUtils.fromMs(msPause));
+        mActiveRuns.setTws(fromMs(msPause));
         mRepository.upsertActiveRuns(mActiveRuns);
         mNotificationController.showStartPauseNotification(false);
     }
 
-    private void save(long ms) {
+    private void save() {
         mActiveRuns = get();
-        Runs runs = toSavedRuns(mActiveRuns);
-        mActiveRuns = null;
-        mRepository.saveRuns(runs);
+        mRepository.saveRuns(mapFromActive(mActiveRuns));
         mRepository.deleteActiveRuns();
         stopSelf();
     }
 
     private void lap(long ms) {
         mActiveRuns = get();
+        long msAction = ms - toMs(mActiveRuns.getStart());
 
-        long msAction = ms - DateTimeUtils.toMs(mActiveRuns.getStart());
         List<Lap> laps = mActiveRuns.getLaps();
-        Lap lap = new Lap();
-        lap.setTime(DateTimeUtils.fromMs(msAction));
-        laps.add(lap);
+        laps.add(getNewLap(msAction));
         mActiveRuns.setLaps(laps);
         mRepository.upsertActiveRuns(mActiveRuns);
     }
@@ -124,11 +121,17 @@ public class FitService extends Service {
         return mRepository.getActiveRuns();
     }
 
-    private Runs toSavedRuns(final ActiveRuns activeRuns) {
+    private Runs mapFromActive(final ActiveRuns activeRuns) {
         Runs runs = new Runs();
         runs.setDateTime(activeRuns.getDateTime());
         runs.setLaps(activeRuns.getLaps());
         return runs;
+    }
+
+    private Lap getNewLap(long ms) {
+        Lap lap = new Lap();
+        lap.setTime(fromMs(ms));
+        return lap;
     }
 
     @Override

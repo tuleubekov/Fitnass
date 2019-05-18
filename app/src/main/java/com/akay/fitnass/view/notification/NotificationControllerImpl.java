@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
-import com.akay.fitnass.util.DateTimeUtils;
+import com.akay.fitnass.util.IntentBuilder;
 import com.akay.fitnass.view.activities.TimerActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -26,7 +26,7 @@ import static com.akay.fitnass.service.FitService.NTFN_START_COMMAND;
 public class NotificationControllerImpl implements NotificationController {
     public static final String CHANNEL_ID = "com.akay.fitnass.ui.notification.channel_id_1000";
     private static final String CHANNEL_NAME = "Fitnass channel";
-    private static final int PI_ACTIVITY_REQUEST_CODE = 3000;   // Request code of Pending Intent for launch MainActivity
+    private static final int PI_ACTIVITY_REQUEST_CODE = 3000;   // Request code of Pending Intent for launch TimerActivity
 
     private Context mContext;
     private NotificationManager mNotificationManager;
@@ -51,16 +51,14 @@ public class NotificationControllerImpl implements NotificationController {
     }
 
     private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
-        RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
-        nView.setTextViewText(R.id.btn_start_pause, showPauseText ? "pause" : "start");
-        Intent intent = new Intent(mContext, FitService.class);
-        intent.setAction(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
-        intent.putExtra("ms", DateTimeUtils.nowMs());
-        nView.setOnClickPendingIntent(R.id.btn_start_pause, PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+        Intent startPauseIntent = getIntent(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
+        Intent lapIntent = getIntent(NTFN_LAP_COMMAND);
+        String textBtn = showPauseText ? getResString(R.string.btn_text_pause) : getResString(R.string.btn_text_start);
 
-        Intent intentLap = new Intent(mContext, FitService.class);
-        intentLap.setAction(NTFN_LAP_COMMAND);
-        nView.setOnClickPendingIntent(R.id.btn_lap, PendingIntent.getService(mContext, 0, intentLap, PendingIntent.FLAG_UPDATE_CURRENT));
+        RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
+        nView.setTextViewText(R.id.btn_start_pause, textBtn);
+        nView.setOnClickPendingIntent(R.id.btn_start_pause, getPendingService(startPauseIntent));
+        nView.setOnClickPendingIntent(R.id.btn_lap, getPendingService(lapIntent));
 
         return getBaseBuilder().setCustomContentView(nView);
     }
@@ -77,6 +75,18 @@ public class NotificationControllerImpl implements NotificationController {
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
                 .setSound(null);
+    }
+
+    private PendingIntent getPendingService(final Intent intent) {
+        return PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private String getResString(int resId) {
+        return mContext.getString(resId);
+    }
+
+    private Intent getIntent(String command) {
+        return new IntentBuilder(mContext).toService().setCommand(command).build();
     }
 
     private Notification build(NotificationBuildOperation o) {

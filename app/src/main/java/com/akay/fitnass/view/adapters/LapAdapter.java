@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.Lap;
-import com.akay.fitnass.util.DateTimeUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.akay.fitnass.util.DateTimes.msToStrFormat;
+import static com.akay.fitnass.util.DateTimes.toMs;
 
 public class LapAdapter extends RecyclerView.Adapter<LapAdapter.ViewHolder> {
     private RecyclerView mRecycler;
@@ -69,14 +71,14 @@ public class LapAdapter extends RecyclerView.Adapter<LapAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LapAdapter.ViewHolder viewHolder, int i) {
         Lap lap = mLaps.get(i);
-        long zdtMillis = lap.getTime().toInstant().toEpochMilli();
+        long zdtMillis = toMs(lap.getTime());
         viewHolder.textIterator.setText(String.valueOf(i+1));
-        viewHolder.textLap.setText(DateTimeUtils.msToStrFormat(zdtMillis));
+        viewHolder.textLap.setText(msToStrFormat(zdtMillis));
     }
 
     @Override
     public int getItemCount() {
-        return mLaps.size();
+        return mLaps == null ? 0 : mLaps.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
