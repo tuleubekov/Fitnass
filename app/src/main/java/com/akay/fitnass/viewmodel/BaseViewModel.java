@@ -5,13 +5,11 @@ import android.arch.lifecycle.ViewModel;
 import com.akay.fitnass.App;
 import com.akay.fitnass.data.RunsRepository;
 
-import javax.inject.Inject;
-
 public class BaseViewModel extends ViewModel {
-    @Inject RunsRepository mRepository;
+    private final RunsRepository mRepository;
 
-    public BaseViewModel() {
-        App.getComponent().inject(this);
+    BaseViewModel() {
+        mRepository = App.getComponent().getRepository();
     }
 
     protected RunsRepository getRepo() {
