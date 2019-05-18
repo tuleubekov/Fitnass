@@ -45,7 +45,6 @@ public class FitService extends Service {
         super.onCreate();
         App.getComponent().inject(this);
         startForeground(FOREGROUND_SERVICE_ID, mNotificationController.getPersistentNotification());
-        mRepository.getActiveRuns();
     }
 
     @Override

@@ -64,8 +64,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         }
     }
 
+    @FunctionalInterface
     public interface OnItemClickListener {
-
         void onItemClicked(long idWorkout);
     }
 }
