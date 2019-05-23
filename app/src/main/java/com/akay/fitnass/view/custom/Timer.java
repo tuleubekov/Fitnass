@@ -2,6 +2,7 @@ package com.akay.fitnass.view.custom;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
@@ -12,7 +13,10 @@ import static com.akay.fitnass.util.DateTimes.nowMillis;
 
 public class Timer extends AppCompatTextView {
     private static final String KEY_SUPER_STATE = "com.akay.fitnass.ui.custom.SUPER_STATE";
-    private static final String KEY_PROGRESS_STATE = "com.akay.fitnass.ui.custom.PROGRESS_STATE";
+    private static final String KEY_STARTED_STATE = "com.akay.fitnass.ui.custom.STARTED_STATE";
+    private static final String KEY_PAUSED_STATE = "com.akay.fitnass.ui.custom.PAUSED_STATE";
+    private static final String KEY_START_STATE = "com.akay.fitnass.ui.custom.START_STATE";
+    private static final String KEY_TWS_STATE = "com.akay.fitnass.ui.custom.TWS_STATE";
     private static final long TIMER_INTERVAL = 10L;
 
     private boolean mVisible;
@@ -41,12 +45,27 @@ public class Timer extends AppCompatTextView {
 
     @Override
     public Parcelable onSaveInstanceState() {
-        return super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(KEY_STARTED_STATE, mStarted);
+        bundle.putBoolean(KEY_PAUSED_STATE, mPaused);
+        bundle.putLong(KEY_START_STATE, mStart);
+        bundle.putLong(KEY_TWS_STATE, mTimeWhenStopped);
+        bundle.putParcelable(KEY_SUPER_STATE, super.onSaveInstanceState());
+        return bundle;
     }
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
+        Parcelable viewState = state;
+        if (state instanceof Bundle) {
+            Bundle bState = (Bundle) viewState;
+            viewState = bState.getParcelable(KEY_SUPER_STATE);
+            mStarted = bState.getBoolean(KEY_STARTED_STATE);
+            mPaused = bState.getBoolean(KEY_PAUSED_STATE);
+            mStart = bState.getLong(KEY_START_STATE);
+            mTimeWhenStopped = bState.getLong(KEY_TWS_STATE);
+        }
+        super.onRestoreInstanceState(viewState);
     }
 
     @Override
