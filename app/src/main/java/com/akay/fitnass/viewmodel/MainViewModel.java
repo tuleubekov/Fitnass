@@ -2,6 +2,7 @@ package com.akay.fitnass.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 
+import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Runs;
 
 import java.util.List;
@@ -13,7 +14,11 @@ public class MainViewModel extends BaseViewModel {
         mRunsList = getRepo().getLiveRuns();
     }
 
-    public LiveData<List<Runs>> getRunsList() {
+    public LiveData<List<Runs>> getLiveRunsList() {
         return mRunsList;
+    }
+
+    public LiveData<ActiveRuns> getLiveActiveRuns() {
+        return getRepo().getLiveActiveRuns();
     }
 }

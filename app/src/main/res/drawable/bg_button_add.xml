@@ -20,8 +20,8 @@
                 </shape>
             </item>
             <item android:drawable="@drawable/ic_timer_dark"
-                android:top="@dimen/margin_24"
-                android:bottom="@dimen/margin_24"
+                android:top="@dimen/margin_22"
+                android:bottom="@dimen/margin_22"
                 android:left="@dimen/margin_24"
                 android:right="@dimen/margin_24" />
         </layer-list>

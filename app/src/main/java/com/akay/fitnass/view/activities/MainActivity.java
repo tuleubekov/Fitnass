@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.akay.fitnass.R;
+import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Runs;
 import com.akay.fitnass.util.Logger;
 import com.akay.fitnass.view.adapters.DayAdapter;
@@ -31,7 +32,8 @@ public class MainActivity extends BaseActivity {
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mAdapter = new DayAdapter(new ArrayList<>(), this::onItemClicked);
         mRecyclerWorkout.setAdapter(mAdapter);
-        mViewModel.getRunsList().observe(this, this::onRunsListChanged);
+        mViewModel.getLiveRunsList().observe(this, this::onRunsListChanged);
+        mViewModel.getLiveActiveRuns().observe(this, this::onActiveRunsChanged);
     }
 
     @Override
@@ -41,6 +43,14 @@ public class MainActivity extends BaseActivity {
 
     private void onRunsListChanged(final List<Runs> runs) {
         mAdapter.onWorkoutListUpdated(runs);
+    }
+
+    private void onActiveRunsChanged(final ActiveRuns activeRuns) {
+        onRunsButtonState(activeRuns == null);
+    }
+
+    private void onRunsButtonState(boolean isNotActiveRuns) {
+        mBtnNewDay.setChecked(!isNotActiveRuns);
     }
 
     private void onAddRunsClicked(Object view) {
