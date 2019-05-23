@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activities.TimerActivity" />
+        <activity android:name=".view.activities.TimerActivity"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".view.activities.DetailActivity" />
 
