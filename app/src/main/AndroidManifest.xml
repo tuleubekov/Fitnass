@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.activities.MainActivity">
+        <activity android:name=".view.activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -21,9 +22,11 @@
         </activity>
 
         <activity android:name=".view.activities.TimerActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".view.activities.DetailActivity" />
+        <activity android:name=".view.activities.DetailActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".service.FitService" />
     </application>
