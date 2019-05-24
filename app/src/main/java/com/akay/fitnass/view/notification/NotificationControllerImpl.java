@@ -65,7 +65,7 @@ public class NotificationControllerImpl implements NotificationController {
 
     private NotificationCompat.Builder getBaseBuilder() {
         Intent intent = TimerActivity.getIntent(mContext);
-        PendingIntent pLaunchActivity = PendingIntent.getActivity(mContext, PI_ACTIVITY_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pLaunchActivity = getPendingActivity(intent);
 
         return new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
@@ -79,6 +79,10 @@ public class NotificationControllerImpl implements NotificationController {
 
     private PendingIntent getPendingService(final Intent intent) {
         return PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private PendingIntent getPendingActivity(final Intent intent) {
+        return PendingIntent.getActivity(mContext, PI_ACTIVITY_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private String getResString(int resId) {
