@@ -60,7 +60,7 @@ public class NotificationControllerImpl implements NotificationController {
         nView.setOnClickPendingIntent(R.id.btn_start_pause, getPendingService(startPauseIntent));
         nView.setOnClickPendingIntent(R.id.btn_lap, getPendingService(lapIntent));
 
-        return getBaseBuilder().setCustomContentView(nView);
+        return getBaseBuilder().setCustomBigContentView(nView);
     }
 
     private NotificationCompat.Builder getBaseBuilder() {
@@ -70,10 +70,11 @@ public class NotificationControllerImpl implements NotificationController {
         return new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(pLaunchActivity)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setColor(ContextCompat.getColor(mContext, R.color.colorAccent))
+                .setColor(ContextCompat.getColor(mContext, R.color.bg_notification))
+                .setColorized(true)
                 .setSound(null);
     }
 
@@ -111,7 +112,7 @@ public class NotificationControllerImpl implements NotificationController {
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .build();
 
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN);
         channel.enableLights(false);
         channel.enableVibration(false);
         channel.setSound(null, att);
