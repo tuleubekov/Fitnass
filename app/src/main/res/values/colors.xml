@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorPrimaryDark">@color/black</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="text_timer">#FAD720</color>
@@ -13,10 +13,12 @@
     <color name="btn_bg_pressed">@color/bg_pressed</color>
     <color name="btn_bg_disabled">@color/bg_disabled</color>
 
+    <color name="bg_notification">#292727</color>
     <color name="bg_border">#FAFAD720</color>
     <color name="bg_disabled">#7A3F3E3D</color>
     <color name="bg_pressed">#17FAD720</color>
 
     <color name="transparent">@android:color/transparent</color>
     <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
 </resources>
