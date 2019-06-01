@@ -53,12 +53,13 @@ public class NotificationControllerImpl implements NotificationController {
     private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
         Intent startPauseIntent = getIntent(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
         Intent lapIntent = getIntent(NTFN_LAP_COMMAND);
-        String textBtn = showPauseText ? getResString(R.string.btn_text_pause) : getResString(R.string.btn_text_start);
 
         RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
-        nView.setTextViewText(R.id.btn_start_pause, textBtn);
-        nView.setOnClickPendingIntent(R.id.btn_start_pause, getPendingService(startPauseIntent));
-        nView.setOnClickPendingIntent(R.id.btn_lap, getPendingService(lapIntent));
+        nView.setInt(R.id.btn_ntfn_start_pause, "setBackgroundResource", showPauseText ? R.drawable.bg_ntfn_btn_paused : R.drawable.bg_ntfn_btn_started);
+        nView.setInt(R.id.btn_ntfn__lap, "setBackgroundResource", showPauseText ? R.drawable.bg_ntfn_btn_lap_enabled : R.drawable.bg_ntfn_btn_lap_disabled);
+
+        nView.setOnClickPendingIntent(R.id.btn_ntfn_start_pause, getPendingService(startPauseIntent));
+        nView.setOnClickPendingIntent(R.id.btn_ntfn__lap, getPendingService(lapIntent));
 
         return getBaseBuilder().setCustomBigContentView(nView);
     }
