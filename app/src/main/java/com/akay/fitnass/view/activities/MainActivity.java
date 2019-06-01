@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Runs;
-import com.akay.fitnass.util.Logger;
 import com.akay.fitnass.view.adapters.DayAdapter;
 import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.viewmodel.MainViewModel;
@@ -17,6 +16,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
+
+import static com.akay.fitnass.service.FitService.INIT_STATE_COMMAND;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.recycler_day) RecyclerView mRecyclerWorkout;
@@ -46,11 +47,15 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onActiveRunsChanged(final ActiveRuns activeRuns) {
-        onRunsButtonState(activeRuns == null);
+        boolean isNotNull = activeRuns != null;
+        onRunsButtonState(isNotNull);
+        if (isNotNull) {
+            sendCommand(INIT_STATE_COMMAND);
+        }
     }
 
     private void onRunsButtonState(boolean isNotActiveRuns) {
-        mBtnNewDay.setChecked(!isNotActiveRuns);
+        mBtnNewDay.setChecked(isNotActiveRuns);
     }
 
     private void onAddRunsClicked(Object view) {

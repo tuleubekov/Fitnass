@@ -1,19 +1,15 @@
 package com.akay.fitnass.view.activities;
 
-import android.app.ActivityManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 
 import com.akay.fitnass.R;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Lap;
-import com.akay.fitnass.service.FitService;
-import com.akay.fitnass.util.IntentBuilder;
 import com.akay.fitnass.view.adapters.LapAdapter;
 import com.akay.fitnass.view.custom.CheckedButton;
 import com.akay.fitnass.view.custom.Timer;
@@ -168,31 +164,6 @@ public class TimerActivity extends BaseActivity {
 
     private Disposable initResetObserver() {
         return clickObserver(mBtnReset).subscribe(this::onResetClicked);
-    }
-
-    private void sendCommand(String command) {
-        Intent intent = new IntentBuilder(this)
-                .toService()
-                .setCommand(command)
-                .build();
-
-        if (!isServiceRunningInForeground()) {
-            ContextCompat.startForegroundService(this, intent);
-        } else {
-            startService(intent);
-        }
-    }
-
-    private boolean isServiceRunningInForeground() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        if (manager == null) return false;
-
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (FitService.class.getName().equals(service.service.getClassName())) {
-                return service.foreground;
-            }
-        }
-        return false;
     }
 
     private boolean lapsValid(List<Lap> laps) {

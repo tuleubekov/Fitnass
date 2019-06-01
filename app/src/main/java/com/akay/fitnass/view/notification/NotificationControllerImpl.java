@@ -42,8 +42,8 @@ public class NotificationControllerImpl implements NotificationController {
     }
 
     @Override
-    public void showStartPauseNotification(boolean showPauseText) {
-        notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPauseText).build());
+    public void showStartPauseNotification(boolean showPause) {
+        notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPause).build());
     }
 
     @Override
@@ -51,13 +51,13 @@ public class NotificationControllerImpl implements NotificationController {
         getNotificationManager().notify(id, notification);
     }
 
-    private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPauseText) {
-        Intent startPauseIntent = getIntent(showPauseText ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
+    private NotificationCompat.Builder getStartPauseStateBuilder(boolean showPause) {
+        Intent startPauseIntent = getIntent(showPause ? NTFN_PAUSE_COMMAND : NTFN_START_COMMAND);
         Intent lapIntent = getIntent(NTFN_LAP_COMMAND);
 
         RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
-        nView.setInt(R.id.btn_ntfn_start_pause, "setBackgroundResource", showPauseText ? R.drawable.bg_ntfn_btn_paused : R.drawable.bg_ntfn_btn_started);
-        nView.setInt(R.id.btn_ntfn__lap, "setBackgroundResource", showPauseText ? R.drawable.bg_ntfn_btn_lap_enabled : R.drawable.bg_ntfn_btn_lap_disabled);
+        nView.setInt(R.id.btn_ntfn_start_pause, "setBackgroundResource", showPause ? R.drawable.bg_ntfn_btn_paused : R.drawable.bg_ntfn_btn_started);
+        nView.setInt(R.id.btn_ntfn__lap, "setBackgroundResource", showPause ? R.drawable.bg_ntfn_btn_lap_enabled : R.drawable.bg_ntfn_btn_lap_disabled);
 
         nView.setOnClickPendingIntent(R.id.btn_ntfn_start_pause, getPendingService(startPauseIntent));
         nView.setOnClickPendingIntent(R.id.btn_ntfn__lap, getPendingService(lapIntent));

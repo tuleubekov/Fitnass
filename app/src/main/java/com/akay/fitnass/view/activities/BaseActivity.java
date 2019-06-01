@@ -1,8 +1,14 @@
 package com.akay.fitnass.view.activities;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.akay.fitnass.service.FitService;
+import com.akay.fitnass.util.IntentBuilder;
 import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -47,6 +53,31 @@ abstract class BaseActivity extends AppCompatActivity {
 
     protected void initViewRxObservables() {
         // Stub
+    }
+
+    protected void sendCommand(String command) {
+        Intent intent = new IntentBuilder(this)
+                .toService()
+                .setCommand(command)
+                .build();
+
+        if (!isServiceRunningInForeground()) {
+            ContextCompat.startForegroundService(this, intent);
+        } else {
+            startService(intent);
+        }
+    }
+
+    protected boolean isServiceRunningInForeground() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager == null) return false;
+
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (FitService.class.getName().equals(service.service.getClassName())) {
+                return service.foreground;
+            }
+        }
+        return false;
     }
 
 }

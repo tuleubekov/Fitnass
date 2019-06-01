@@ -35,6 +35,7 @@ public class FitService extends Service {
     public static final String NTFN_START_COMMAND = "NOTIFICATION_START_COMMAND";
     public static final String NTFN_PAUSE_COMMAND = "NOTIFICATION_PAUSE_COMMAND";
     public static final String NTFN_LAP_COMMAND = "NOTIFICATION_LAP_COMMAND";
+    public static final String INIT_STATE_COMMAND = "CHECK_STATE_COMMAND";
 
     @Inject RunsRepository mRepository;
     @Inject NotificationController mNotificationController;
@@ -52,10 +53,16 @@ public class FitService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String command = intent.getAction();
         if (command == null) {
-            return START_NOT_STICKY;
+            mActiveRuns = get();
+            if (mActiveRuns == null) {
+                return START_NOT_STICKY;
+            }
+            command = INIT_STATE_COMMAND;
         }
+
         long ms = nowMillis();
         switch (command) {
+            case INIT_STATE_COMMAND: init(); break;
             case START_COMMAND: start(ms); break;
             case PAUSE_COMMAND: pause(ms); break;
             case SAVE_COMMAND: save(); break;
@@ -72,6 +79,15 @@ public class FitService extends Service {
         return START_STICKY;
     }
 
+    private void init() {
+        mActiveRuns = get();
+        if (mActiveRuns.isPaused()) {
+            showStartNotification();
+        } else {
+            showPauseNotification();
+        }
+    }
+
     private void start(long ms) {
         mActiveRuns = get();
         if (mActiveRuns == null) {
@@ -84,7 +100,7 @@ public class FitService extends Service {
         mActiveRuns.setPaused(false);
         mActiveRuns.setStart(fromMs(msStart));
         mRepository.upsertActiveRuns(mActiveRuns);
-        mNotificationController.showStartPauseNotification(true);
+        showPauseNotification();
     }
 
     private void pause(long ms) {
@@ -94,7 +110,7 @@ public class FitService extends Service {
         mActiveRuns.setPaused(true);
         mActiveRuns.setTws(fromMs(msPause));
         mRepository.upsertActiveRuns(mActiveRuns);
-        mNotificationController.showStartPauseNotification(false);
+        showStartNotification();
     }
 
     private void save() {
@@ -118,6 +134,14 @@ public class FitService extends Service {
         mActiveRuns = null;
         mRepository.deleteActiveRuns();
         stopSelf();
+    }
+
+    private void showStartNotification() {
+        mNotificationController.showStartPauseNotification(false);
+    }
+
+    private void showPauseNotification() {
+        mNotificationController.showStartPauseNotification(true);
     }
 
     private ActiveRuns get() {
