@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.akay.fitnass.util.AppUtils.vibrate;
 import static com.akay.fitnass.util.DateTimes.fromMs;
 import static com.akay.fitnass.util.DateTimes.nowMillis;
 import static com.akay.fitnass.util.DateTimes.toMs;
@@ -62,7 +63,10 @@ public class FitService extends Service {
             case RESET_COMMAND: reset(); break;
             case NTFN_START_COMMAND: start(ms); break;
             case NTFN_PAUSE_COMMAND: pause(ms); break;
-            case NTFN_LAP_COMMAND: lap(ms); break;
+            case NTFN_LAP_COMMAND: {
+                vibrate(this);
+                lap(ms);
+            } break;
             default: Logger.e("Unknown command: " + command);
         }
         return START_STICKY;

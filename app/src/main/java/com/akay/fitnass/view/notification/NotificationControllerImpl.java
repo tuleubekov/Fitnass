@@ -22,6 +22,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.akay.fitnass.service.FitService.NTFN_LAP_COMMAND;
 import static com.akay.fitnass.service.FitService.NTFN_PAUSE_COMMAND;
 import static com.akay.fitnass.service.FitService.NTFN_START_COMMAND;
+import static com.akay.fitnass.util.AppUtils.isAfterO;
 
 public class NotificationControllerImpl implements NotificationController {
     public static final String CHANNEL_ID = "com.akay.fitnass.ui.notification.channel_id_1000";
@@ -100,10 +101,6 @@ public class NotificationControllerImpl implements NotificationController {
             createChannel();
         }
         return o.runBuild();
-    }
-
-    private boolean isAfterO() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     @TargetApi(Build.VERSION_CODES.O)
