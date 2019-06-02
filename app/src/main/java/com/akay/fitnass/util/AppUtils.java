@@ -10,7 +10,9 @@ public class AppUtils {
 
     public static void vibrate(final Context ctx) {
         Vibrator v = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
-        if (v == null) return;
+        if (v == null || !v.hasVibrator()) {
+            return;
+        }
 
         if (isAfterO()) {
             v.vibrate(VibrationEffect.createOneShot(VIBRATE_DURATION_MS, VibrationEffect.DEFAULT_AMPLITUDE));

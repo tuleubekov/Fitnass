@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.media.AudioAttributes;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
@@ -25,7 +24,7 @@ import static com.akay.fitnass.service.FitService.NTFN_START_COMMAND;
 import static com.akay.fitnass.util.AppUtils.isAfterO;
 
 public class NotificationControllerImpl implements NotificationController {
-    public static final String CHANNEL_ID = "com.akay.fitnass.ui.notification.channel_id_1000";
+    private static final String CHANNEL_ID = "com.akay.fitnass.ui.notification.channel_id_1000";
     private static final String CHANNEL_NAME = "Fitnass channel";
     private static final int PI_ACTIVITY_REQUEST_CODE = 3000;   // Request code of Pending Intent for launch TimerActivity
 
@@ -38,12 +37,16 @@ public class NotificationControllerImpl implements NotificationController {
 
     @Override
     public Notification getPersistentNotification() {
-        return build(() -> getStartPauseStateBuilder(true).build());
+        return setup(() -> {
+            NotificationCompat.Builder b = getStartPauseStateBuilder(true);
+            return buildNotification(b);
+        });
     }
 
     @Override
     public void showStartPauseNotification(boolean showPause) {
-        notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPause).build());
+        Notification n = buildNotification(getStartPauseStateBuilder(showPause));
+        notify(FitService.FOREGROUND_SERVICE_ID, n);
     }
 
     @Override
@@ -75,8 +78,7 @@ public class NotificationControllerImpl implements NotificationController {
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-                .setColor(ContextCompat.getColor(mContext, R.color.bg_notification))
-                .setColorized(true)
+                .setShowWhen(false)
                 .setSound(null);
     }
 
@@ -96,7 +98,15 @@ public class NotificationControllerImpl implements NotificationController {
         return new IntentBuilder(mContext).toService().setCommand(command).build();
     }
 
-    private Notification build(NotificationBuildOperation o) {
+    private static Notification buildNotification(NotificationCompat.Builder builder) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return builder.build();
+        } else {
+            return builder.getNotification();
+        }
+    }
+
+    private Notification setup(NotificationBuildOperation o) {
         if (isAfterO()) {
             createChannel();
         }

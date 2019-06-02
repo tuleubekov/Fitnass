@@ -10,8 +10,8 @@ import com.akay.fitnass.data.RunsRepository;
 import com.akay.fitnass.data.model.ActiveRuns;
 import com.akay.fitnass.data.model.Lap;
 import com.akay.fitnass.data.model.Runs;
-import com.akay.fitnass.view.notification.NotificationController;
 import com.akay.fitnass.util.Logger;
+import com.akay.fitnass.view.notification.NotificationController;
 
 import org.threeten.bp.ZonedDateTime;
 
@@ -27,6 +27,7 @@ import static com.akay.fitnass.util.DateTimes.toMs;
 
 public class FitService extends Service {
     public static final int FOREGROUND_SERVICE_ID = 1000;
+    private static final long SAFE_TEMP_INTERVAL = 1000L;
     public static final String START_COMMAND = "COMMAND_START";
     public static final String PAUSE_COMMAND = "COMMAND_PAUSE";
     public static final String SAVE_COMMAND = "COMMAND_SAVE";
@@ -41,6 +42,7 @@ public class FitService extends Service {
     @Inject NotificationController mNotificationController;
 
     private ActiveRuns mActiveRuns;
+    private long mLastClickTime = 0L;
 
     @Override
     public void onCreate() {
@@ -50,7 +52,17 @@ public class FitService extends Service {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopForeground(true);
+        stopSelf();
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (isNotSafeTemp()) {
+            return START_STICKY;
+        }
         String command = intent.getAction();
         if (command == null) {
             mActiveRuns = get();
@@ -81,6 +93,9 @@ public class FitService extends Service {
 
     private void init() {
         mActiveRuns = get();
+        if (mActiveRuns == null) {
+            return;
+        }
         if (mActiveRuns.isPaused()) {
             showStartNotification();
         } else {
@@ -161,11 +176,12 @@ public class FitService extends Service {
         return lap;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopForeground(true);
-        stopSelf();
+    private boolean isNotSafeTemp() {
+        if (nowMillis() - mLastClickTime < SAFE_TEMP_INTERVAL) {
+            return true;
+        }
+        mLastClickTime = nowMillis();
+        return false;
     }
 
     @Nullable
