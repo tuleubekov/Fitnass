@@ -28,6 +28,19 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:fontFamily="sans-serif-thin"/>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_workout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_76"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/chronometer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_lap_workout"/>
+
     <com.akay.fitnass.view.custom.CheckedButton
         android:id="@+id/btn_lap_save"
         android:layout_width="@dimen/width_70"
@@ -64,18 +77,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_start_pause"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_workout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_76"
-        android:layout_marginBottom="@dimen/margin_16"
-        android:layout_marginStart="@dimen/margin_16"
-        android:layout_marginEnd="@dimen/margin_16"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/chronometer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_lap_workout"/>
 
 </android.support.constraint.ConstraintLayout>
