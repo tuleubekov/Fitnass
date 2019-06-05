@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.media.AudioAttributes;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.akay.fitnass.R;
@@ -61,11 +62,12 @@ public class NotificationControllerImpl implements NotificationController {
         RemoteViews nView = new RemoteViews(mContext.getPackageName(), R.layout.notification_controls);
         nView.setInt(R.id.btn_ntfn_start_pause, "setBackgroundResource", showPause ? R.drawable.bg_ntfn_btn_paused : R.drawable.bg_ntfn_btn_started);
         nView.setInt(R.id.btn_ntfn__lap, "setBackgroundResource", showPause ? R.drawable.bg_ntfn_btn_lap_enabled : R.drawable.bg_ntfn_btn_lap_disabled);
+        nView.setViewVisibility(R.id.view_cover, showPause ? View.GONE : View.VISIBLE);
 
         nView.setOnClickPendingIntent(R.id.btn_ntfn_start_pause, getPendingService(startPauseIntent));
         nView.setOnClickPendingIntent(R.id.btn_ntfn__lap, getPendingService(lapIntent));
 
-        return getBaseBuilder().setCustomBigContentView(nView);
+        return getBaseBuilder().setCustomContentView(nView);
     }
 
     private NotificationCompat.Builder getBaseBuilder() {

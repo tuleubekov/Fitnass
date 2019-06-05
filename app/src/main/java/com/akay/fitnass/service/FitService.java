@@ -82,10 +82,7 @@ public class FitService extends Service {
             case RESET_COMMAND: reset(); break;
             case NTFN_START_COMMAND: start(ms); break;
             case NTFN_PAUSE_COMMAND: pause(ms); break;
-            case NTFN_LAP_COMMAND: {
-                vibrate(this);
-                lap(ms);
-            } break;
+            case NTFN_LAP_COMMAND: ntfnLap(ms); break;
             default: Logger.e("Unknown command: " + command);
         }
         return START_STICKY;
@@ -149,6 +146,17 @@ public class FitService extends Service {
         mActiveRuns = null;
         mRepository.deleteActiveRuns();
         stopSelf();
+    }
+
+    private void ntfnLap(long ms) {
+        mActiveRuns = get();
+        Logger.e("FitService, notification lap");
+        if (!mActiveRuns.isPaused()) {
+            Logger.e("FitService, notification lap not paused");
+            vibrate(this);
+            lap(ms);
+        }
+        Logger.e("FitService, notification lap paused");
     }
 
     private void showStartNotification() {

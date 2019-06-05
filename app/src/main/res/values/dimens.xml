@@ -13,12 +13,18 @@
     <dimen name="margin_24">24dp</dimen>
     <dimen name="margin_26">26dp</dimen>
     <dimen name="margin_29">29dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_36">36dp</dimen>
     <dimen name="margin_38">38dp</dimen>
     <dimen name="margin_76">76dp</dimen>
 
     <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
     <dimen name="padding_16">16dp</dimen>
+    <dimen name="padding_26">26dp</dimen>
+    <dimen name="padding_30">30dp</dimen>
+    <dimen name="padding_36">36dp</dimen>
+    <dimen name="padding_38">38dp</dimen>
     <dimen name="padding_32">32dp</dimen>
 
     <dimen name="size_18">18sp</dimen>
