@@ -31,7 +31,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mAdapter = new DayAdapter(new ArrayList<>(), this::onItemClicked);
+        mAdapter = new DayAdapter(new ArrayList<>(), this::onItemClicked, this::onItemLongClicked);
         mRecyclerWorkout.setAdapter(mAdapter);
         mViewModel.getLiveRunsList().observe(this, this::onRunsListChanged);
         mViewModel.getLiveActiveRuns().observe(this, this::onActiveRunsChanged);
@@ -62,8 +62,12 @@ public class MainActivity extends BaseActivity {
         startActivity(TimerActivity.getIntent(this));
     }
 
-    private void onItemClicked(long idWorkout) {
-        startActivity(DetailActivity.getIntent(this, idWorkout));
+    private void onItemClicked(long idRuns) {
+        startActivity(DetailActivity.getIntent(this, idRuns));
+    }
+
+    private void onItemLongClicked(Runs runs) {
+        showDeleteRunsDialog((dialog, id) -> mViewModel.deleteDayRuns(runs));
     }
 
     private Disposable initNewRunsObserver() {

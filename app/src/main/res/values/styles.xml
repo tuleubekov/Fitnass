@@ -20,4 +20,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorAccent">@color/dialog_buttonText</item>
+    </style>
+
 </resources>

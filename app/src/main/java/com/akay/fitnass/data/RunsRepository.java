@@ -22,4 +22,6 @@ public interface RunsRepository {
     void deleteActiveRuns();
 
     void saveRuns(Runs runs);
+
+    void deleteRuns(Runs runs);
 }

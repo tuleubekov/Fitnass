@@ -2,11 +2,14 @@ package com.akay.fitnass.view.activities;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.util.IntentBuilder;
 import com.jakewharton.rxbinding2.view.RxView;
@@ -82,6 +85,18 @@ abstract class BaseActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    public void showDeleteRunsDialog(DialogInterface.OnClickListener dialogPositiveClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+        builder.setTitle("Удаление");
+        builder.setMessage("Вы хотите удалить запись?");
+
+        builder.setPositiveButton("Да", dialogPositiveClickListener);
+        builder.setNegativeButton("Отмена", (dialog, id) -> dialog.cancel());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

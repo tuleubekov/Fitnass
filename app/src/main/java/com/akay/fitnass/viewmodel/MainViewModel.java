@@ -17,4 +17,7 @@ public class MainViewModel extends BaseViewModel {
         return mRunsList;
     }
 
+    public void deleteDayRuns(final Runs runs) {
+        getRepo().deleteRuns(runs);
+    }
 }

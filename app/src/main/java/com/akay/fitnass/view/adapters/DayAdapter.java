@@ -23,10 +23,12 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     private List<Runs> mWorkouts;
     private DayAdapter.OnItemClickListener mItemClickListener;
+    private DayAdapter.OnItemLongClickListener mItemLongClickListener;
 
-    public DayAdapter(List<Runs> workoutList, DayAdapter.OnItemClickListener listener) {
+    public DayAdapter(List<Runs> workoutList, OnItemClickListener clickListener, OnItemLongClickListener longClickListener) {
         mWorkouts = workoutList;
-        mItemClickListener = listener;
+        mItemClickListener = clickListener;
+        mItemLongClickListener = longClickListener;
     }
 
     public void onWorkoutListUpdated(List<Runs> workouts) {
@@ -46,7 +48,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         Runs workout = mWorkouts.get(pos);
         viewHolder.textDate.setText(workout.getDateTime().format(formatter));
         viewHolder.textRunCount.setText(String.valueOf(workout.getLaps().size()));
-        viewHolder.itemView.setOnClickListener(view -> mItemClickListener.onItemClicked(workout.getId()));
     }
 
     @Override
@@ -61,11 +62,25 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(view -> {
+                Runs runs = mWorkouts.get(getLayoutPosition());
+                mItemClickListener.onItemClicked(runs.getId());
+            });
+            itemView.setOnLongClickListener(view -> {
+                Runs runs = mWorkouts.get(getLayoutPosition());
+                mItemLongClickListener.onItemLongClicked(runs);
+                return true;
+            });
         }
     }
 
     @FunctionalInterface
     public interface OnItemClickListener {
-        void onItemClicked(long idWorkout);
+        void onItemClicked(long idRuns);
+    }
+
+    @FunctionalInterface
+    public interface OnItemLongClickListener {
+        void onItemLongClicked(Runs runs);
     }
 }

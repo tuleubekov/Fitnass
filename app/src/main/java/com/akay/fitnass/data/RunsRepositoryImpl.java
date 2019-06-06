@@ -58,4 +58,9 @@ public class RunsRepositoryImpl implements RunsRepository {
     public void saveRuns(Runs runs) {
         mRunsDao.insert(runs);
     }
+
+    @Override
+    public void deleteRuns(Runs runs) {
+        mRunsDao.delete(runs);
+    }
 }
