@@ -51,6 +51,10 @@ abstract class BaseActivity extends AppCompatActivity {
         return RxView.clicks(view).throttleFirst(SKIP_DURATION, TimeUnit.SECONDS);
     }
 
+    protected Observable<Object> longCLickObserver(final View view) {
+        return RxView.longClicks(view).throttleFirst(SKIP_DURATION, TimeUnit.SECONDS);
+    }
+
     protected void initViewRxObservables() {
         // Stub
     }

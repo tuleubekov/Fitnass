@@ -154,7 +154,7 @@ public class TimerActivity extends BaseActivity {
     }
 
     private Disposable initResetObserver() {
-        return clickObserver(mBtnReset).subscribe(this::onResetClicked);
+        return longCLickObserver(mBtnReset).subscribe(this::onResetClicked);
     }
 
     private boolean lapsValid(List<Lap> laps) {
