@@ -77,12 +77,11 @@ public class TimerActivity extends BaseActivity {
             mAdapter.setLaps(activeRuns.getLaps());
         }
 
-        uiSetUp(activeRuns.isPaused());
         mActiveRuns = activeRuns;
+        uiSetUp(activeRuns.isPaused());
+        onTimerActions(activeRuns);
 
-        if (mInitialized) {
-            onTimerActions(activeRuns);
-        } else {
+        if (!mInitialized) {
             setUpTimer(activeRuns);
         }
     }
@@ -102,18 +101,10 @@ public class TimerActivity extends BaseActivity {
 
     private void onTimerActions(ActiveRuns activeRuns) {
         if (activeRuns.isPaused()) {
-            onPauseTimer(activeRuns);
+            mTimer.pause(toMs(activeRuns.getTws()));
         } else {
-            onStartTimer(activeRuns);
+            mTimer.start(toMs(activeRuns.getStart()));
         }
-    }
-
-    private void onStartTimer(ActiveRuns activeRuns) {
-        mTimer.start(toMs(activeRuns.getStart()));
-    }
-
-    private void onPauseTimer(ActiveRuns activeRuns) {
-        mTimer.pause(toMs(activeRuns.getTws()));
     }
 
     private void onStartPauseClicked(Object view) {

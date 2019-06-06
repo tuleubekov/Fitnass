@@ -38,16 +38,12 @@ public class NotificationControllerImpl implements NotificationController {
 
     @Override
     public Notification getPersistentNotification() {
-        return setup(() -> {
-            NotificationCompat.Builder b = getStartPauseStateBuilder(true);
-            return buildNotification(b);
-        });
+        return setup(() -> getStartPauseStateBuilder(true).build());
     }
 
     @Override
     public void showStartPauseNotification(boolean showPause) {
-        Notification n = buildNotification(getStartPauseStateBuilder(showPause));
-        notify(FitService.FOREGROUND_SERVICE_ID, n);
+        notify(FitService.FOREGROUND_SERVICE_ID, getStartPauseStateBuilder(showPause).build());
     }
 
     @Override
@@ -77,7 +73,7 @@ public class NotificationControllerImpl implements NotificationController {
         return new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(pLaunchActivity)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setShowWhen(false)
@@ -100,14 +96,6 @@ public class NotificationControllerImpl implements NotificationController {
         return new IntentBuilder(mContext).toService().setCommand(command).build();
     }
 
-    private static Notification buildNotification(NotificationCompat.Builder builder) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return builder.build();
-        } else {
-            return builder.getNotification();
-        }
-    }
-
     private Notification setup(NotificationBuildOperation o) {
         if (isAfterO()) {
             createChannel();
@@ -122,7 +110,7 @@ public class NotificationControllerImpl implements NotificationController {
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .build();
 
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN);
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(false);
         channel.enableVibration(false);
         channel.setSound(null, att);
