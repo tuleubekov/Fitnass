@@ -60,13 +60,13 @@ public class FitService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String command = intent.getAction();
-        if (command == null) {
-            mActiveRuns = get();
-            if (mActiveRuns == null) {
-                return START_NOT_STICKY;
-            }
-            command = INIT_STATE_COMMAND;
+        String action = intent.getAction();
+        String command = action != null ? action : INIT_STATE_COMMAND;
+        mActiveRuns = get();
+
+        if (mActiveRuns == null && !command.equals(START_COMMAND)) {
+            stopSelf();
+            return START_NOT_STICKY;
         }
 
         long ms = nowMillis();
@@ -86,10 +86,6 @@ public class FitService extends Service {
     }
 
     private void init() {
-        mActiveRuns = get();
-        if (mActiveRuns == null) {
-            return;
-        }
         if (mActiveRuns.isPaused()) {
             showStartNotification();
         } else {
@@ -98,7 +94,6 @@ public class FitService extends Service {
     }
 
     private void start(long ms) {
-        mActiveRuns = get();
         if (mActiveRuns == null) {
             mActiveRuns = new ActiveRuns();
             mActiveRuns.setDateTime(ZonedDateTime.now());
@@ -113,7 +108,6 @@ public class FitService extends Service {
     }
 
     private void pause(long ms) {
-        mActiveRuns = get();
         long msPause = toMs(mActiveRuns.getStart()) - ms;
 
         mActiveRuns.setPaused(true);
@@ -123,14 +117,12 @@ public class FitService extends Service {
     }
 
     private void save() {
-        mActiveRuns = get();
         mRepository.saveRuns(mapFromActive(mActiveRuns));
         mRepository.deleteActiveRuns();
         stopSelf();
     }
 
     private void lap(long ms) {
-        mActiveRuns = get();
         long msAction = ms - toMs(mActiveRuns.getStart());
 
         List<Lap> laps = mActiveRuns.getLaps();
@@ -149,7 +141,6 @@ public class FitService extends Service {
         if (isNotSafeTemp()) {
             return;
         }
-        mActiveRuns = get();
         if (!mActiveRuns.isPaused()) {
             vibrate(this);
             lap(ms);
