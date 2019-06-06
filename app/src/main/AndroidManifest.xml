@@ -23,14 +23,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.activities.TimerActivity"
+        <activity
+            android:name=".view.activities.TimerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".view.activities.DetailActivity"
+        <activity
+            android:name=".view.activities.DetailActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".service.FitService" />
+
     </application>
 
 </manifest>

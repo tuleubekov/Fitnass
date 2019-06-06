@@ -1,6 +1,8 @@
 package com.akay.fitnass.view.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
@@ -25,6 +27,10 @@ public class MainActivity extends BaseActivity {
 
     private MainViewModel mViewModel;
     private DayAdapter mAdapter;
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

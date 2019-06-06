@@ -16,6 +16,7 @@ import android.widget.RemoteViews;
 import com.akay.fitnass.R;
 import com.akay.fitnass.service.FitService;
 import com.akay.fitnass.util.IntentBuilder;
+import com.akay.fitnass.view.activities.MainActivity;
 import com.akay.fitnass.view.activities.TimerActivity;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -67,8 +68,8 @@ public class NotificationControllerImpl implements NotificationController {
     }
 
     private NotificationCompat.Builder getBaseBuilder() {
-        Intent intent = TimerActivity.getIntent(mContext);
-        PendingIntent pLaunchActivity = getPendingActivity(intent);
+        Intent[] intents = {MainActivity.getIntent(mContext), TimerActivity.getIntent(mContext)};
+        PendingIntent pLaunchActivity = getPendingActivity(intents);
 
         return new NotificationCompat.Builder(mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
@@ -84,8 +85,8 @@ public class NotificationControllerImpl implements NotificationController {
         return PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    private PendingIntent getPendingActivity(final Intent intent) {
-        return PendingIntent.getActivity(mContext, PI_ACTIVITY_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    private PendingIntent getPendingActivity(final Intent[] intents) {
+        return PendingIntent.getActivities(mContext, PI_ACTIVITY_REQUEST_CODE, intents, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private String getResString(int resId) {
