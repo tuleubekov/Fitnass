@@ -60,9 +60,6 @@ public class FitService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (isNotSafeTemp()) {
-            return START_STICKY;
-        }
         String command = intent.getAction();
         if (command == null) {
             mActiveRuns = get();
@@ -149,14 +146,14 @@ public class FitService extends Service {
     }
 
     private void ntfnLap(long ms) {
+        if (isNotSafeTemp()) {
+            return;
+        }
         mActiveRuns = get();
-        Logger.e("FitService, notification lap");
         if (!mActiveRuns.isPaused()) {
-            Logger.e("FitService, notification lap not paused");
             vibrate(this);
             lap(ms);
         }
-        Logger.e("FitService, notification lap paused");
     }
 
     private void showStartNotification() {

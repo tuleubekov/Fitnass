@@ -9,7 +9,7 @@ import com.akay.fitnass.data.model.ActiveRuns;
 @Dao
 public interface ActiveRunsDao extends BaseDao<ActiveRuns> {
 
-    @Query("SELECT * FROM active_runs WHERE id = 1")
+    @Query("SELECT * FROM active_runs WHERE id = " + ActiveRuns.ID)
     ActiveRuns getActiveRuns();
 
     @Query("SELECT * FROM active_runs WHERE id = " + ActiveRuns.ID)
