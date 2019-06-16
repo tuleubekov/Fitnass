@@ -2,7 +2,9 @@
 <resources>
     <dimen name="width_70">70dp</dimen>
     <dimen name="width_80">80dp</dimen>
+    <dimen name="width_97">97dp</dimen>
 
+    <dimen name="height_40">40dp</dimen>
     <dimen name="height_64">64dp</dimen>
     <dimen name="height_70">70dp</dimen>
     <dimen name="height_80">80dp</dimen>
@@ -32,6 +34,9 @@
     <dimen name="size_48">48sp</dimen>
 
     <dimen name="radius_4">4dp</dimen>
+
+    <dimen name="btn_ntfn_width">@dimen/width_97</dimen>
+    <dimen name="btn_ntfn_height">@dimen/height_40</dimen>
 
     <dimen name="toolbar_title">@dimen/size_48</dimen>
 </resources>

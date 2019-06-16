@@ -26,6 +26,6 @@
         android:drawable="@drawable/ic_control_ntfn_pause"
         android:left="@dimen/padding_38"
         android:right="@dimen/padding_38"
-        android:bottom="@dimen/padding_12"
-        android:top="@dimen/padding_12" />
+        android:bottom="@dimen/padding_8"
+        android:top="@dimen/padding_8" />
 </layer-list>
