@@ -59,7 +59,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onItemClicked(idRuns: Long) {
-        startActivity(DetailActivity.getIntent(this, idRuns))
+//        startActivity(DetailActivity.getIntent(this, idRuns))
+        startActivity(TestCalendarActivity.getIntent(this))
     }
 
     private fun onItemLongClicked(runs: Runs) {

@@ -7,8 +7,28 @@
     tools:context=".view.activities.TestCalendarActivity">
 
 
-    <CalendarView
+    <com.akay.fitnass.view.custom.calendar.CalendarView
+        android:id="@+id/exFiveCalendar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        app:cv_dayViewResource="@layout/calendar_item_day"
+        app:cv_monthHeaderResource="@layout/calendar_header"
+        app:cv_orientation="horizontal"
+        app:cv_outDateStyle="endOfGrid"
+        app:cv_scrollMode="paged"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:itemCount="3"
+        tools:listitem="@layout/calendar_item_day"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exFiveRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintTop_toBottomOf="@id/exFiveCalendar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
