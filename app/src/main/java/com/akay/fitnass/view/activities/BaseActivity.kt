@@ -3,9 +3,9 @@ package com.akay.fitnass.view.activities
 import android.app.ActivityManager
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 
 import com.akay.fitnass.R

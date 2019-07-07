@@ -4,8 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Checkable
+import androidx.appcompat.widget.AppCompatButton
 
-class CheckedButton : android.support.v7.widget.AppCompatButton, Checkable {
+class CheckedButton : AppCompatButton, Checkable {
 
     private var isChecked: Boolean = false
 

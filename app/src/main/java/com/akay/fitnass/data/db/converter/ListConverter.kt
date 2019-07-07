@@ -1,6 +1,6 @@
 package com.akay.fitnass.data.db.converter
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import android.text.TextUtils
 import com.akay.fitnass.data.model.Lap
 import com.google.gson.*

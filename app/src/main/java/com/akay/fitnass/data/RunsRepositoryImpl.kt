@@ -1,6 +1,6 @@
 package com.akay.fitnass.data
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 
 import com.akay.fitnass.data.db.dao.ActiveRunsDao
 import com.akay.fitnass.data.db.dao.RunsDao
