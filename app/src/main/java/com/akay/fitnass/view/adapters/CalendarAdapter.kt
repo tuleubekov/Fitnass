@@ -2,6 +2,7 @@ package com.akay.fitnass.view.adapters
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.akay.fitnass.R
 import com.akay.fitnass.data.model.Flight
@@ -31,7 +32,7 @@ class CalendarAdapter : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>
 
         fun bind(flight: Flight) {
             containerView.itemFlightDateText.text = formatter.format(flight.time)
-            containerView.itemFlightDateText.setBackgroundColor(itemView.context.getColorCompat(flight.color))
+            containerView.itemFlightDateText.setBackgroundColor(ContextCompat.getColor(containerView.context, flight.color))
 
             containerView.itemDepartureAirportCodeText.text = flight.departure.code
             containerView.itemDepartureAirportCityText.text = flight.departure.city

@@ -29,4 +29,6 @@
         <item name="colorAccent">@color/dialog_buttonText</item>
     </style>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
 </resources>

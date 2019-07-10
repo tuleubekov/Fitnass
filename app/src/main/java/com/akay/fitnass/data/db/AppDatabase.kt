@@ -14,7 +14,7 @@ import com.akay.fitnass.data.model.ActiveRuns
 import com.akay.fitnass.data.model.Runs
 
 @TypeConverters(ListConverter::class, DateTimeConverter::class)
-@Database(entities = [Runs::class, ActiveRuns::class], version = 1, exportSchema = false)
+@Database(entities = [Runs::class, ActiveRuns::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun runsDao(): RunsDao
