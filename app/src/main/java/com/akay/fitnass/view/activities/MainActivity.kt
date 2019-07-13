@@ -32,6 +32,9 @@ class MainActivity : BaseActivity() {
         recycler_day!!.adapter = mAdapter
         mViewModel!!.getLiveRunsList().observe(this, Observer<List<Runs>> { this.onRunsListChanged(it!!) })
         mViewModel!!.getLiveActiveRuns().observe(this, Observer<ActiveRuns> { this.onActiveRunsChanged(it) })
+
+        btn_custom_calendar.setOnClickListener { startActivity(TestCalendarActivity.getIntent(this)) }
+        btn_android_calendar.setOnClickListener { startActivity(TestAndroidCalendarActivity.getIntent(this)) }
     }
 
     override fun initViewRxObservables() {
@@ -59,8 +62,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onItemClicked(idRuns: Long) {
-//        startActivity(DetailActivity.getIntent(this, idRuns))
-        startActivity(TestCalendarActivity.getIntent(this))
+        startActivity(DetailActivity.getIntent(this, idRuns))
     }
 
     private fun onItemLongClicked(runs: Runs) {

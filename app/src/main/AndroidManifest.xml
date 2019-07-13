@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.activities.TestAndroidCalendarActivity"></activity>
         <activity android:name=".view.activities.TestCalendarActivity" />
         <activity
             android:name=".view.activities.MainActivity"
