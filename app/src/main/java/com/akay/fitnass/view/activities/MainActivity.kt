@@ -10,6 +10,7 @@ import android.os.Bundle
 import com.akay.fitnass.R
 import com.akay.fitnass.data.model.ActiveRuns
 import com.akay.fitnass.data.model.Runs
+import com.akay.fitnass.extension.launchActivity
 import com.akay.fitnass.view.adapters.DayAdapter
 import com.akay.fitnass.viewmodel.MainViewModel
 
@@ -32,9 +33,6 @@ class MainActivity : BaseActivity() {
         recycler_day!!.adapter = mAdapter
         mViewModel!!.getLiveRunsList().observe(this, Observer<List<Runs>> { this.onRunsListChanged(it!!) })
         mViewModel!!.getLiveActiveRuns().observe(this, Observer<ActiveRuns> { this.onActiveRunsChanged(it) })
-
-        btn_custom_calendar.setOnClickListener { startActivity(TestCalendarActivity.getIntent(this)) }
-        btn_android_calendar.setOnClickListener { startActivity(TestAndroidCalendarActivity.getIntent(this)) }
     }
 
     override fun initViewRxObservables() {
@@ -57,7 +55,7 @@ class MainActivity : BaseActivity() {
         btn_add!!.isChecked = isNotActiveRuns
     }
 
-    private fun onAddRunsClicked(view: Any) {
+    private fun onAddRunsClicked() {
         startActivity(TimerActivity.getIntent(this))
     }
 
@@ -70,7 +68,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initNewRunsObserver(): Disposable {
-        return clickObserver(btn_add!!).subscribe { this.onAddRunsClicked(it) }
+        return clickObserver(btn_add!!).subscribe { this.onAddRunsClicked() }
     }
 
     companion object {

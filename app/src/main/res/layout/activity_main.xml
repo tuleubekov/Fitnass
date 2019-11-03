@@ -28,26 +28,6 @@
         tools:itemCount="2"/>
 
     <com.akay.fitnass.view.custom.CheckedButton
-        android:id="@+id/btn_android_calendar"
-        android:layout_width="@dimen/width_70"
-        android:layout_height="@dimen/height_64"
-        android:layout_marginBottom="@dimen/margin_16"
-        android:background="@drawable/bg_button_add"
-        android:text="android"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_custom_calendar"/>
-
-    <com.akay.fitnass.view.custom.CheckedButton
-        android:id="@+id/btn_custom_calendar"
-        android:layout_width="@dimen/width_70"
-        android:layout_height="@dimen/height_64"
-        android:layout_marginBottom="@dimen/margin_16"
-        android:background="@drawable/bg_button_add"
-        android:text="custom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_add"/>
-
-    <com.akay.fitnass.view.custom.CheckedButton
         android:id="@+id/btn_add"
         android:layout_width="@dimen/width_70"
         android:layout_height="@dimen/height_64"

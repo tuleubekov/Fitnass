@@ -1,6 +1,7 @@
 package com.akay.fitnass
 
 import android.app.Application
+import androidx.multidex.MultiDex
 
 import com.akay.fitnass.di.AppComponent
 import com.akay.fitnass.di.AppModule
@@ -11,8 +12,13 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AndroidThreeTen.init(this)
+        setup()
         initDagger()
+    }
+
+    private fun setup() {
+        MultiDex.install(this)
+        AndroidThreeTen.init(this)
     }
 
     private fun initDagger() {
