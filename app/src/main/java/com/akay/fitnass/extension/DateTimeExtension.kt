@@ -18,5 +18,10 @@ val YearMonth.previous: YearMonth
 val YearMonth.firstDay: LocalDate
     get() = this.atDay(1)
 
-fun String.toLocaleDate(): LocalDate = LocalDate.parse(this, formatter)
+val LocalDate.firstDay: LocalDate
+    get() = this.withDayOfMonth(1)
 
+fun LocalDate.isToday(): Boolean
+        = LocalDate.now() == this
+
+fun String.toLocaleDate(): LocalDate = LocalDate.parse(this, formatter)

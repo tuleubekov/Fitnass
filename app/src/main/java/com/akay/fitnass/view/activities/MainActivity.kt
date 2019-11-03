@@ -28,6 +28,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         mViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         mAdapter = DayAdapter(ArrayList(), { this.onItemClicked(it) }, { this.onItemLongClicked(it) })
         recycler_day!!.adapter = mAdapter

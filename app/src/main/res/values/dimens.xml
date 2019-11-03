@@ -35,6 +35,20 @@
 
     <dimen name="radius_4">4dp</dimen>
 
+    <dimen name="date_picker_month_text_size">14sp</dimen>
+    <dimen name="date_picker_day_of_week_text_size">12sp</dimen>
+    <dimen name="date_picker_day_text_size">12sp</dimen>
+    <dimen name="date_picker_month_height">56dp</dimen>
+    <dimen name="date_picker_day_of_week_height">36dp</dimen>
+    <dimen name="date_picker_day_height">56dp</dimen>
+    <dimen name="date_picker_day_width">56dp</dimen>
+    <dimen name="date_picker_day_selector_radius">20dp</dimen>
+    <dimen name="day_picker_padding_horizontal">20dp</dimen>
+    <dimen name="day_picker_padding_top">6dp</dimen>
+    <dimen name="day_picker_button_margin_top">0dp</dimen>
+
+    <dimen name="datepicker_view_animator_height">226dp</dimen>
+
     <dimen name="btn_ntfn_width">@dimen/width_97</dimen>
     <dimen name="btn_ntfn_height">@dimen/height_40</dimen>
 

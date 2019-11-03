@@ -15,6 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/view_toolbar" />
 
+    <com.akay.fitnass.view.custom.calendar.CalendarView
+        android:id="@+id/vCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_day"
         android:layout_width="match_parent"
@@ -22,7 +30,7 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginBottom="@dimen/margin_8"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/vCalendar"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_day"
         tools:itemCount="2"/>
