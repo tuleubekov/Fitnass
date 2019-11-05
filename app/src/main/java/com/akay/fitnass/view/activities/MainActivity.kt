@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 
 import com.akay.fitnass.R
 import com.akay.fitnass.data.model.ActiveRuns
@@ -20,6 +21,7 @@ import io.reactivex.disposables.Disposable
 
 import com.akay.fitnass.service.FitService.Companion.INIT_STATE_COMMAND
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.view_toolbar.*
 
 class MainActivity : BaseActivity() {
     private var mViewModel: MainViewModel? = null
@@ -29,11 +31,18 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        toolbar_title.text = vCalendar.getCurrentMonthName().month.name
+
         mViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         mAdapter = DayAdapter(ArrayList(), { this.onItemClicked(it) }, { this.onItemLongClicked(it) })
         recycler_day!!.adapter = mAdapter
         mViewModel!!.getLiveRunsList().observe(this, Observer<List<Runs>> { this.onRunsListChanged(it!!) })
         mViewModel!!.getLiveActiveRuns().observe(this, Observer<ActiveRuns> { this.onActiveRunsChanged(it) })
+
+        vCalendar.setDateChangeListener {
+            Log.e("______", "m= ${it.month}, y= ${it.year}")
+            toolbar_title.text = it.month.name
+        }
     }
 
     override fun initViewRxObservables() {

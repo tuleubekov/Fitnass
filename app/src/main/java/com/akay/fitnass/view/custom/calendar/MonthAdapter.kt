@@ -1,31 +1,38 @@
 package com.akay.fitnass.view.custom.calendar
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import com.akay.fitnass.extension.toLocaleDate
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import org.threeten.bp.temporal.ChronoUnit
 
-class MonthAdapter : RecyclerView.Adapter<MonthVH>() {
+class MonthAdapter : RecyclerView.Adapter<MonthVH>(), OnSnapPositionChangeListener {
     private val minDate = DEFAULT_MIN_DATE.toLocaleDate()
     private val maxDate = DEFAULT_MAX_DATE.toLocaleDate()
-    private val viewPool = RecyclerView.RecycledViewPool()
     private var count: Int = 0
+
+    var onDateChangeListener: ((YearMonth) -> Unit) = {}
+
+    lateinit var snapHelper: SnapHelper
+    private lateinit var recycler: RecyclerView
 
     init {
         setRange(minDate, maxDate)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthVH {
-        return MonthVH.create(parent)
+    fun getCurrentYearMonth(): YearMonth {
+        val pos = snapHelper.getSnapPosition(recycler)
+        return getYearMonth(pos)
     }
 
-    private fun setRange(minDate: LocalDate, maxDate: LocalDate) {
-        val diffMonth = ChronoUnit.MONTHS.between(minDate, maxDate)
-        count = diffMonth.toInt() + 1
-        notifyDataSetChanged()
+    override fun onSnapPositionChange(position: Int) {
+        onDateChangeListener.invoke(getYearMonth(position))
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthVH {
+        return MonthVH.create(parent)
     }
 
     override fun onBindViewHolder(holder: MonthVH, position: Int) {
@@ -33,11 +40,19 @@ class MonthAdapter : RecyclerView.Adapter<MonthVH>() {
         holder.bind(yearMonth)
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        recycler = recyclerView
+    }
+
     override fun getItemCount(): Int = count
 
+    private fun setRange(minDate: LocalDate, maxDate: LocalDate) {
+        val diffMonth = ChronoUnit.MONTHS.between(minDate, maxDate)
+        count = diffMonth.toInt() + 1
+        notifyDataSetChanged()
+    }
+
     private fun getYearMonth(position: Int): YearMonth {
-        val ym = YearMonth.of(getYearByPosition(position), getMonthByPosition(position))
-        Log.e("______", "getYearMonth y= ${getYearByPosition(position)}, m.v= ${getMonthByPosition(position)}, pos= $position, m= ${ym.month}")
         return YearMonth.of(getYearByPosition(position), getMonthByPosition(position))
     }
 
